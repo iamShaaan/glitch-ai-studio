@@ -188,23 +188,9 @@ export async function submitCareerApplication(data: Omit<CareerApplication, "id"
         createdAt: serverTimestamp()
     });
 
-    // 2. Trigger n8n Action for Google Drive Sync
-    try {
-        await addDoc(collection(db, `apps/${APP_ID}/actions`), {
-            type: "sync_resume_to_drive",
-            status: "pending",
-            payload: {
-                applicantName: data.fullName,
-                resumeUrl: data.resumeUrl || data.resumeLink, // Send whichever is available
-                role: data.roleAppliedFor,
-                targetFolderId: "1ZGmzXpZQLsfpOLUKwhZXvwkeBvAyzqD0"
-            },
-            createdAt: serverTimestamp()
-        });
-    } catch (error) {
-        console.error("Failed to trigger n8n action:", error);
-        // Continue execution - do not block the user
-    }
+    // 2. (Optional) n8n trigger removed in favor of direct webhook integration
+    // The webhook now handles file processing and data syncing.
+    console.log("Application saved to Firestore. Webhook handles the rest.");
 }
 
 export async function getCareerApplications() {

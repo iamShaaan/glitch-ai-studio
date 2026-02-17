@@ -53,41 +53,38 @@ export function CareerForm() {
         setError("");
 
         try {
-            let resumeUrl = "";
+            // 1. Send to n8n Webhook via Proxy
+            const formData = new FormData();
+            formData.append("fullName", data.fullName);
+            formData.append("email", data.email);
+            formData.append("role", data.roleAppliedFor);
+            formData.append("portfolio", data.portfolioUrl);
+            formData.append("tool", data.favoriteAiTool);
+            if (data.resumeLink) formData.append("resumeLink", data.resumeLink);
+            if (resumeFile) formData.append("resume", resumeFile);
 
-            // 1. Try to Upload Resume if file exists
-            if (resumeFile) {
-                try {
-                    const timestamp = Date.now();
-                    const safeName = data.fullName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-                    const storageRef = ref(storage, `resumes/${safeName}_${timestamp}.pdf`);
-                    await uploadBytes(storageRef, resumeFile);
-                    resumeUrl = await getDownloadURL(storageRef);
-                } catch (uploadError) {
-                    console.error("Resume Upload Error (CORS/Network):", uploadError);
-                    setUploadFailed(true);
+            // POST to our internal API route
+            const webhookResponse = await fetch("/api/career-webhook", {
+                method: "POST",
+                body: formData,
+            });
 
-                    // If they provided a link, we can proceed. If not, we stop and ask for a link.
-                    if (!data.resumeLink) {
-                        setLoading(false);
-                        setError("File upload failed (likely network/security). Please provide a Google Drive/Dropbox link below instead.");
-                        toast.error("Upload Failed. Please use a link.");
-                        return; // Stop here
-                    }
-                    // If link exists, we just proceed with empty resumeUrl
-                }
+            if (!webhookResponse.ok) {
+                const errorData = await webhookResponse.json();
+                throw new Error(errorData.error || "Webhook submission failed");
             }
 
-            // 2. Submit Application
+            // 2. Submit to Firestore (Internal Log)
+            // We save a record for the dashboard, even though n8n handles the rest.
             try {
                 await submitCareerApplication({
                     ...data,
-                    resumeUrl, // Might be empty if upload failed but link exists
-                    resumeLink: data.resumeLink // Fallback link
+                    resumeUrl: resumeFile ? "Sent via Webhook" : "",
+                    resumeLink: data.resumeLink
                 });
             } catch (dbError) {
-                console.error("Database Error:", dbError);
-                throw new Error("Application submission failed. Please try again.");
+                console.error("Database Log Error:", dbError);
+                // Non-critical, continue since webhook succeeded
             }
 
             setSuccess(true);
