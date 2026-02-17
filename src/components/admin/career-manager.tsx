@@ -1,9 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2, ExternalLink, FileText, CheckCircle, XCircle, Clock, Bot, Globe } from "lucide-react";
+import { Loader2, ExternalLink, FileText, CheckCircle, XCircle, Clock, Bot, Globe, Trash2 } from "lucide-react";
 import { getCareerApplications, CareerApplication } from "@/lib/firestore";
 import Link from "next/link";
+import { deleteDoc, doc } from "firebase/firestore";
+import { db } from "@/lib/firebase";
+import { APP_ID } from "@/lib/constants";
+import { toast } from "react-hot-toast";
 
 export function CareerManager() {
     const [applications, setApplications] = useState<CareerApplication[]>([]);
@@ -20,8 +24,22 @@ export function CareerManager() {
             setApplications(data);
         } catch (error) {
             console.error("Failed to load applications:", error);
+            toast.error("Failed to load applications");
         } finally {
             setLoading(false);
+        }
+    };
+
+    const handleDelete = async (id: string) => {
+        if (!confirm("Are you sure you want to delete this application? This action cannot be undone.")) return;
+
+        try {
+            await deleteDoc(doc(db, `apps/${APP_ID}/career_applications`, id));
+            toast.success("Application deleted successfully");
+            loadApplications(); // Refresh list
+        } catch (error) {
+            console.error("Failed to delete application:", error);
+            toast.error("Failed to delete application");
         }
     };
 
@@ -44,12 +62,13 @@ export function CareerManager() {
                             <th className="px-6 py-3">AI Tool</th>
                             <th className="px-6 py-3">Status</th>
                             <th className="px-6 py-3">Date</th>
+                            <th className="px-6 py-3 text-right">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         {applications.length === 0 ? (
                             <tr>
-                                <td colSpan={6} className="px-6 py-8 text-center bg-slate-900/50">No applications received yet.</td>
+                                <td colSpan={7} className="px-6 py-8 text-center bg-slate-900/50">No applications received yet.</td>
                             </tr>
                         ) : (
                             applications.map((app) => (
@@ -106,6 +125,15 @@ export function CareerManager() {
                                     </td>
                                     <td className="px-6 py-4 text-xs text-slate-500">
                                         {app.createdAt?.toDate ? app.createdAt.toDate().toLocaleDateString() : 'N/A'}
+                                    </td>
+                                    <td className="px-6 py-4 text-right">
+                                        <button
+                                            onClick={() => app.id && handleDelete(app.id)}
+                                            className="text-slate-500 hover:text-red-400 p-2 hover:bg-red-500/10 rounded transition-colors"
+                                            title="Delete Application"
+                                        >
+                                            <Trash2 className="w-4 h-4" />
+                                        </button>
                                     </td>
                                 </tr>
                             ))

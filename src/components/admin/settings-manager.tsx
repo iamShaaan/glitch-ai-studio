@@ -64,39 +64,7 @@ export function SettingsManager() {
 
             <div className="bg-slate-900 border border-slate-800 rounded-xl p-6">
                 <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                    {/* Webhook Configuration */}
-                    <div className="space-y-4">
-                        <h3 className="text-lg font-medium text-white border-b border-slate-800 pb-2">
-                            Integrations & Webhooks
-                        </h3>
-
-                        <div className="space-y-2">
-                            <label className="text-sm font-medium text-slate-300">
-                                n8n Career Application Webhook URL
-                            </label>
-                            <div className="flex gap-2">
-                                <input
-                                    {...register("careerWebhookUrl", {
-                                        required: "Webhook URL is required",
-                                        pattern: {
-                                            value: /^https?:\/\/.+/,
-                                            message: "Must be a valid URL starting with http:// or https://"
-                                        }
-                                    })}
-                                    className="flex-1 bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-500 transition-colors font-mono text-sm"
-                                    placeholder="https://your-n8n-instance.com/webhook/..."
-                                />
-                            </div>
-                            {errors.careerWebhookUrl && (
-                                <span className="text-red-400 text-xs flex items-center gap-1">
-                                    <AlertCircle className="w-3 h-3" /> {errors.careerWebhookUrl.message}
-                                </span>
-                            )}
-                            <p className="text-xs text-slate-500">
-                                All career applications (including resume files) will be forwarded to this URL via POST request.
-                            </p>
-                        </div>
-                    </div>
+                    {/* Webhook Configuration - REMOVED */}
 
                     {/* Error Message */}
                     {error && (

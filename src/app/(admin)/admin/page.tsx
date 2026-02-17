@@ -6,7 +6,7 @@ import { auth } from "@/lib/firebase";
 // import { useRouter } from "next/navigation"; // Unused
 import { LeadManager } from "@/components/admin/lead-manager";
 import { ClientProvisioning } from "@/components/admin/client-provisioning";
-import { CMSManager } from "@/components/admin/cms-manager";
+
 import { BlogManager } from "@/components/admin/blog-manager";
 import { CareerManager } from "@/components/admin/career-manager";
 import { SettingsManager } from "@/components/admin/settings-manager";
@@ -17,7 +17,7 @@ import { FieldValues, useForm } from "react-hook-form";
 const TABS = [
     { id: "leads", label: "Lead Manager", icon: Database, component: LeadManager },
     { id: "clients", label: "Provisioning", icon: Users, component: ClientProvisioning },
-    { id: "cms", label: "Content System", icon: Globe, component: CMSManager },
+
 
     { id: "blog", label: "Blog Manager", icon: FileText, component: BlogManager },
     { id: "career", label: "Recruitment", icon: Briefcase, component: CareerManager },
