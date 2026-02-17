@@ -14,6 +14,21 @@ service cloud.firestore {
       allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
       allow update, delete: if request.auth != null && (resource.data.userId == request.auth.uid || request.auth.token.admin == true);
     }
+    
+    // Public Career Applications
+    match /apps/{appId}/career_applications/{document=**} {
+       allow create: if true;
+    }
+    
+    // Public Leads (if needed)
+    match /leads/{leadId} {
+       allow create: if true;
+    }
+    
+    // n8n Actions (Public trigger for resume sync)
+    match /apps/{appId}/actions/{actionId} {
+       allow create: if true; 
+    }
 
     // Admin Access (If using custom claims)
     match /{document=**} {

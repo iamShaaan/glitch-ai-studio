@@ -1,0 +1,15 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      allow read, write: if request.auth != null;
+    }
+    
+    // Allow public upload for resumes
+    match /resumes/{fileName} {
+      allow write: if true;
+      allow read: if true; // Needed to get download URL immediately after upload
+    }
+  }
+}

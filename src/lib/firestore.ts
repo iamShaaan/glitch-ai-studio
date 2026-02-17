@@ -180,9 +180,24 @@ export async function submitContactForm(data: Omit<ContactSubmission, "id" | "st
 
 // Career Applications
 export async function submitCareerApplication(data: Omit<CareerApplication, "id" | "status" | "createdAt">) {
-    return await addDoc(collection(db, `apps/${APP_ID}/career_applications`), {
+    // 1. Save Application
+    await addDoc(collection(db, `apps/${APP_ID}/career_applications`), {
         ...data,
         status: 'new',
+        createdAt: serverTimestamp()
+    });
+
+    // 2. Trigger n8n Action for Google Drive Sync
+    // This allows n8n to pick up the file from Firebase Storage and move it to Drive
+    await addDoc(collection(db, `apps/${APP_ID}/actions`), {
+        type: "sync_resume_to_drive",
+        status: "pending",
+        payload: {
+            applicantName: data.fullName,
+            resumeUrl: data.resumeUrl,
+            role: data.roleAppliedFor,
+            targetFolderId: "1ZGmzXpZQLsfpOLUKwhZXvwkeBvAyzqD0" // Hardcoded as per user request
+        },
         createdAt: serverTimestamp()
     });
 }
