@@ -146,10 +146,10 @@ export function GrowthEngineSection() {
                     className="flex justify-center"
                 >
                     <Link
-                        href="/services"
-                        className="px-10 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-lg rounded-full transition-all shadow-lg hover:shadow-emerald-500/25 flex items-center gap-2 group"
+                        href="/blog"
+                        className="px-10 py-4 bg-slate-800 hover:bg-slate-700 text-white font-bold text-lg rounded-full transition-all shadow-lg hover:shadow-emerald-500/10 border border-slate-700 hover:border-emerald-500/30 flex items-center gap-2 group"
                     >
-                        Start Your Transformation <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                        See how AI is changing the world <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                     </Link>
                 </motion.div>
             </div>

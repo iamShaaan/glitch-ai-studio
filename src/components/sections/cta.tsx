@@ -50,15 +50,31 @@ export function CTASection() {
                             Secure your legacy before the network reaches capacity.
                         </p>
 
-                        <button
-                            onClick={() => setIsModalOpen(true)}
-                            className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-white text-slate-950 font-black text-lg rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_50px_rgba(255,255,255,0.2)] hover:shadow-[0_0_80px_rgba(16,185,129,0.4)]"
-                        >
-                            <span className="relative z-10 flex items-center gap-2">
-                                BOOK CONSULTATION <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                            </span>
-                            <div className="absolute inset-0 bg-emerald-400/0 group-hover:bg-emerald-400/20 transition-colors" />
-                        </button>
+                        <div className="flex flex-col items-center gap-4 mt-8">
+                            <button
+                                onClick={() => setIsModalOpen(true)}
+                                className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-white text-slate-950 font-black text-lg rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_50px_rgba(255,255,255,0.2)] hover:shadow-[0_0_80px_rgba(16,185,129,0.4)]"
+                            >
+                                <span className="relative z-10 flex items-center gap-2">
+                                    BOOK CONSULTATION <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                </span>
+                                <div className="absolute inset-0 bg-emerald-400/0 group-hover:bg-emerald-400/20 transition-colors" />
+                            </button>
+
+                            <a
+                                href="https://www.fiverr.com/soumitrohalder"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group flex items-center gap-2 text-slate-500 hover:text-white transition-colors text-sm font-medium mt-4"
+                            >
+                                <span className="flex items-center gap-1 text-amber-400">
+                                    <span className="fill-amber-400">★★★★★</span>
+                                    <span className="text-slate-300 group-hover:text-white transition-colors">50+ 5-Star Reviews</span>
+                                </span>
+                                <span className="w-1 h-1 bg-slate-700 rounded-full" />
+                                <span>Top Rated on Fiverr</span>
+                            </a>
+                        </div>
                     </motion.div>
                 </div>
             </section>
