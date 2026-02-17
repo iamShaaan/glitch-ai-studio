@@ -31,9 +31,9 @@ export interface BlogPost {
     id?: string;
     title: string;
     slug: string;
-    content: string; // Markdown or HTML
     excerpt: string;
     coverImage?: string;
+    content: string; // HTML content from Rich Text Editor
     published: boolean;
     createdAt: Timestamp;
 }
@@ -121,6 +121,13 @@ export async function getBlogPosts(publishedOnly = true) {
     }
     const snap = await getDocs(q);
     return snap.docs.map(d => ({ id: d.id, ...d.data() } as BlogPost));
+}
+
+export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
+    const q = query(collection(db, "blog_posts"), where("slug", "==", slug));
+    const snap = await getDocs(q);
+    if (snap.empty) return null;
+    return { id: snap.docs[0].id, ...snap.docs[0].data() } as BlogPost;
 }
 
 export async function createBlogPost(post: Omit<BlogPost, "id" | "createdAt">) {

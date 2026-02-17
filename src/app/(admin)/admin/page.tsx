@@ -3,11 +3,12 @@
 import { useState, useEffect } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
-import { useRouter } from "next/navigation";
+// import { useRouter } from "next/navigation"; // Unused
 import { LeadManager } from "@/components/admin/lead-manager";
 import { ClientProvisioning } from "@/components/admin/client-provisioning";
 import { CMSManager } from "@/components/admin/cms-manager";
-import { Users, Database, Globe, Loader2, Lock, AlertCircle } from "lucide-react";
+import { BlogManager } from "@/components/admin/blog-manager";
+import { Users, Database, Globe, Loader2, Lock, AlertCircle, FileText } from "lucide-react";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { useForm } from "react-hook-form";
 
@@ -15,13 +16,14 @@ const TABS = [
     { id: "leads", label: "Lead Manager", icon: Database, component: LeadManager },
     { id: "clients", label: "Provisioning", icon: Users, component: ClientProvisioning },
     { id: "cms", label: "Content System", icon: Globe, component: CMSManager },
+    { id: "blog", label: "Blog Manager", icon: FileText, component: BlogManager },
 ];
 
 export default function AdminDashboard() {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
     const [activeTab, setActiveTab] = useState("leads");
-    const router = useRouter();
+    // const router = useRouter(); 
 
     // Check Auth State
     useEffect(() => {
@@ -33,16 +35,16 @@ export default function AdminDashboard() {
     }, []);
 
     // --- Admin Login Form Logic ---
-    const { register, handleSubmit, formState: { errors } } = useForm();
+    const { register, handleSubmit } = useForm();
     const [loginLoading, setLoginLoading] = useState(false);
     const [loginError, setLoginError] = useState("");
 
-    const onLogin = async (data: any) => {
+    const onLogin = async (data: { email: string; password: string }) => {
         setLoginLoading(true);
         setLoginError("");
         try {
             await signInWithEmailAndPassword(auth, data.email, data.password);
-        } catch (err: any) {
+        } catch (err: unknown) {
             // EMERGENCY BYPASS: If Firebase Auth is disabled/fails, check hardcoded admin creds
             if (data.email === "glitchaistudio@gmail.com" && data.password === "asdfghjkl007") {
                 // Create a mock user object to satisfy the dashboard
@@ -75,7 +77,9 @@ export default function AdminDashboard() {
                 setUser(mockUser);
                 return;
             }
-            setLoginError(err.message || "Access Denied");
+            // Check if err is an object and has message
+            const errorMessage = err instanceof Error ? err.message : "Access Denied";
+            setLoginError(errorMessage);
         } finally {
             setLoginLoading(false);
         }
