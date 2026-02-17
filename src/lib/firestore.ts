@@ -115,12 +115,19 @@ export async function getUserProfile(uid: string): Promise<UserProfile | null> {
 
 // Blog
 export async function getBlogPosts(publishedOnly = true) {
-    let q = query(collection(db, "blog_posts"), orderBy("createdAt", "desc"));
+    let q = query(collection(db, "blog_posts")); // Removed orderBy to avoid index issues
     if (publishedOnly) {
         q = query(q, where("published", "==", true));
     }
     const snap = await getDocs(q);
-    return snap.docs.map(d => ({ id: d.id, ...d.data() } as BlogPost));
+    const posts = snap.docs.map(d => ({ id: d.id, ...d.data() } as BlogPost));
+
+    // Sort client-side to avoid needing a composite index immediately
+    return posts.sort((a, b) => {
+        const dateA = a.createdAt?.toDate ? a.createdAt.toDate() : new Date(0);
+        const dateB = b.createdAt?.toDate ? b.createdAt.toDate() : new Date(0);
+        return dateB.getTime() - dateA.getTime();
+    });
 }
 
 export async function getBlogPostBySlug(slug: string): Promise<BlogPost | null> {
