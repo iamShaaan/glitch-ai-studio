@@ -58,14 +58,14 @@
     left: 2px;
     text-shadow: -1px 0 #00ffff;
     clip-path: inset(24% 0 13% 0);
-    animation: glitch-anim-1 2.5s infinite linear alternate-reverse;
+    animation: glitch-anim-1 5s infinite linear alternate-reverse;
   }
 
   .glitch-text::after {
     left: -2px;
     text-shadow: -1px 0 #ff00ff;
     clip-path: inset(85% 0 1% 0);
-    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+    animation: glitch-anim-2 6s infinite linear alternate-reverse;
   }
 }
 
