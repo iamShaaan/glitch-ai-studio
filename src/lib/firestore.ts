@@ -62,9 +62,10 @@ export interface CareerApplication {
     email: string;
     portfolioUrl: string;
     favoriteAiTool: string;
-    resumeUrl?: string; // Firebase Storage URL
-    resumeLink?: string; // External Link (Drive/Dropbox)
-    roleAppliedFor: string; // e.g., "AI Video Architect"
+    resumeLink?: string; // Optional: Link to CV
+    roleAppliedFor: string;
+    experience: string; // NEW: Long text
+    messageToCeo: string; // NEW: Long text
     status: 'new' | 'reviewing' | 'interview' | 'rejected' | 'hired';
     createdAt: Timestamp;
 }
@@ -180,17 +181,15 @@ export async function submitContactForm(data: Omit<ContactSubmission, "id" | "st
 
 
 // Career Applications
-export async function submitCareerApplication(data: Omit<CareerApplication, "id" | "status" | "createdAt">) {
-    // 1. Save Application
+export async function submitCareerApplication(data: Omit<CareerApplication, 'id' | 'status' | 'createdAt'>) {
+    // 1. Save to Firestore
     await addDoc(collection(db, `apps/${APP_ID}/career_applications`), {
         ...data,
         status: 'new',
         createdAt: serverTimestamp()
     });
 
-    // 2. (Optional) n8n trigger removed in favor of direct webhook integration
-    // The webhook now handles file processing and data syncing.
-    console.log("Application saved to Firestore. Webhook handles the rest.");
+    console.log("Application saved to Firestore (Text-Only Mode).");
 }
 
 export async function getCareerApplications() {

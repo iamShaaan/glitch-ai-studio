@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Loader2, ExternalLink, FileText, CheckCircle, XCircle, Clock } from "lucide-react";
+import { Loader2, ExternalLink, FileText, CheckCircle, XCircle, Clock, Bot, Globe } from "lucide-react";
 import { getCareerApplications, CareerApplication } from "@/lib/firestore";
 import Link from "next/link";
 
@@ -64,30 +64,45 @@ export function CareerManager() {
                                         </span>
                                     </td>
                                     <td className="px-6 py-4">
-                                        <div className="flex gap-2">
-                                            <a
-                                                href={app.resumeUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-emerald-400 hover:text-emerald-300 flex items-center gap-1 text-xs bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20"
-                                            >
-                                                <FileText className="w-3 h-3" /> Resume
-                                            </a>
-                                            <a
-                                                href={app.portfolioUrl}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="text-indigo-400 hover:text-indigo-300 flex items-center gap-1 text-xs bg-indigo-500/10 px-2 py-1 rounded border border-indigo-500/20"
-                                            >
-                                                <ExternalLink className="w-3 h-3" /> Portfolio
-                                            </a>
+                                        <div className="space-y-4">
+                                            {/* Top Row: Links & Meta */}
+                                            <div className="flex gap-4 mb-2">
+                                                <a href={app.portfolioUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-mono text-indigo-400 hover:text-indigo-300">
+                                                    <Globe className="w-3 h-3" /> PORTFOLIO
+                                                </a>
+                                                {app.resumeLink && (
+                                                    <a href={app.resumeLink} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1 text-xs font-mono text-emerald-400 hover:text-emerald-300">
+                                                        <FileText className="w-3 h-3" /> CV LINK
+                                                    </a>
+                                                )}
+                                                <span className="text-xs text-slate-500 font-mono flex items-center gap-1">
+                                                    <Bot className="w-3 h-3" /> {app.favoriteAiTool}
+                                                </span>
+                                            </div>
+
+                                            {/* Deep Dive Content (Text Fields) */}
+                                            <div className="bg-slate-950 rounded p-4 border border-slate-800 space-y-4">
+                                                <div>
+                                                    <h4 className="text-xs font-bold text-slate-500 uppercase mb-1">Experience / Story</h4>
+                                                    <p className="text-sm text-slate-300 whitespace-pre-wrap leading-relaxed">{app.experience}</p>
+                                                </div>
+                                                <div>
+                                                    <h4 className="text-xs font-bold text-slate-500 uppercase mb-1">Message to CEO</h4>
+                                                    <p className="text-sm text-slate-300 whitespace-pre-wrap leading-relaxed italic border-l-2 border-emerald-500/30 pl-3">
+                                                        "{app.messageToCeo}"
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 truncate max-w-[150px]" title={app.favoriteAiTool}>
-                                        {app.favoriteAiTool}
-                                    </td>
-                                    <td className="px-6 py-4">
-                                        <StatusBadge status={app.status} />
+                                    <td className="px-6 py-4 text-right">
+                                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize
+                                            ${app.status === 'new' ? 'bg-emerald-100 text-emerald-800' :
+                                                app.status === 'reviewing' ? 'bg-yellow-100 text-yellow-800' :
+                                                    app.status === 'interview' ? 'bg-blue-100 text-blue-800' :
+                                                        'bg-slate-100 text-slate-800'}`}>
+                                            {app.status}
+                                        </span>
                                     </td>
                                     <td className="px-6 py-4 text-xs text-slate-500">
                                         {app.createdAt?.toDate ? app.createdAt.toDate().toLocaleDateString() : 'N/A'}
