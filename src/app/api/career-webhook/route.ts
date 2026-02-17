@@ -1,13 +1,15 @@
 import { NextResponse } from 'next/server';
+import { getSystemConfig } from '@/lib/firestore';
 
 export async function POST(request: Request) {
     try {
         const formData = await request.formData();
 
-        // Forward to n8n Webhook
-        const n8nUrl = "https://up-seo-2025.app.n8n.cloud/webhook/c58a5beb-e0fe-46fa-beff-a13184f98b1c";
+        // Fetch dynamic webhook URL from Firestore
+        const config = await getSystemConfig();
+        const n8nUrl = config.careerWebhookUrl;
 
-        console.log("Forwarding application to n8n...");
+        console.log("Forwarding application to n8n:", n8nUrl);
 
         const response = await fetch(n8nUrl, {
             method: 'POST',

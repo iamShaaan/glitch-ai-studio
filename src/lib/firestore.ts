@@ -212,3 +212,26 @@ export async function updateAboutContent(content: AboutContent) {
     const docRef = doc(db, `apps/${APP_ID}/content/about_us`);
     await setDoc(docRef, content, { merge: true });
 }
+
+// --- System Configuration ---
+
+export interface SystemConfig {
+    careerWebhookUrl: string;
+}
+
+export async function getSystemConfig(): Promise<SystemConfig> {
+    const docRef = doc(db, `apps/${APP_ID}/config/system`);
+    const snap = await getDoc(docRef);
+    if (snap.exists()) {
+        return snap.data() as SystemConfig;
+    }
+    // Default config if not set
+    return {
+        careerWebhookUrl: "https://up-seo-2025.app.n8n.cloud/webhook/c58a5beb-e0fe-46fa-beff-a13184f98b1c"
+    };
+}
+
+export async function updateSystemConfig(config: Partial<SystemConfig>) {
+    const docRef = doc(db, `apps/${APP_ID}/config/system`);
+    await setDoc(docRef, config, { merge: true });
+}
