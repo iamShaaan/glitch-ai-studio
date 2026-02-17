@@ -4,22 +4,21 @@ import { useState, useEffect } from "react";
 import { onAuthStateChanged, signInWithEmailAndPassword, User } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 // import { useRouter } from "next/navigation"; // Unused
-import { LeadManager } from "@/components/admin/lead-manager";
-import { ClientProvisioning } from "@/components/admin/client-provisioning";
+// import { LeadManager } from "@/components/admin/lead-manager";
+// import { ClientProvisioning } from "@/components/admin/client-provisioning";
 
 import { BlogManager } from "@/components/admin/blog-manager";
 import { CareerManager } from "@/components/admin/career-manager";
 import { SettingsManager } from "@/components/admin/settings-manager";
-import { Users, Database, Globe, Loader2, Lock, AlertCircle, FileText, Briefcase, Settings, Calendar } from "lucide-react";
+import { Globe, Loader2, Lock, AlertCircle, FileText, Briefcase, Settings, Calendar } from "lucide-react";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { FieldValues, useForm } from "react-hook-form";
 
 import { ConsultationManager } from "@/components/admin/consultation-manager";
 
 const TABS = [
-    { id: "leads", label: "Lead Manager", icon: Database, component: LeadManager },
     { id: "consultations", label: "Consultations", icon: Calendar, component: ConsultationManager },
-    { id: "clients", label: "Provisioning", icon: Users, component: ClientProvisioning },
+    { id: "blog", label: "Blog Manager", icon: FileText, component: BlogManager },
 
 
     { id: "blog", label: "Blog Manager", icon: FileText, component: BlogManager },
@@ -35,7 +34,7 @@ interface LoginFormInputs {
 export default function AdminDashboard() {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState("leads");
+    const [activeTab, setActiveTab] = useState("consultations");
     // const router = useRouter(); 
 
     // Check Auth State

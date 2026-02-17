@@ -45,15 +45,7 @@ export function Header() {
                             {item.name}
                         </Link>
                     ))}
-                    <Link
-                        href="/portal"
-                        className="flex items-center gap-2 px-4 py-2 bg-emerald-600/10 border border-emerald-500/50 text-emerald-400 rounded hover:bg-emerald-600 hover:text-white transition-all text-sm font-medium group"
-                    >
-                        Client Login
-                        <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                    </Link>
                 </nav>
-
                 {/* Mobile Toggle */}
                 <button
                     className="md:hidden text-slate-300"
@@ -83,17 +75,11 @@ export function Header() {
                                     {item.name}
                                 </Link>
                             ))}
-                            <Link
-                                href="/portal"
-                                className="flex items-center justify-center gap-2 px-4 py-3 bg-emerald-600/10 border border-emerald-500/50 text-emerald-400 rounded hover:bg-emerald-600 hover:text-white transition-all font-medium"
-                                onClick={() => setIsOpen(false)}
-                            >
-                                Client Login <ArrowRight className="w-4 h-4" />
-                            </Link>
+
                         </div>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </header>
+        </header >
     );
 }
