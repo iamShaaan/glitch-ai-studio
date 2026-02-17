@@ -68,7 +68,7 @@ export const BlogCard = ({ post }: BlogCardProps) => {
 
                     {/* Pseudo-Button at the bottom */}
                     <div className="mt-auto w-full bg-slate-950 border border-slate-800 text-white font-bold py-3 px-4 rounded-lg flex items-center justify-center gap-2 group-hover:bg-emerald-600 group-hover:border-emerald-500 group-hover:text-white transition-all duration-300">
-                        <span>ACCESS_DATA</span>
+                        <span>READ ARTICLE</span>
                         <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                     </div>
                 </div>

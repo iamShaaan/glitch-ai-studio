@@ -34,10 +34,10 @@ export default function BlogListingPage() {
             <div className="max-w-7xl mx-auto relative z-10">
                 <header className="mb-12 text-center">
                     <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                        <GlitchText text="TRANSMISSIONS" />
+                        <GlitchText text="LATEST INSIGHTS" />
                     </h1>
                     <p className="text-slate-400 max-w-2xl mx-auto">
-                        Insights, strategies, and updates from the Glitch Studio. Decoding the future of digital growth.
+                        Strategies and updates from the Glitch Studio. Decoding the future of digital growth.
                     </p>
                 </header>
 
@@ -57,7 +57,7 @@ export default function BlogListingPage() {
                             </div>
                         ) : (
                             <div className="text-center py-20 border border-dashed border-slate-800 rounded-xl">
-                                <p className="text-slate-500">No transmissions received yet. Stand by.</p>
+                                <p className="text-slate-500">No articles found.</p>
                             </div>
                         )}
                     </>
