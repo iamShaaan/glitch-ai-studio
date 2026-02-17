@@ -93,7 +93,7 @@ export default function BlogPostPage() {
                     </div>
                 )}
 
-                <div className="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:text-white prose-p:text-slate-300 prose-a:text-emerald-500 prose-strong:text-white prose-li:text-slate-300 prose-img:rounded-lg">
+                <div className="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:text-white prose-p:text-slate-300 prose-a:text-emerald-500 prose-strong:text-white prose-li:text-slate-300 prose-img:rounded-lg break-words overflow-x-hidden">
                     <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
                 </div>
 
