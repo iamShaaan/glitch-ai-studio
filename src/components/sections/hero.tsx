@@ -35,11 +35,11 @@ export function HeroSection() {
 
                     <div className="flex flex-col md:flex-row gap-4 justify-center items-center">
                         <Link
-                            href="/apply"
+                            href="/services"
                             className="group relative px-8 py-4 bg-emerald-600 text-white font-bold rounded-lg overflow-hidden transition-all hover:bg-emerald-500 hover:shadow-[0_0_40px_rgba(16,185,129,0.3)]"
                         >
                             <span className="relative z-10 flex items-center gap-2">
-                                START THE PROTOCOL <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                WORK WITH US <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                             </span>
                         </Link>
                         <Link
