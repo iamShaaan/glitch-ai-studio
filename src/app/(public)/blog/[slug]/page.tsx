@@ -8,6 +8,7 @@ import { Loader2, ArrowLeft, Calendar } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
 import DOMPurify from 'dompurify';
+import 'react-quill-new/dist/quill.snow.css'; // Import Quill styles for public display
 
 export default function BlogPostPage() {
     const params = useParams();
@@ -53,8 +54,11 @@ export default function BlogPostPage() {
         );
     }
 
-    // Sanitize HTML
-    const sanitizedContent = DOMPurify.sanitize(post.content);
+    // Sanitize HTML - Allow iframes for video, styles for color/align, class for Quill
+    const sanitizedContent = DOMPurify.sanitize(post.content, {
+        ADD_TAGS: ['iframe', 'video'],
+        ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling', 'target', 'class', 'style'],
+    });
 
     return (
         <article className="min-h-screen bg-slate-950 pt-24 pb-12 px-4 md:px-8">
@@ -93,8 +97,19 @@ export default function BlogPostPage() {
                     </div>
                 )}
 
-                <div className="prose prose-invert prose-lg max-w-none prose-headings:font-bold prose-headings:text-white prose-p:text-slate-300 prose-a:text-emerald-500 prose-strong:text-white prose-li:text-slate-300 prose-img:rounded-lg break-words overflow-x-hidden">
-                    <div dangerouslySetInnerHTML={{ __html: sanitizedContent }} />
+                {/* Content Container - specialized for Quill output with prose fallback */}
+                <div className="prose prose-invert prose-lg max-w-none 
+                    prose-headings:font-bold prose-headings:text-white 
+                    prose-p:text-slate-300 prose-a:text-emerald-500 
+                    prose-strong:text-white prose-li:text-slate-300 
+                    prose-img:rounded-lg 
+                    break-words overflow-x-hidden
+                    ql-snow" /* Enable Quill Snow theme overrides */
+                >
+                    <div
+                        className="ql-editor !p-0 !overflow-visible" /* Match Quill editor class for styles, remove default padding/overflow */
+                        dangerouslySetInnerHTML={{ __html: sanitizedContent }}
+                    />
                 </div>
 
                 <hr className="my-12 border-slate-800" />
