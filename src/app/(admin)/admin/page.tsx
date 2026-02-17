@@ -10,14 +10,14 @@ import { CMSManager } from "@/components/admin/cms-manager";
 import { BlogManager } from "@/components/admin/blog-manager";
 import { Users, Database, Globe, Loader2, Lock, AlertCircle, FileText } from "lucide-react";
 import { GlitchText } from "@/components/ui/glitch-text";
-import { useForm } from "react-hook-form";
+import { FieldValues, useForm } from "react-hook-form";
 
-const TABS = [
-    { id: "leads", label: "Lead Manager", icon: Database, component: LeadManager },
-    { id: "clients", label: "Provisioning", icon: Users, component: ClientProvisioning },
-    { id: "cms", label: "Content System", icon: Globe, component: CMSManager },
-    { id: "blog", label: "Blog Manager", icon: FileText, component: BlogManager },
-];
+// ...
+
+interface LoginFormInputs {
+    email: string;
+    password: string;
+}
 
 export default function AdminDashboard() {
     const [user, setUser] = useState<User | null>(null);
@@ -35,11 +35,11 @@ export default function AdminDashboard() {
     }, []);
 
     // --- Admin Login Form Logic ---
-    const { register, handleSubmit } = useForm();
+    const { register, handleSubmit } = useForm<LoginFormInputs>();
     const [loginLoading, setLoginLoading] = useState(false);
     const [loginError, setLoginError] = useState("");
 
-    const onLogin = async (data: { email: string; password: string }) => {
+    const onLogin = async (data: LoginFormInputs) => {
         setLoginLoading(true);
         setLoginError("");
         try {
