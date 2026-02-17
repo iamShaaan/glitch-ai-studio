@@ -24,9 +24,8 @@ export function HeroSection() {
 
                     <h1 className="text-5xl md:text-8xl font-bold tracking-tighter mb-6 text-white">
                         <span className="block">IMMORTALIZE</span>
-                        <span className="block">
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400 mr-4">YOUR</span>
-                            <GlitchText text="IDENTITY" />
+                        <span className="block text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-cyan-400">
+                            YOUR <GlitchText text="IDENTITY" />
                         </span>
                     </h1>
 
