@@ -78,7 +78,7 @@ export function ConsultationManager() {
                                     <td className="px-6 py-4">
                                         <div className="text-xs">
                                             <div>{booking.preferredTime}</div>
-                                            <div className="text-slate-500">{booking.timeZone}</div>
+                                            <div className="text-slate-500">{booking.location}</div>
                                         </div>
                                     </td>
                                     <td className="px-6 py-4">
@@ -194,8 +194,8 @@ export function ConsultationManager() {
                                     <div className="flex items-start gap-3 text-slate-300">
                                         <MapPin className="w-4 h-4 text-emerald-500 mt-1" />
                                         <div>
-                                            <div className="text-xs text-slate-500">Time Zone</div>
-                                            {selectedBooking.timeZone}
+                                            <div className="text-xs text-slate-500">Location</div>
+                                            {selectedBooking.location}
                                         </div>
                                     </div>
 

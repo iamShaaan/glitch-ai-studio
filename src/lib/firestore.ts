@@ -78,7 +78,7 @@ export interface ConsultationBooking {
     socialMedia: string;
     businessInfo: string;
     message: string;
-    timeZone: string;
+    location: string;
     preferredTime: string;
     whatsapp?: string;
     status: 'new' | 'contacted' | 'archived';

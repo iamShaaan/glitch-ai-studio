@@ -19,7 +19,7 @@ interface BookingFormInputs {
     socialMedia: string;
     businessInfo: string;
     message: string;
-    timeZone: string;
+    location: string;
     preferredTime: string;
     whatsapp?: string;
 }
@@ -192,14 +192,14 @@ export function ConsultationModal({ isOpen, onClose }: ConsultationModalProps) {
                                             <div className="grid md:grid-cols-3 gap-4">
                                                 <div className="space-y-1">
                                                     <label className="text-xs font-medium text-slate-300 flex items-center gap-2">
-                                                        <MapPin className="w-3 h-3 text-emerald-500" /> Time Zone
+                                                        <MapPin className="w-3 h-3 text-emerald-500" /> Location
                                                     </label>
                                                     <input
-                                                        {...register("timeZone", { required: "Time zone is required" })}
+                                                        {...register("location", { required: "Location is required" })}
                                                         className="w-full bg-slate-950 border border-slate-800 rounded p-3 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors"
-                                                        placeholder="e.g. EST / GMT+1"
+                                                        placeholder="City, Country"
                                                     />
-                                                    {errors.timeZone && <span className="text-xs text-red-400">{errors.timeZone.message}</span>}
+                                                    {errors.location && <span className="text-xs text-red-400">{errors.location.message}</span>}
                                                 </div>
                                                 <div className="space-y-1">
                                                     <label className="text-xs font-medium text-slate-300 flex items-center gap-2">
