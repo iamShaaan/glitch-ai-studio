@@ -222,7 +222,14 @@ export const BlogManager = () => {
                 </div>
                 <button
                     onClick={() => {
-                        setCurrentPost({ published: true });
+                        setCurrentPost({
+                            title: '',
+                            slug: '',
+                            excerpt: '',
+                            coverImage: '',
+                            content: '',
+                            published: true,
+                        });
                         setIsEditing(true);
                     }}
                     className="bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-2 rounded flex items-center gap-2 text-sm font-bold transition-colors"
