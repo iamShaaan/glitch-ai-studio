@@ -12,7 +12,12 @@ import { Users, Database, Globe, Loader2, Lock, AlertCircle, FileText } from "lu
 import { GlitchText } from "@/components/ui/glitch-text";
 import { FieldValues, useForm } from "react-hook-form";
 
-// ...
+const TABS = [
+    { id: "leads", label: "Lead Manager", icon: Database, component: LeadManager },
+    { id: "clients", label: "Provisioning", icon: Users, component: ClientProvisioning },
+    { id: "cms", label: "Content System", icon: Globe, component: CMSManager },
+    { id: "blog", label: "Blog Manager", icon: FileText, component: BlogManager },
+];
 
 interface LoginFormInputs {
     email: string;
