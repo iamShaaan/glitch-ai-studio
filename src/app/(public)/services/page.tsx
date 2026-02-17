@@ -5,6 +5,12 @@ import Link from "next/link";
 import { ArrowRight, Lock, Video, Cpu, Share2, TrendingUp, Code, User, Bot } from "lucide-react";
 import { GlitchText } from "@/components/ui/glitch-text";
 
+const FiverrIcon = ({ className }: { className?: string }) => (
+    <svg role="img" viewBox="0 0 24 24" fill="currentColor" className={className} xmlns="http://www.w3.org/2000/svg">
+        <path d="M23.004 15.588a.995.995 0 1 0 .002-1.99.995.995 0 0 0-.002 1.99zm-.996-3.705h-.85c-.546 0-.84.41-.84 1.092v2.466h-1.61v-3.558h-.684c-.547 0-.84.41-.84 1.092v2.466h-1.61v-4.874h1.61v.74c.264-.574.626-.74 1.163-.74h1.972v.74c.264-.574.625-.74 1.162-.74h.527v1.316zm-6.786 1.501h-3.359c.088.546.43.858 1.006.858.43 0 .732-.175.83-.487l1.425.4c-.351.848-1.22 1.364-2.255 1.364-1.748 0-2.549-1.355-2.549-2.515 0-1.14.703-2.505 2.45-2.505 1.856 0 2.471 1.384 2.471 2.408 0 .224-.01.37-.02.477zm-1.562-.945c-.04-.42-.342-.81-.889-.81-.508 0-.81.225-.908.81h1.797zM7.508 15.44h1.416l1.767-4.874h-1.62l-.86 2.837-.878-2.837H5.72l1.787 4.874zm-6.6 0H2.51v-3.558h1.524v3.558h1.591v-4.874H2.51v-.302c0-.332.235-.536.606-.536h.918V8.412H2.85c-1.162 0-1.943.712-1.943 1.755v.4H0v1.316h.908v3.558z" />
+    </svg>
+);
+
 const container = {
     hidden: { opacity: 0 },
     show: {
@@ -36,6 +42,66 @@ export default function ServicesPage() {
                     <p className="text-slate-400 max-w-2xl mx-auto text-lg">
                         Select your entry point. Unlock the ecosystem.
                     </p>
+                </div>
+
+                {/* Protocol Info Section */}
+                <div className="max-w-4xl mx-auto mb-20 p-8 border border-emerald-500/30 bg-slate-900/80 rounded-2xl relative overflow-hidden backdrop-blur-sm">
+                    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-emerald-500 via-cyan-500 to-emerald-500 opacity-50" />
+
+                    <h3 className="text-xl md:text-2xl font-bold text-white mb-6 flex items-center gap-3">
+                        <Lock className="w-6 h-6 text-emerald-400" />
+                        PROTOCOL WORKFLOW & OWNERSHIP
+                    </h3>
+
+                    <div className="space-y-6 text-slate-300 leading-relaxed">
+                        <p>
+                            Before we proceed with the pricing, it is critical to clarify the workflow and requirements for AI Avatar creation. The process is divided into 2 distinct phases.
+                        </p>
+
+                        <div className="bg-slate-950/50 p-6 rounded-xl border border-slate-800">
+                            <h4 className="text-emerald-400 font-semibold mb-3 uppercase tracking-wider text-sm">Phase 1: The Foundation</h4>
+                            <ul className="space-y-2">
+                                <li className="flex items-start gap-2">
+                                    <span className="text-emerald-500 mt-1">▹</span> Create a character
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-emerald-500 mt-1">▹</span> Design & train the voice
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-emerald-500 mt-1">▹</span> Design & train a video avatar
+                                </li>
+                                <li className="flex items-start gap-2">
+                                    <span className="text-emerald-500 mt-1">▹</span> Train a stylized avatar for visual storytelling (Optional)
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h4 className="text-white font-semibold mb-2">Consistency & Intellectual Property</h4>
+                            <p className="mb-4 text-sm md:text-base">
+                                This phase is paramount for consistency and copyright. The avatar will be under control & copyrighted with the registered AI tools.
+                            </p>
+                            <ul className="space-y-2 text-sm md:text-base pl-4 border-l-2 border-slate-700">
+                                <li className="mb-2">
+                                    <strong className="text-white">Our Tools:</strong> If trained on our AI tools (HeyGen, ElevenLabs, etc.), it remains a proprietary asset managed by us to promote your brand.
+                                </li>
+                                <li>
+                                    <strong className="text-white">Your Tools:</strong> If you possess your own AI tool licenses and share credentials, we can train the Avatar directly on your ecosystem, granting you full control. We can guide you through this workflow via a Zoom call.
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-4 pt-4 border-t border-slate-800">
+                            <div>
+                                <h4 className="text-white font-bold">Phase 1 Investment</h4>
+                                <p className="text-sm text-slate-400">Avatar Training + 30sec Introduction Video</p>
+                            </div>
+                            <div className="text-3xl font-bold text-emerald-400">$200</div>
+                        </div>
+                        <p className="text-xs text-slate-500 text-center md:text-right mt-2">
+                            This creates a digital asset you own—an enduring investment in AI.
+                        </p>
+                    </div>
                 </div>
 
                 {/* Entry Points */}
@@ -77,7 +143,7 @@ export default function ServicesPage() {
                                 target="_blank"
                                 className="inline-flex items-center justify-center w-full py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition-all group-hover:shadow-[0_0_20px_rgba(16,185,129,0.4)]"
                             >
-                                Work with us on Fiverr <ArrowRight className="w-5 h-5 ml-2" />
+                                Work with us on Fiverr <FiverrIcon className="w-16 h-8 ml-2 -mt-1" />
                             </Link>
                         </div>
                     </motion.div>
@@ -119,7 +185,7 @@ export default function ServicesPage() {
                                 target="_blank"
                                 className="inline-flex items-center justify-center w-full py-4 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg transition-all group-hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
                             >
-                                Work with us on Fiverr <ArrowRight className="w-5 h-5 ml-2" />
+                                Work with us on Fiverr <FiverrIcon className="w-16 h-8 ml-2 -mt-1" />
                             </Link>
                         </div>
                     </motion.div>
