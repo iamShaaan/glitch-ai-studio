@@ -10,20 +10,18 @@ import { auth } from "@/lib/firebase";
 import { BlogManager } from "@/components/admin/blog-manager";
 import { CareerManager } from "@/components/admin/career-manager";
 import { SettingsManager } from "@/components/admin/settings-manager";
-import { Globe, Loader2, Lock, AlertCircle, FileText, Briefcase, Settings, Calendar } from "lucide-react";
+import { Globe, Loader2, Lock, AlertCircle, FileText, Briefcase, Settings, Calendar, User } from "lucide-react";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { FieldValues, useForm } from "react-hook-form";
 
 import { ConsultationManager } from "@/components/admin/consultation-manager";
+import { LeadsManager } from "@/components/admin/leads-manager";
 
-const TABS = [
-    { id: "consultations", label: "Consultations", icon: Calendar, component: ConsultationManager },
-    { id: "blog", label: "Blog Manager", icon: FileText, component: BlogManager },
-
-
-    { id: "blog", label: "Blog Manager", icon: FileText, component: BlogManager },
-    { id: "career", label: "Recruitment", icon: Briefcase, component: CareerManager },
-    { id: "settings", label: "System Config", icon: Settings, component: SettingsManager },
+{ id: "consultations", label: "Consultations", icon: Calendar, component: ConsultationManager },
+{ id: "leads", label: "Leads", icon: User, component: LeadsManager },
+{ id: "blog", label: "Blog Manager", icon: FileText, component: BlogManager },
+{ id: "career", label: "Recruitment", icon: Briefcase, component: CareerManager },
+{ id: "settings", label: "System Config", icon: Settings, component: SettingsManager },
 ];
 
 interface LoginFormInputs {

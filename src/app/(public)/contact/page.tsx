@@ -1,32 +1,28 @@
-import { HeroSection } from "@/components/sections/hero";
-import { GlitchText } from "@/components/ui/glitch-text";
+"use client";
+
+import { ContactForm } from "@/components/contact/contact-form";
+import { OriginStory } from "@/components/contact/origin-story";
 
 export default function ContactPage() {
     return (
-        <div className="min-h-screen bg-slate-950 pt-24 pb-12 px-4 md:px-8 relative overflow-hidden">
-            {/* Background Elements */}
-            <div className="absolute inset-0 bg-slate-950 pointer-events-none">
-                <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f2e_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f2e_1px,transparent_1px)] bg-[size:14px_24px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)]" />
-            </div>
+        <main className="min-h-screen bg-slate-950 relative overflow-hidden flex flex-col justify-center">
+            {/* Background Effects */}
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
+            <div className="absolute top-0 left-0 right-0 h-64 bg-gradient-to-b from-slate-900 to-transparent pointer-events-none" />
 
-            <div className="max-w-4xl mx-auto relative z-10 text-center">
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-8">
-                    <GlitchText text="ESTABLISH CONNECTION" />
-                </h1>
-                <p className="text-slate-400 text-lg mb-12">
-                    Our neural network is currently receiving high traffic.
-                    <br />Please use the Career portal for recruitment inquiries.
-                </p>
+            <div className="container mx-auto px-4 py-8 max-w-7xl w-full">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+                    {/* Left Column: Story */}
+                    <div className="order-2 lg:order-1 animate-in slide-in-from-left-8 duration-700 delay-150">
+                        <OriginStory />
+                    </div>
 
-                <div className="p-8 border border-slate-800 rounded-xl bg-slate-900/50 backdrop-blur-sm">
-                    <p className="text-emerald-400 text-xl font-mono">
-                        comm_link: offline
-                    </p>
-                    <p className="text-slate-500 mt-2">
-                        Please email: protocol@glitch.ai
-                    </p>
+                    {/* Right Column: Form */}
+                    <div className="order-1 lg:order-2 h-full flex flex-col justify-center animate-in slide-in-from-right-8 duration-700">
+                        <ContactForm />
+                    </div>
                 </div>
             </div>
-        </div>
+        </main>
     );
 }
