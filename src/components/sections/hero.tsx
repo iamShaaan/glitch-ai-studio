@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { ConsultationModal } from "./consultation-modal";
+import { ParticleNetwork } from "@/components/ui/particle-network";
 
 export function HeroSection() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -14,8 +15,16 @@ export function HeroSection() {
             <ConsultationModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
             <section className="relative min-h-[85vh] flex items-center justify-center overflow-hidden bg-slate-950 text-white">
 
-                {/* Background - Elegant Gradient / Void */}
+                {/* Background - Elegant Gradient + Particles */}
                 <div className="absolute inset-0 z-0 bg-[radial-gradient(circle_at_50%_50%,#0f172a_0%,#020617_100%)]" />
+                <ParticleNetwork
+                    className="opacity-40"
+                    particleColor="rgba(52, 211, 153, 0.4)" // Emerald-400
+                    lineColor="rgba(52, 211, 153, 0.1)"
+                    particleCount={60}
+                    interactionRadius={200}
+                    speed={0.4}
+                />
 
                 {/* Subtle spotlight effect */}
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-emerald-500/5 blur-[120px] rounded-full pointer-events-none" />
