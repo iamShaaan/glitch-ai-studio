@@ -14,6 +14,7 @@ import {
     serverTimestamp,
     Timestamp
 } from "firebase/firestore";
+import { APP_ID } from "./constants";
 
 // --- Types ---
 
@@ -53,6 +54,26 @@ export interface ContactSubmission {
     message: string;
     status: 'new' | 'contacted' | 'archived';
     createdAt: Timestamp;
+}
+
+export interface AboutContent {
+    title: string;
+    subtitle: string;
+    description: string;
+    globalReachTitle: string;
+    globalReachDescription: string;
+    philosophyTitle: string;
+    philosophyDescription: string;
+    ecosystemItems: EcosystemItem[];
+    whyChooseTitle: string;
+    whyChooseDescription: string;
+    closingStatement: string;
+}
+
+export interface EcosystemItem {
+    id: string;
+    title: string;
+    description: string;
 }
 
 // --- Helpers ---
@@ -108,4 +129,15 @@ export async function submitContactForm(data: Omit<ContactSubmission, "id" | "st
         status: 'new',
         createdAt: serverTimestamp()
     });
+}
+// About Us Content
+export async function getAboutContent(): Promise<AboutContent | null> {
+    const docRef = doc(db, `apps/${APP_ID}/content/about_us`);
+    const snap = await getDoc(docRef);
+    return snap.exists() ? (snap.data() as AboutContent) : null;
+}
+
+export async function updateAboutContent(content: AboutContent) {
+    const docRef = doc(db, `apps/${APP_ID}/content/about_us`);
+    await setDoc(docRef, content, { merge: true });
 }
