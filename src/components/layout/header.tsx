@@ -22,7 +22,7 @@ export function Header() {
         <header className="fixed top-0 w-full z-50 bg-slate-900/80 backdrop-blur-md border-b border-slate-800">
             <div className="container mx-auto px-4 h-16 flex items-center justify-between">
                 <Link href="/" className="flex items-center gap-2 group">
-                    <div className="relative w-40 h-10 md:w-48 md:h-12">
+                    <div className="relative w-48 h-12 md:w-64 md:h-16">
                         <Image
                             src="/logo.png"
                             alt="Glitch AI Studio"
