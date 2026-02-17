@@ -8,7 +8,8 @@ import { LeadManager } from "@/components/admin/lead-manager";
 import { ClientProvisioning } from "@/components/admin/client-provisioning";
 import { CMSManager } from "@/components/admin/cms-manager";
 import { BlogManager } from "@/components/admin/blog-manager";
-import { Users, Database, Globe, Loader2, Lock, AlertCircle, FileText } from "lucide-react";
+import { CareerManager } from "@/components/admin/career-manager";
+import { Users, Database, Globe, Loader2, Lock, AlertCircle, FileText, Briefcase } from "lucide-react";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { FieldValues, useForm } from "react-hook-form";
 
@@ -16,7 +17,9 @@ const TABS = [
     { id: "leads", label: "Lead Manager", icon: Database, component: LeadManager },
     { id: "clients", label: "Provisioning", icon: Users, component: ClientProvisioning },
     { id: "cms", label: "Content System", icon: Globe, component: CMSManager },
+
     { id: "blog", label: "Blog Manager", icon: FileText, component: BlogManager },
+    { id: "career", label: "Recruitment", icon: Briefcase, component: CareerManager },
 ];
 
 interface LoginFormInputs {

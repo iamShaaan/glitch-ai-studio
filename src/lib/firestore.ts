@@ -56,6 +56,19 @@ export interface ContactSubmission {
     createdAt: Timestamp;
 }
 
+export interface CareerApplication {
+    id?: string;
+    fullName: string;
+    email: string;
+    portfolioUrl: string;
+    favoriteAiTool: string;
+    resumeUrl: string; // Firebase Storage URL
+    roleAppliedFor: string; // e.g., "AI Video Architect"
+    status: 'new' | 'reviewing' | 'interview' | 'rejected' | 'hired';
+    createdAt: Timestamp;
+}
+
+
 export interface AboutContent {
     // Hero
     title: string;
@@ -162,6 +175,25 @@ export async function submitContactForm(data: Omit<ContactSubmission, "id" | "st
         status: 'new',
         createdAt: serverTimestamp()
     });
+}
+
+
+// Career Applications
+export async function submitCareerApplication(data: Omit<CareerApplication, "id" | "status" | "createdAt">) {
+    return await addDoc(collection(db, `apps/${APP_ID}/career_applications`), {
+        ...data,
+        status: 'new',
+        createdAt: serverTimestamp()
+    });
+}
+
+export async function getCareerApplications() {
+    const q = query(
+        collection(db, `apps/${APP_ID}/career_applications`),
+        orderBy("createdAt", "desc")
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map(d => ({ id: d.id, ...d.data() } as CareerApplication));
 }
 // About Us Content
 export async function getAboutContent(): Promise<AboutContent | null> {
