@@ -18,9 +18,7 @@ export function HeroSection() {
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                 >
-                    <div className="inline-block mb-4 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-sm font-mono animate-pulse">
-            /// SYSTEM OVERRIDE: INITIATED
-                    </div>
+
 
                     <h1 className="text-5xl md:text-8xl font-bold tracking-tighter mb-6 text-white">
                         <span className="block">IMMORTALIZE</span>
