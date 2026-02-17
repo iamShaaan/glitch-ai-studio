@@ -140,13 +140,13 @@
   .glitch-subtle::before {
     left: 1px;
     text-shadow: -1px 0 rgba(0, 255, 255, 0.3);
-    animation: glitch-anim-subtle-1 4s infinite linear alternate-reverse;
+    animation: glitch-anim-subtle-1 8s infinite linear alternate-reverse;
   }
 
   .glitch-subtle::after {
     left: -1px;
     text-shadow: 1px 0 rgba(255, 0, 255, 0.3);
-    animation: glitch-anim-subtle-2 6s infinite linear alternate-reverse;
+    animation: glitch-anim-subtle-2 10s infinite linear alternate-reverse;
   }
 }
 

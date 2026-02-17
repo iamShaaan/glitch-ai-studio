@@ -22,7 +22,7 @@ export function CareerHero() {
 
                 <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400 mb-6 tracking-tight">
                     Build the Future<br />
-                    of <GlitchText text="Identity" />
+                    of <GlitchText text="Identity" className="glitch-subtle" />
                 </h1>
 
                 <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">
