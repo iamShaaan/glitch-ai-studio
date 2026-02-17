@@ -105,7 +105,7 @@ export default function ServicesPage() {
                 </div>
 
                 {/* Entry Points */}
-                <div className="grid md:grid-cols-2 gap-8 mb-24 max-w-6xl mx-auto">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-24 max-w-7xl mx-auto">
                     {/* Service A: AI Twin */}
                     <motion.div
                         initial={{ opacity: 0, x: -20 }}
@@ -186,6 +186,48 @@ export default function ServicesPage() {
                                 className="inline-flex items-center justify-center w-full py-4 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-lg transition-all group-hover:shadow-[0_0_20px_rgba(6,182,212,0.4)]"
                             >
                                 Work with us on Fiverr <FiverrIcon className="w-16 h-8 ml-2 -mt-1" />
+                            </Link>
+                        </div>
+                    </motion.div>
+
+                    {/* Service C: AI Consulting */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.4 }}
+                        className="group relative bg-slate-900/50 border border-purple-500/20 rounded-2xl p-8 hover:border-purple-500/50 transition-all hover:shadow-[0_0_30px_rgba(168,85,247,0.1)] overflow-hidden md:col-span-2 lg:col-span-1"
+                    >
+                        <div className="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+                            <TrendingUp className="w-32 h-32 text-purple-500" />
+                        </div>
+                        <div className="relative z-10">
+                            <div className="bg-purple-500/10 w-12 h-12 rounded-lg flex items-center justify-center mb-6">
+                                <TrendingUp className="w-6 h-6 text-purple-400" />
+                            </div>
+                            <h2 className="text-3xl font-bold text-white mb-4 group-hover:text-purple-400 transition-colors">AI Consulting & Strategy</h2>
+                            <p className="text-slate-400 mb-8 leading-relaxed">
+                                Strategic guidance on implementing AI into your business workflows. We help you identify opportunities, select the right tools, and build a roadmap for AI adoption.
+                            </p>
+                            <ul className="space-y-3 mb-8 text-slate-300">
+                                <li className="flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 bg-purple-500 rounded-full" />
+                                    Workflow Optimization
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 bg-purple-500 rounded-full" />
+                                    Tool Selection & Setup
+                                </li>
+                                <li className="flex items-center gap-2">
+                                    <span className="w-1.5 h-1.5 bg-purple-500 rounded-full" />
+                                    Implementation Roadmap
+                                </li>
+                            </ul>
+                            <Link
+                                href="https://www.fiverr.com/s/yvD2Ldz"
+                                target="_blank"
+                                className="inline-flex items-center justify-center w-full py-4 bg-purple-600 hover:bg-purple-500 text-white font-bold rounded-lg transition-all group-hover:shadow-[0_0_20px_rgba(168,85,247,0.4)]"
+                            >
+                                Get Strategic Consultation <FiverrIcon className="w-16 h-8 ml-2 -mt-1" />
                             </Link>
                         </div>
                     </motion.div>

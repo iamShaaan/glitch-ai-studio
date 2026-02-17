@@ -6,15 +6,15 @@ export function Footer() {
             <div className="container mx-auto px-4 grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
                     <h3 className="text-white font-bold mb-4">GLITCH AI STUDIO</h3>
-                    <p>Digital Twin & AI Automation Agency.<br />Vienna, Austria.</p>
+                    <p>Digital Twin & AI Automation Agency.<br />Global. Distributed. Remote.</p>
                 </div>
 
                 <div>
                     <h4 className="text-white font-semibold mb-4">Services</h4>
                     <ul className="space-y-2">
-                        <li><Link href="/services/avatars" className="hover:text-emerald-400 transition-colors">Digital Avatars</Link></li>
-                        <li><Link href="/services/automation" className="hover:text-emerald-400 transition-colors">Automation</Link></li>
-                        <li><Link href="/services/consulting" className="hover:text-emerald-400 transition-colors">AI Consulting</Link></li>
+                        <li><Link href="/services" className="hover:text-emerald-400 transition-colors">Digital Avatars</Link></li>
+                        <li><Link href="/services" className="hover:text-emerald-400 transition-colors">Automation</Link></li>
+                        <li><Link href="/services" className="hover:text-emerald-400 transition-colors">AI Consulting</Link></li>
                     </ul>
                 </div>
 
@@ -24,6 +24,7 @@ export function Footer() {
                         <li><Link href="/about" className="hover:text-emerald-400 transition-colors">About Us</Link></li>
                         <li><Link href="/career" className="hover:text-emerald-400 transition-colors">Careers</Link></li>
                         <li><Link href="/contact" className="hover:text-emerald-400 transition-colors">Contact</Link></li>
+                        <li><Link href="/blog" className="hover:text-emerald-400 transition-colors">Blog</Link></li>
                     </ul>
                 </div>
 
