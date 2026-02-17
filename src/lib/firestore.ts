@@ -57,23 +57,42 @@ export interface ContactSubmission {
 }
 
 export interface AboutContent {
+    // Hero
     title: string;
     subtitle: string;
     description: string;
-    globalReachTitle: string;
-    globalReachDescription: string;
-    philosophyTitle: string;
-    philosophyDescription: string;
-    ecosystemItems: EcosystemItem[];
-    whyChooseTitle: string;
-    whyChooseDescription: string;
-    closingStatement: string;
-}
 
-export interface EcosystemItem {
-    id: string;
-    title: string;
-    description: string;
+    // Founder
+    founderMessageTitle: string;
+    founderMessage: string;
+
+    // Origin
+    originTitle: string;
+    originDescription: string;
+
+    // Definition
+    glitchDefinitionTitle: string;
+    glitchDefinition: string;
+
+    // Services
+    servicesTitle: string;
+    services: { value: string }[];
+
+    // Clients
+    whoWeHelpTitle: string;
+    whoWeHelp: { value: string }[];
+
+    // Location
+    locationTitle: string;
+    locationDescription: string;
+
+    // Why Choose
+    whyChooseTitle: string;
+    whyChooseItems: { value: string }[];
+
+    // CTA
+    ctaTitle: string;
+    ctaDescription: string;
 }
 
 // --- Helpers ---
