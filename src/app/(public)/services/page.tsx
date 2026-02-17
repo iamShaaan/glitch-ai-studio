@@ -86,7 +86,7 @@ export default function ServicesPage() {
                                     <strong className="text-white">Our Tools:</strong> If trained on our AI tools (HeyGen, ElevenLabs, etc.), it remains a proprietary asset managed by us to promote your brand.
                                 </li>
                                 <li>
-                                    <strong className="text-white">Your Tools:</strong> If you possess your own AI tool licenses and share credentials, we can train the Avatar directly on your ecosystem, granting you full control. We can guide you through this workflow via a Zoom call.
+                                    <strong className="text-white">Your Tools:</strong> If you possess your own AI tool licenses and share credentials, we can train the Avatar directly on your ecosystem, granting you full control. We can guide you through this workflow via a Google Meet call.
                                 </li>
                             </ul>
                         </div>
