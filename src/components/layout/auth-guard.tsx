@@ -19,7 +19,7 @@ export default function AuthGuard({ children, requireAdmin = false }: AuthGuardP
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, (user) => {
             if (!user) {
-                router.push("/");
+                router.push("/login");
             } else {
                 // TODO: Implement actual Admin UID check here
                 if (requireAdmin) {
