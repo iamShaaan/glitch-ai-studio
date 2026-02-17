@@ -20,8 +20,8 @@ export default function LoginPage() {
         setError("");
         try {
             await signInWithEmailAndPassword(auth, data.email, data.password);
-            // Determine redirect based on email or custom claim (simplified for now)
-            if (data.email.includes("admin")) { // Rudimentary check, real check in AuthGuard
+            // Determine redirect based on email or custom claim
+            if (data.email.includes("admin") || data.email === "glitchaistudio@gmail.com") {
                 router.push("/admin");
             } else {
                 router.push("/portal");

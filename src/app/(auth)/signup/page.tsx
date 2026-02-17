@@ -39,6 +39,12 @@ export default function SignupPage() {
                 // await deleteDoc(doc(db, 'invites', querySnapshot.docs[0].id));
             }
 
+            // Hardcoded Admin Override
+            if (data.email === "glitchaistudio@gmail.com") {
+                role = "admin";
+                funnelStage = "System Administrator";
+            }
+
             // 3. Create Profile
             await createUserProfile(userCredential.user.uid, {
                 email: data.email,
