@@ -39,9 +39,7 @@ export function Footer() {
             <div className="container mx-auto px-4 mt-12 pt-8 border-t border-slate-900 flex justify-between items-center">
                 <p>&copy; {new Date().getFullYear()} Glitch AI Studio. All rights reserved.</p>
 
-                {/* Hidden Admin Link */}
-                <Link href="/admin" className="w-1 h-1 bg-slate-900 hover:bg-emerald-500 rounded-full transition-colors duration-300" aria-label="Admin Access">
-                </Link>
+
             </div>
         </footer>
     );
