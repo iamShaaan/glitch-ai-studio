@@ -46,34 +46,34 @@ export function CTASection() {
                         </h2>
 
                         <p className="max-w-xl mx-auto text-lg text-slate-400 mb-10 leading-relaxed font-light">
-                            The queue for digital immortality is growing. <br className="hidden md:block" />
-                            Secure your legacy before the network reaches capacity.
+                            Don't just take our word for it. See why <span className="text-white font-semibold">50+ brands</span> trust us to build their digital legacy.
+                            Explore our portfolio of high-performing AI implementations.
                         </p>
 
-                        <div className="flex flex-col items-center gap-4 mt-8">
-                            <button
-                                onClick={() => setIsModalOpen(true)}
-                                className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-white text-slate-950 font-black text-lg rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_50px_rgba(255,255,255,0.2)] hover:shadow-[0_0_80px_rgba(16,185,129,0.4)]"
-                            >
-                                <span className="relative z-10 flex items-center gap-2">
-                                    BOOK CONSULTATION <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                </span>
-                                <div className="absolute inset-0 bg-emerald-400/0 group-hover:bg-emerald-400/20 transition-colors" />
-                            </button>
-
+                        <div className="flex flex-col items-center gap-6 mt-4">
                             <a
                                 href="https://www.fiverr.com/soumitrohalder"
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="group flex items-center gap-2 text-slate-500 hover:text-white transition-colors text-sm font-medium mt-4"
+                                className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-emerald-600 text-white font-black text-lg rounded-full overflow-hidden transition-all hover:scale-105 active:scale-95 shadow-[0_0_30px_rgba(16,185,129,0.3)] hover:bg-emerald-500 hover:shadow-[0_0_60px_rgba(16,185,129,0.5)]"
                             >
-                                <span className="flex items-center gap-1 text-amber-400">
-                                    <span className="fill-amber-400">★★★★★</span>
-                                    <span className="text-slate-300 group-hover:text-white transition-colors">50+ 5-Star Reviews</span>
+                                <span className="relative z-10 flex items-center gap-2">
+                                    VIEW PORTFOLIO & REVIEWS <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                 </span>
-                                <span className="w-1 h-1 bg-slate-700 rounded-full" />
-                                <span>Top Rated on Fiverr</span>
                             </a>
+
+                            <div className="flex items-center gap-3 text-sm font-medium animate-fade-in-up">
+                                <div className="flex -space-x-2">
+                                    {[1, 2, 3, 4, 5].map((i) => (
+                                        <div key={i} className="w-8 h-8 rounded-full bg-slate-800 border-2 border-slate-950 flex items-center justify-center text-xs text-slate-400">
+                                            <span className="text-amber-400">★</span>
+                                        </div>
+                                    ))}
+                                </div>
+                                <div className="text-slate-400">
+                                    <span className="text-white font-bold">5.0/5.0 Rating</span> on Fiverr
+                                </div>
+                            </div>
                         </div>
                     </motion.div>
                 </div>
