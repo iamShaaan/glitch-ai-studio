@@ -15,19 +15,19 @@ export function OriginStory() {
                     </h1>
                     <p className="text-slate-400 text-lg leading-relaxed border-l-2 border-emerald-500/30 pl-6">
                         Glitch AI Studio didn't start as a content agency; it started as a technical solution to a human problem.
-                        As a professional full-stack developer, I saw the friction founders faced when trying to scale their digital presence.
+                        As an AI Content Expert and Automation Engineer, I saw the friction founders faced when trying to scale their digital presence.
                     </p>
                 </div>
 
                 {/* Narrative */}
                 <div className="bg-slate-900/50 p-6 rounded-xl border border-slate-800 backdrop-blur-sm">
                     <p className="text-slate-300 leading-relaxed mb-4">
-                        I combined my background in web architecture with my passion for AI automation to build a studio that handles the
+                        I combined my background in system architecture with my passion for AI automation to build a studio that handles the
                         <span className="text-white font-semibold"> 'Glitch'</span> in content production, allowing visionaries to stay in their zone of genius.
                     </p>
 
                     <div className="flex flex-wrap gap-2 mt-4">
-                        <SkillBadge icon={Code2} label="Full-Stack Dev" />
+                        <SkillBadge icon={Code2} label="Media Synthesis" />
                         <SkillBadge icon={Cpu} label="AI Automation" />
                         <SkillBadge icon={Database} label="System Arch" />
                     </div>
