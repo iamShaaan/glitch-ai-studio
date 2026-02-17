@@ -70,6 +70,21 @@ export interface CareerApplication {
     createdAt: Timestamp;
 }
 
+export interface ConsultationBooking {
+    id?: string;
+    name: string;
+    email: string;
+    website?: string;
+    socialMedia: string;
+    businessInfo: string;
+    message: string;
+    timeZone: string;
+    preferredTime: string;
+    whatsapp?: string;
+    status: 'new' | 'contacted' | 'archived';
+    createdAt: Timestamp;
+}
+
 
 export interface AboutContent {
     // Hero
@@ -199,6 +214,24 @@ export async function getCareerApplications() {
     );
     const snap = await getDocs(q);
     return snap.docs.map(d => ({ id: d.id, ...d.data() } as CareerApplication));
+}
+
+// Consultation Bookings
+export async function submitConsultationBooking(data: Omit<ConsultationBooking, 'id' | 'status' | 'createdAt'>) {
+    await addDoc(collection(db, `apps/${APP_ID}/consultations`), {
+        ...data,
+        status: 'new',
+        createdAt: serverTimestamp()
+    });
+}
+
+export async function getConsultationBookings() {
+    const q = query(
+        collection(db, `apps/${APP_ID}/consultations`),
+        orderBy("createdAt", "desc")
+    );
+    const snap = await getDocs(q);
+    return snap.docs.map(d => ({ id: d.id, ...d.data() } as ConsultationBooking));
 }
 // About Us Content
 export async function getAboutContent(): Promise<AboutContent | null> {

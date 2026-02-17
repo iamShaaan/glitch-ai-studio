@@ -10,12 +10,15 @@ import { ClientProvisioning } from "@/components/admin/client-provisioning";
 import { BlogManager } from "@/components/admin/blog-manager";
 import { CareerManager } from "@/components/admin/career-manager";
 import { SettingsManager } from "@/components/admin/settings-manager";
-import { Users, Database, Globe, Loader2, Lock, AlertCircle, FileText, Briefcase, Settings } from "lucide-react";
+import { Users, Database, Globe, Loader2, Lock, AlertCircle, FileText, Briefcase, Settings, Calendar } from "lucide-react";
 import { GlitchText } from "@/components/ui/glitch-text";
 import { FieldValues, useForm } from "react-hook-form";
 
+import { ConsultationManager } from "@/components/admin/consultation-manager";
+
 const TABS = [
     { id: "leads", label: "Lead Manager", icon: Database, component: LeadManager },
+    { id: "consultations", label: "Consultations", icon: Calendar, component: ConsultationManager },
     { id: "clients", label: "Provisioning", icon: Users, component: ClientProvisioning },
 
 
