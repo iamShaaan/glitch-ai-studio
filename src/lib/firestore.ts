@@ -188,18 +188,22 @@ export async function submitCareerApplication(data: Omit<CareerApplication, "id"
     });
 
     // 2. Trigger n8n Action for Google Drive Sync
-    // This allows n8n to pick up the file from Firebase Storage and move it to Drive
-    await addDoc(collection(db, `apps/${APP_ID}/actions`), {
-        type: "sync_resume_to_drive",
-        status: "pending",
-        payload: {
-            applicantName: data.fullName,
-            resumeUrl: data.resumeUrl,
-            role: data.roleAppliedFor,
-            targetFolderId: "1ZGmzXpZQLsfpOLUKwhZXvwkeBvAyzqD0" // Hardcoded as per user request
-        },
-        createdAt: serverTimestamp()
-    });
+    try {
+        await addDoc(collection(db, `apps/${APP_ID}/actions`), {
+            type: "sync_resume_to_drive",
+            status: "pending",
+            payload: {
+                applicantName: data.fullName,
+                resumeUrl: data.resumeUrl,
+                role: data.roleAppliedFor,
+                targetFolderId: "1ZGmzXpZQLsfpOLUKwhZXvwkeBvAyzqD0"
+            },
+            createdAt: serverTimestamp()
+        });
+    } catch (error) {
+        console.error("Failed to trigger n8n action:", error);
+        // Continue execution - do not block the user
+    }
 }
 
 export async function getCareerApplications() {

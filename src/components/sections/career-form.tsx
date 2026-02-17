@@ -54,23 +54,34 @@ export function CareerForm() {
             const safeName = resumeFile.name.replace(/[^a-z0-9.]/gi, '_').toLowerCase();
             const storageRef = ref(storage, `resumes/${timestamp}_${safeName}`);
 
-            await uploadBytes(storageRef, resumeFile);
-            const resumeUrl = await getDownloadURL(storageRef);
+            let resumeUrl = "";
+            try {
+                await uploadBytes(storageRef, resumeFile);
+                resumeUrl = await getDownloadURL(storageRef);
+            } catch (uploadError) {
+                console.error("Resume Upload Error:", uploadError);
+                throw new Error("Resume upload failed. Please try a smaller file or check your connection.");
+            }
 
             // 2. Submit Application
-            await submitCareerApplication({
-                ...data,
-                resumeUrl
-            });
+            try {
+                await submitCareerApplication({
+                    ...data,
+                    resumeUrl
+                });
+            } catch (dbError) {
+                console.error("Database Error:", dbError);
+                throw new Error("Application submission failed. Please try again.");
+            }
 
             setSuccess(true);
             reset();
             setResumeFile(null);
             toast.success("Application Received. Welcome to the Protocol.");
-        } catch (err) {
+        } catch (err: any) {
             console.error("Application Error:", err);
-            setError("Failed to submit application. Please try again.");
-            toast.error("Submission Failed.");
+            setError(err.message || "Failed to submit application.");
+            toast.error(err.message || "Submission Failed.");
         } finally {
             setLoading(false);
         }
