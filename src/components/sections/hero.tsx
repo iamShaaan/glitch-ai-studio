@@ -6,6 +6,7 @@ import { ArrowRight } from "lucide-react";
 import { useState } from "react";
 import { ConsultationModal } from "./consultation-modal";
 import { ParticleNetwork } from "@/components/ui/particle-network";
+import { GlitchText } from "@/components/ui/glitch-text";
 
 export function HeroSection() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -38,7 +39,7 @@ export function HeroSection() {
                     >
 
                         <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white leading-[1.1]">
-                            Scale Your Presence <br className="hidden md:block" />
+                            Scale Your <GlitchText text="Presence" className="text-white" /> <br className="hidden md:block" />
                             <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-200 to-cyan-200">
                                 Without Saying a Word.
                             </span>

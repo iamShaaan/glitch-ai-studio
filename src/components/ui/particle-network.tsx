@@ -21,6 +21,7 @@ export function ParticleNetwork({
     speed = 0.5,
 }: ParticleNetworkProps) {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const mouseRef = useRef<{ x: number | null; y: number | null }>({ x: null, y: null });
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -54,6 +55,18 @@ export function ParticleNetwork({
             }
         };
 
+        const handleMouseMove = (e: MouseEvent) => {
+            const rect = canvas.getBoundingClientRect();
+            mouseRef.current = {
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top,
+            };
+        };
+
+        const handleMouseLeave = () => {
+            mouseRef.current = { x: null, y: null };
+        };
+
         const draw = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
@@ -75,7 +88,7 @@ export function ParticleNetwork({
                 ctx.fillStyle = particleColor;
                 ctx.fill();
 
-                // Connect
+                // Connect to other particles
                 for (let j = i + 1; j < particles.length; j++) {
                     let p2 = particles[j];
                     let dx = p.x - p2.x;
@@ -91,17 +104,53 @@ export function ParticleNetwork({
                         ctx.stroke();
                     }
                 }
+
+                // Connect to Mouse
+                if (mouseRef.current.x !== null && mouseRef.current.y !== null) {
+                    let dx = p.x - mouseRef.current.x;
+                    let dy = p.y - mouseRef.current.y;
+                    let distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < interactionRadius * 1.5) { // Slightly larger radius for mouse
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(mouseRef.current.x, mouseRef.current.y);
+                        // Make mouse connections slightly brighter/distinct? Using same line color for consistency but maybe stronger opacity
+                        ctx.strokeStyle = lineColor.replace(/[\d.]+\)$/, "0.3)");
+                        ctx.lineWidth = 1 - distance / (interactionRadius * 1.5);
+                        ctx.stroke();
+
+                        // Subtle attraction to mouse
+                        // p.vx -= dx * 0.0001;
+                        // p.vy -= dy * 0.0001;
+                    }
+                }
             }
 
             animationFrameId = requestAnimationFrame(draw);
         };
 
         window.addEventListener("resize", resize);
+        // Attach mouse events to window or canvas? Window is safer for full screen effect if canvas is behind.
+        // But if we want it only on Hero section... Canvas is 100% size of hero, so canvas events are fine.
+        // However, pointer-events-none is on the canvas. So we must attach to window or parent.
+        // Or remove pointer-events-none?
+        // If we remove pointer-events-none, we block clicks on buttons.
+        // So we KEEP pointer-events-none and listen on window/parent.
+        // Since this component is likely full screen or large background, window listener is okay?
+        // Or pass a ref to parent container?
+        // Easiest is window listener for now, checking if mouse is over the canvas area roughly.
+        // Actually, let's just use window 'mousemove' and map to canvas coordinates.
+        window.addEventListener("mousemove", handleMouseMove);
+        window.addEventListener("mouseleave", handleMouseLeave); // When leaving window
+
         resize(); // Init
         draw(); // Start loop
 
         return () => {
             window.removeEventListener("resize", resize);
+            window.removeEventListener("mousemove", handleMouseMove);
+            window.removeEventListener("mouseleave", handleMouseLeave);
             cancelAnimationFrame(animationFrameId);
         };
     }, [particleColor, lineColor, particleCount, interactionRadius, speed]);

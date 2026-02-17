@@ -1,5 +1,5 @@
 import { HeroSection } from "@/components/sections/hero";
-import { ProcessSection } from "@/components/sections/process";
+import { GrowthEngineSection } from "@/components/sections/growth-engine";
 import { CTASection } from "@/components/sections/cta";
 import { TrustBar } from "@/components/sections/trust-bar";
 
@@ -8,7 +8,7 @@ export default function Home() {
     <>
       <HeroSection />
       <TrustBar />
-      <ProcessSection />
+      <GrowthEngineSection />
       <CTASection />
     </>
   );
