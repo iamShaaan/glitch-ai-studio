@@ -62,7 +62,8 @@ export interface CareerApplication {
     email: string;
     portfolioUrl: string;
     favoriteAiTool: string;
-    resumeUrl: string; // Firebase Storage URL
+    resumeUrl?: string; // Firebase Storage URL
+    resumeLink?: string; // External Link (Drive/Dropbox)
     roleAppliedFor: string; // e.g., "AI Video Architect"
     status: 'new' | 'reviewing' | 'interview' | 'rejected' | 'hired';
     createdAt: Timestamp;
@@ -194,7 +195,7 @@ export async function submitCareerApplication(data: Omit<CareerApplication, "id"
             status: "pending",
             payload: {
                 applicantName: data.fullName,
-                resumeUrl: data.resumeUrl,
+                resumeUrl: data.resumeUrl || data.resumeLink, // Send whichever is available
                 role: data.roleAppliedFor,
                 targetFolderId: "1ZGmzXpZQLsfpOLUKwhZXvwkeBvAyzqD0"
             },

@@ -15,6 +15,7 @@ interface CareerFormInputs {
     portfolioUrl: string;
     favoriteAiTool: string;
     roleAppliedFor: string;
+    resumeLink?: string;
 }
 
 const ROLES = [
@@ -26,21 +27,24 @@ const ROLES = [
 ];
 
 export function CareerForm() {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<CareerFormInputs>();
+    const { register, handleSubmit, reset, watch, setValue, formState: { errors } } = useForm<CareerFormInputs>();
     const [resumeFile, setResumeFile] = useState<File | null>(null);
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState(false);
     const [error, setError] = useState("");
+    const [uploadFailed, setUploadFailed] = useState(false);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files && e.target.files[0]) {
             setResumeFile(e.target.files[0]);
+            setUploadFailed(false); // Reset upload error state
         }
     };
 
     const onSubmit = async (data: CareerFormInputs) => {
-        if (!resumeFile) {
-            setError("Please upload your resume.");
+        // Validation: Require EITHER file OR link
+        if (!resumeFile && !data.resumeLink) {
+            setError("Please upload your resume OR provide a link.");
             toast.error("Resume required");
             return;
         }
@@ -49,25 +53,37 @@ export function CareerForm() {
         setError("");
 
         try {
-            // 1. Upload Resume
-            const timestamp = Date.now();
-            const safeName = resumeFile.name.replace(/[^a-z0-9.]/gi, '_').toLowerCase();
-            const storageRef = ref(storage, `resumes/${timestamp}_${safeName}`);
-
             let resumeUrl = "";
-            try {
-                await uploadBytes(storageRef, resumeFile);
-                resumeUrl = await getDownloadURL(storageRef);
-            } catch (uploadError) {
-                console.error("Resume Upload Error:", uploadError);
-                throw new Error("Resume upload failed. Please try a smaller file or check your connection.");
+
+            // 1. Try to Upload Resume if file exists
+            if (resumeFile) {
+                try {
+                    const timestamp = Date.now();
+                    const safeName = data.fullName.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                    const storageRef = ref(storage, `resumes/${safeName}_${timestamp}.pdf`);
+                    await uploadBytes(storageRef, resumeFile);
+                    resumeUrl = await getDownloadURL(storageRef);
+                } catch (uploadError) {
+                    console.error("Resume Upload Error (CORS/Network):", uploadError);
+                    setUploadFailed(true);
+
+                    // If they provided a link, we can proceed. If not, we stop and ask for a link.
+                    if (!data.resumeLink) {
+                        setLoading(false);
+                        setError("File upload failed (likely network/security). Please provide a Google Drive/Dropbox link below instead.");
+                        toast.error("Upload Failed. Please use a link.");
+                        return; // Stop here
+                    }
+                    // If link exists, we just proceed with empty resumeUrl
+                }
             }
 
             // 2. Submit Application
             try {
                 await submitCareerApplication({
                     ...data,
-                    resumeUrl
+                    resumeUrl, // Might be empty if upload failed but link exists
+                    resumeLink: data.resumeLink // Fallback link
                 });
             } catch (dbError) {
                 console.error("Database Error:", dbError);
@@ -77,6 +93,7 @@ export function CareerForm() {
             setSuccess(true);
             reset();
             setResumeFile(null);
+            setUploadFailed(false);
             toast.success("Application Received. Welcome to the Protocol.");
         } catch (err: any) {
             console.error("Application Error:", err);
@@ -185,10 +202,12 @@ export function CareerForm() {
 
                     {/* Resume Upload */}
                     <div className="space-y-2">
-                        <label className="text-sm font-medium text-slate-300">Resume / CV (PDF)</label>
+                        <label className="text-sm font-medium text-slate-300">
+                            Resume / CV {uploadFailed && <span className="text-red-400 ml-2">(Upload Failed - Link Required)</span>}
+                        </label>
                         <div className={`
                             border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all
-                            ${resumeFile ? 'border-emerald-500/50 bg-emerald-500/5' : 'border-slate-800 hover:border-slate-600 hover:bg-slate-900'}
+                            ${resumeFile ? 'border-emerald-500/50 bg-emerald-500/5' : uploadFailed ? 'border-red-500/30 bg-red-500/5' : 'border-slate-800 hover:border-slate-600 hover:bg-slate-900'}
                         `}>
                             <input
                                 type="file"
@@ -206,13 +225,25 @@ export function CareerForm() {
                                     </div>
                                 ) : (
                                     <div className="flex flex-col items-center gap-2 text-slate-500">
-                                        <Upload className="w-8 h-8" />
-                                        <span className="font-medium">Click to upload PDF</span>
+                                        {uploadFailed ? <AlertCircle className="w-8 h-8 text-red-500" /> : <Upload className="w-8 h-8" />}
+                                        <span className={uploadFailed ? "text-red-400" : "font-medium"}>
+                                            {uploadFailed ? "Upload Failed. Please use Link below." : "Click to upload PDF"}
+                                        </span>
                                     </div>
                                 )}
                             </label>
                         </div>
-                        {error && !resumeFile && <span className="text-red-400 text-xs">Resume is required</span>}
+                    </div>
+
+                    {/* Resume Link Fallback */}
+                    <div className="space-y-2">
+                        <label className="text-sm font-medium text-slate-300">Resume Link (Alternative)</label>
+                        <input
+                            {...register("resumeLink")}
+                            className="w-full bg-slate-900 border border-slate-800 rounded p-3 text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                            placeholder="Google Drive, Dropbox, or Website link to CV"
+                        />
+                        <p className="text-xs text-slate-500">Use this if file upload fails.</p>
                     </div>
 
                     {/* Error Message */}
