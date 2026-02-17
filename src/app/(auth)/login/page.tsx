@@ -20,12 +20,8 @@ export default function LoginPage() {
         setError("");
         try {
             await signInWithEmailAndPassword(auth, data.email, data.password);
-            // Determine redirect based on email or custom claim
-            if (data.email.includes("admin") || data.email === "glitchaistudio@gmail.com") {
-                router.push("/admin");
-            } else {
-                router.push("/portal");
-            }
+            // Client Login always goes to portal
+            router.push("/portal");
         } catch (err: any) {
             setError(err.message || "Failed to login");
         } finally {
