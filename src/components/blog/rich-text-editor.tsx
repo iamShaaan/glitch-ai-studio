@@ -15,8 +15,12 @@ interface RichTextEditorProps {
     placeholder?: string;
 }
 
+import { useMemo } from 'react';
+
+// ... (imports)
+
 export const RichTextEditor = ({ value, onChange, placeholder }: RichTextEditorProps) => {
-    const modules = {
+    const modules = useMemo(() => ({
         toolbar: [
             [{ 'header': [1, 2, 3, false] }],
             ['bold', 'italic', 'underline', 'strike', 'blockquote'],
@@ -24,14 +28,14 @@ export const RichTextEditor = ({ value, onChange, placeholder }: RichTextEditorP
             ['link', 'image'],
             ['clean']
         ],
-    };
+    }), []);
 
-    const formats = [
+    const formats = useMemo(() => [
         'header',
         'bold', 'italic', 'underline', 'strike', 'blockquote',
         'list', 'bullet',
         'link', 'image'
-    ];
+    ], []);
 
     return (
         <div className="bg-slate-950 text-slate-100 rounded-md overflow-hidden border border-slate-700 focus-within:border-emerald-500 transition-colors">
