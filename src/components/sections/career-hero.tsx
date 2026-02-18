@@ -14,15 +14,9 @@ export function CareerHero() {
             </div>
 
             <div className="container relative z-10 px-4 mx-auto text-center">
-                <GlitchWrapper>
-                    <div className="inline-block mb-4 px-3 py-1 border border-emerald-500/30 rounded-full bg-emerald-500/10 backdrop-blur-sm">
-                        <span className="text-emerald-400 text-xs font-mono tracking-wider">JOIN THE VANGUARD</span>
-                    </div>
-                </GlitchWrapper>
-
                 <h1 className="text-5xl md:text-7xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400 mb-6 tracking-tight">
                     Build the Future<br />
-                    of <GlitchText text="Identity" className="glitch-subtle" />
+                    of Identity
                 </h1>
 
                 <p className="text-lg md:text-xl text-slate-400 max-w-2xl mx-auto mb-10 leading-relaxed">

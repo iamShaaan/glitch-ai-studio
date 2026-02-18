@@ -1,32 +1,31 @@
 "use client";
 
-import { GlitchText } from "@/components/ui/glitch-text";
-import { Video, Palette, Share2, Bot, Globe } from "lucide-react";
+import { Video, Palette, Share2, Bot, Globe, CheckCircle2 } from "lucide-react";
 
 const ROLES = [
     {
         title: "AI Video Architect",
         icon: Video,
-        description: "Expert in any video editing tools. Good with short form content, hooks, and CTA. Experienced in AI image, video, and audio generation. Skilled in captioning, following brand colors/fonts, and maintaining brand consistency.",
-        tags: ["Video Editing", "Short Form", "AI Generation", "Brand Strategy"]
+        description: "Expert in any video editing tools. Specialist in short-form content, hooks, and high-conversion CTAs. Advanced experience in AI image, video, and audio generation (Runway, Pika, ElevenLabs).",
+        tags: ["Runway", "ElevenLabs", "Short Form", "Hooks"]
     },
     {
         title: "Generative Graphic Designer",
         icon: Palette,
-        description: "Must know CANVA. Expert in image generation with any tool, image prompting, and design theory.",
-        tags: ["Canva", "Image Generation", "Design Theory", "Prompting"]
+        description: "Must be a CANVA power user. Expert in image generation (Midjourney/DALL-E 3), image prompting, and core design theory for mass-market assets.",
+        tags: ["Canva", "Midjourney", "DALL-E 3", "Design Theory"]
     },
     {
         title: "AI Social Media Strategist",
         icon: Share2,
-        description: "Skilled in AI tools for content (Gemini, GPT, Grok). Expertise in task automation, ManyChat or similar tools. Up-to-date with algorithm updates. Able to design landing pages and product carousels.",
-        tags: ["Content AI", "Automation", "ManyChat", "Landing Pages"]
+        description: "Master of AI content automation (Gemini, GPT, Grok). Expertise in ManyChat or equivalent tools. Always ahead of algorithm updates. Capable of landing page & carousel design.",
+        tags: ["Gemini", "ManyChat", "Automation", "Carousels"]
     },
     {
         title: "AI Automation Engineer",
         icon: Bot,
-        description: "Expert in n8n. Proficient with Gemini and Google AI Studio. Knowledge of Firebase, Cloud Console, and IDE platforms like Antigravity or Cursor. Capable of creating at least basic landing pages.",
-        tags: ["n8n", "Google AI Studio", "Firebase", "Cloud Console"]
+        description: "Expert in n8n and Google AI Studio. Solid knowledge of Firebase, Google Cloud Console, and modern IDEs (Antigravity/Cursor). Ability to build functional landing pages.",
+        tags: ["n8n", "Firebase", "Google AI Studio", "Cursor"]
     }
 ];
 
@@ -35,42 +34,44 @@ export function CareerRoles() {
         <section id="open-roles" className="py-24 bg-slate-950">
             <div className="container px-4 mx-auto">
                 <div className="text-center mb-16">
-                    <div className="inline-block mb-4 px-3 py-1 border border-indigo-500/30 rounded-full bg-indigo-500/10">
-                        <span className="text-indigo-400 text-xs font-mono flex items-center gap-2">
+                    <div className="inline-block mb-4 px-3 py-1 border border-emerald-500/30 rounded-full bg-emerald-500/10">
+                        <span className="text-emerald-400 text-xs font-mono flex items-center gap-2">
                             <Globe className="w-3 h-3" /> GLOBAL / REMOTE
                         </span>
                     </div>
-                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
-                        Open <GlitchText text="Protocol" /> Roles
+                    <h2 className="text-3xl md:text-5xl font-bold text-white mb-6 tracking-tight">
+                        Open <span className="text-emerald-400">Position</span> Roles
                     </h2>
-                    <p className="text-slate-400 max-w-2xl mx-auto text-lg">
-                        Requirement: <span className="text-emerald-400 font-bold">AI-NATIVE</span>.
+                    <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
+                        Requirement: <span className="text-white font-bold">AI-NATIVE</span>.
                         We don't care about years of experience. We care about your ability to leverage AI to 10x your output.
                     </p>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
                     {ROLES.map((role, index) => (
-                        <div key={index} className="group relative bg-slate-900 border border-slate-800 p-8 rounded-2xl hover:border-emerald-500/50 transition-all hover:shadow-[0_0_30px_rgba(16,185,129,0.1)]">
-                            <div className="flex items-start justify-between mb-6">
-                                <div className="bg-slate-800 p-3 rounded-xl group-hover:bg-emerald-500/20 group-hover:text-emerald-400 transition-colors">
+                        <div key={index} className="group relative bg-slate-900/50 border border-slate-800 p-8 rounded-2xl hover:border-emerald-500/50 transition-all duration-500 hover:shadow-[0_0_40px_rgba(16,185,129,0.05)]">
+                            <div className="flex items-start justify-between mb-8">
+                                <div className="bg-slate-800/80 p-4 rounded-xl group-hover:bg-emerald-500/20 group-hover:text-emerald-400 transition-all duration-500">
                                     <role.icon className="w-8 h-8" />
                                 </div>
-                                <span className="text-xs font-mono text-slate-500 border border-slate-800 px-2 py-1 rounded">
-                                    REMOTE
-                                </span>
+                                <div className="flex flex-col items-end gap-2">
+                                    <span className="text-[10px] font-bold tracking-widest text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded border border-emerald-500/20 flex items-center gap-1">
+                                        <CheckCircle2 className="w-3 h-3" /> REMOTE-FIRST
+                                    </span>
+                                </div>
                             </div>
 
-                            <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-emerald-400 transition-colors">
+                            <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-emerald-400 transition-colors">
                                 {role.title}
                             </h3>
-                            <p className="text-slate-400 mb-6 leading-relaxed">
+                            <p className="text-slate-400 mb-8 leading-relaxed text-sm">
                                 {role.description}
                             </p>
 
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-2 pt-4 border-t border-slate-800/50">
                                 {role.tags.map((tag, i) => (
-                                    <span key={i} className="text-xs font-medium text-slate-500 bg-slate-950 px-3 py-1 rounded-full border border-slate-800">
+                                    <span key={i} className="text-[10px] font-semibold text-slate-500 bg-slate-950 px-3 py-1 rounded-full border border-slate-800 group-hover:border-emerald-500/10 transition-colors">
                                         {tag}
                                     </span>
                                 ))}
@@ -82,3 +83,4 @@ export function CareerRoles() {
         </section>
     );
 }
+

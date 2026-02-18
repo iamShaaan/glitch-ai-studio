@@ -82,7 +82,7 @@ const benefits = [
     },
 ];
 
-export function GrowthEngineSection() {
+export function GrowthFunnelSection() {
     return (
         <section className="py-24 bg-slate-950 relative overflow-hidden">
             {/* Background Decorations */}
@@ -100,40 +100,42 @@ export function GrowthEngineSection() {
                         transition={{ duration: 0.6 }}
                     >
                         <h2 className="text-3xl md:text-5xl font-bold mb-6 text-white tracking-tight">
-                            The <span className="text-emerald-400">Growth Engine</span>
+                            The <span className="text-emerald-400">Growth Funnel</span>
                         </h2>
-                        <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed">
-                            Strategies to immortalize your legacy and scale your authority.
+                        <p className="text-slate-400 max-w-2xl mx-auto text-lg leading-relaxed text-balance">
+                            Strategies to scale your authority and automate your presence with precision.
                         </p>
                     </motion.div>
                 </div>
 
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16 max-w-6xl mx-auto">
                     {benefits.map((item, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, y: 20 }}
-                            whileInView={{ opacity: 1, y: 0 }}
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.05, duration: 0.4 }}
                             className={cn(
-                                "group relative p-6 bg-slate-900/40 border border-slate-800 rounded-xl overflow-hidden hover:border-slate-700 transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl",
+                                "group relative p-8 bg-slate-900/40 border border-slate-800 rounded-2xl overflow-hidden hover:border-emerald-500/30 transition-all duration-500 hover:shadow-2xl hover:shadow-emerald-500/5",
                                 item.border
                             )}
                         >
-                            <div className={cn("absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 bg-gradient-to-br from-transparent to-slate-900/50 pointer-events-none")} />
+                            <div className={cn("absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none")} />
 
-                            <div className={cn("w-12 h-12 rounded-lg flex items-center justify-center mb-4 transition-colors duration-300 bg-slate-800/50", item.bg)}>
-                                <item.icon className={cn("w-6 h-6", item.color)} />
+                            <div className="flex items-start gap-6">
+                                <div className={cn("flex-shrink-0 w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 bg-slate-800/80 group-hover:scale-110", item.bg)}>
+                                    <item.icon className={cn("w-6 h-6", item.color)} />
+                                </div>
+                                <div>
+                                    <h3 className="text-xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors">
+                                        {item.title}
+                                    </h3>
+                                    <p className="text-slate-400 text-sm leading-relaxed group-hover:text-slate-300 transition-colors">
+                                        {item.description}
+                                    </p>
+                                </div>
                             </div>
-
-                            <h3 className="text-lg font-bold text-white mb-2 group-hover:text-emerald-50 transition-colors">
-                                {item.title}
-                            </h3>
-
-                            <p className="text-slate-400 text-sm leading-relaxed group-hover:text-slate-300 transition-colors">
-                                {item.description}
-                            </p>
                         </motion.div>
                     ))}
                 </div>
@@ -145,14 +147,15 @@ export function GrowthEngineSection() {
                     transition={{ delay: 0.4 }}
                     className="flex justify-center"
                 >
-                    <Link
-                        href="/blog"
-                        className="px-10 py-4 bg-slate-800 hover:bg-slate-700 text-white font-bold text-lg rounded-full transition-all shadow-lg hover:shadow-emerald-500/10 border border-slate-700 hover:border-emerald-500/30 flex items-center gap-2 group"
+                    <button
+                        onClick={() => window.dispatchEvent(new CustomEvent('open-consultation'))}
+                        className="px-12 py-5 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xl rounded-full transition-all shadow-xl hover:shadow-emerald-500/20 flex items-center gap-3 group transform hover:scale-105"
                     >
-                        See how AI is changing the world <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </Link>
+                        Book Your Strategy Consultation <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
+                    </button>
                 </motion.div>
             </div>
         </section>
     );
 }
+

@@ -36,7 +36,7 @@ export function CareerGrowthModel() {
             <div className="container px-4 mx-auto">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-b from-white to-slate-400 mb-4">
-                        The <GlitchText text="3+2 Accelerator" /> Program
+                        The 3+2 Accelerator Program
                     </h2>
                     <p className="text-slate-400 max-w-2xl mx-auto">
                         We define a new standard for professional development. Our model is designed to transform

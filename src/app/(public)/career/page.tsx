@@ -4,8 +4,8 @@ import { CareerRoles } from "@/components/sections/career-roles";
 
 
 export const metadata = {
-    title: "Career Protocol | Glitch AI Studio",
-    description: "Join the vanguard of AI pioneers. We build the future of identity.",
+    title: "Career Hub | Glitch AI Studio",
+    description: "Join our global, remote-first team building the future of AI.",
 };
 
 export default function CareerPage() {
@@ -17,7 +17,7 @@ export default function CareerPage() {
             {/* Apply CTA */}
             <section className="py-24 bg-slate-950 relative overflow-hidden text-center">
                 <div className="container px-4 mx-auto">
-                    <h2 className="text-3xl font-bold text-white mb-6">Ready to Initiate Protocol?</h2>
+                    <h2 className="text-3xl font-bold text-white mb-6">Ready to Join the Team?</h2>
                     <p className="text-slate-400 max-w-2xl mx-auto mb-8">
                         We are looking for the outliers. The ones who see the code behind the reality.
                     </p>
