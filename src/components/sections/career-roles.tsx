@@ -7,26 +7,26 @@ const ROLES = [
     {
         title: "AI Video Architect",
         icon: Video,
-        description: "Expert in traditional editing (Premiere/DaVinci) intensified by AI tools like HeyGen, Runway, and Pika. You don't just edit; you generate.",
-        tags: ["Runway", "HeyGen", "Premiere Pro"]
+        description: "Expert in any video editing tools. Good with short form content, hooks, and CTA. Experienced in AI image, video, and audio generation. Skilled in captioning, following brand colors/fonts, and maintaining brand consistency.",
+        tags: ["Video Editing", "Short Form", "AI Generation", "Brand Strategy"]
     },
     {
         title: "Generative Graphic Designer",
         icon: Palette,
-        description: "Control the latent space. Specialized in Midjourney, DALL-E 3, and Photoshop Generative Fill to create stunning visual identities.",
-        tags: ["Midjourney", "DALL-E 3", "Photoshop"]
+        description: "Must know CANVA. Expert in image generation with any tool, image prompting, and design theory.",
+        tags: ["Canva", "Image Generation", "Design Theory", "Prompting"]
     },
     {
         title: "AI Social Media Strategist",
         icon: Share2,
-        description: "Data-driven growth hacking. You use AI to automate community management, analyze trends, and distribute content at scale.",
-        tags: ["Analytics", "Automation", "Content Strategy"]
+        description: "Skilled in AI tools for content (Gemini, GPT, Grok). Expertise in task automation, ManyChat or similar tools. Up-to-date with algorithm updates. Able to design landing pages and product carousels.",
+        tags: ["Content AI", "Automation", "ManyChat", "Landing Pages"]
     },
     {
         title: "AI Automation Engineer",
         icon: Bot,
-        description: "The architect of efficiency. Skilled in Make.com, Zapier, and Python to build the internal neural network of our studio.",
-        tags: ["Make.com", "Python", "Zapier"]
+        description: "Expert in n8n. Proficient with Gemini and Google AI Studio. Knowledge of Firebase, Cloud Console, and IDE platforms like Antigravity or Cursor. Capable of creating at least basic landing pages.",
+        tags: ["n8n", "Google AI Studio", "Firebase", "Cloud Console"]
     }
 ];
 
