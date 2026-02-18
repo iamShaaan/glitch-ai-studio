@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Loader2, Send, AlertCircle, Building2, User, Mail, MessageSquare, ArrowRight } from "lucide-react";
+import { Loader2, Send, AlertCircle, Building2, User, Mail, MessageSquare, Globe, Linkedin, MapPin, Clock, Calendar } from "lucide-react";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { APP_ID } from "@/lib/constants";
@@ -12,18 +12,16 @@ import { CopyButton } from "./copy-button";
 import { ExternalLink } from "lucide-react";
 
 interface ContactFormInputs {
-    companyName: string;
-    objective: string;
+    name: string;
     email: string;
+    website?: string;
+    socialMedia: string;
+    businessInfo: string;
     message: string;
+    location: string;
+    preferredTime: string;
+    whatsapp?: string;
 }
-
-const OBJECTIVES = [
-    { id: "ai_clone", label: "AI Clone Creation" },
-    { id: "automation", label: "Business Automation" },
-    { id: "full_stack", label: "Full-Stack App Dev" },
-    { id: "consultation", label: "General Consultation" },
-];
 
 export function ContactForm() {
     const { register, handleSubmit, reset, formState: { errors } } = useForm<ContactFormInputs>();
@@ -33,20 +31,12 @@ export function ContactForm() {
     const onSubmit = async (data: ContactFormInputs) => {
         setLoading(true);
         try {
-            // 1. Save to Leads
             await addDoc(collection(db, `apps/${APP_ID}/leads`), {
-                companyName: data.companyName,
-                primaryObjective: data.objective,
-                email: data.email,
-                message: data.message,
-                status: 'new',
+                ...data,
+                status: 'new', // Default status
                 createdAt: serverTimestamp(),
+                source: 'contact_form'
             });
-
-            // 2. Optional: Create Action for n8n (if needed later, keeping it simple for now as per instructions to route to Admin Dashboard)
-            // But user also said "Logic: Ensure form submissions are routed directly to ... my email." 
-            // Usually this means we rely on n8n watching this collection or an actions collection.
-            // I'll stick to the leads collection as the source of truth.
 
             toast.success("Transmission Received. We will be in touch shortly.");
             setSuccess(true);
@@ -90,77 +80,136 @@ export function ContactForm() {
                 <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl" />
                 <div className="absolute bottom-0 left-0 w-32 h-32 bg-indigo-500/5 rounded-full blur-3xl px-6" />
 
-                <div className="relative mb-8">
-                    <h2 className="text-2xl font-bold text-white mb-2">Initialize Contact</h2>
-                    <p className="text-slate-500 text-sm">Fill out the secure form below to begin the protocol.</p>
+                <div className="relative mb-6">
+                    <h2 className="text-2xl font-bold text-white mb-2">Initialize Protocol</h2>
+                    <p className="text-slate-500 text-sm">Provide comprehensive data for optimal synchronization.</p>
                 </div>
 
-                <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-5">
-                    {/* Company Name */}
-                    <div className="space-y-1.5">
-                        <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                            <Building2 className="w-3.5 h-3.5" /> Company / Project Name
-                        </label>
-                        <input
-                            {...register("companyName", { required: "Required" })}
-                            className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/50 transition-all placeholder:text-slate-700"
-                            placeholder="e.g. Cyberdyne Systems"
-                        />
-                        {errors.companyName && <span className="text-xs text-red-400 flex items-center gap-1"><AlertCircle className="w-3 h-3" />Required</span>}
-                    </div>
+                <form onSubmit={handleSubmit(onSubmit)} className="relative space-y-4">
 
-                    {/* Objective */}
-                    <div className="space-y-1.5">
-                        <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                            <ArrowRight className="w-3.5 h-3.5" /> Primary Objective
-                        </label>
-                        <div className="grid grid-cols-1 gap-2">
-                            <select
-                                {...register("objective", { required: "Required" })}
-                                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/50 transition-all appearance-none cursor-pointer"
-                            >
-                                <option value="" className="text-slate-500">Select your mission...</option>
-                                {OBJECTIVES.map(obj => (
-                                    <option key={obj.id} value={obj.id}>{obj.label}</option>
-                                ))}
-                            </select>
+                    {/* Basic Info Group */}
+                    <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <User className="w-3.5 h-3.5" /> Full Name
+                            </label>
+                            <input
+                                {...register("name", { required: "Required" })}
+                                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-700"
+                                placeholder="Agent Name"
+                            />
+                            {errors.name && <span className="text-xs text-red-400">{errors.name.message}</span>}
                         </div>
-                        {errors.objective && <span className="text-xs text-red-400 flex items-center gap-1"><AlertCircle className="w-3 h-3" />Required</span>}
+
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <Mail className="w-3.5 h-3.5" /> Email Frequency
+                            </label>
+                            <input
+                                {...register("email", { required: "Required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email" } })}
+                                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-700"
+                                placeholder="name@domain.com"
+                            />
+                            {errors.email && <span className="text-xs text-red-400">{errors.email.message}</span>}
+                        </div>
                     </div>
 
-                    {/* Email */}
+                    {/* Digital Presence */}
+                    <div className="grid md:grid-cols-2 gap-4">
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <Globe className="w-3.5 h-3.5" /> Website (Opt)
+                            </label>
+                            <input
+                                {...register("website")}
+                                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-700"
+                                placeholder="https://..."
+                            />
+                        </div>
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <Linkedin className="w-3.5 h-3.5" /> Social Uplink
+                            </label>
+                            <input
+                                {...register("socialMedia", { required: "Required" })}
+                                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-700"
+                                placeholder="LinkedIn / X"
+                            />
+                            {errors.socialMedia && <span className="text-xs text-red-400">{errors.socialMedia.message}</span>}
+                        </div>
+                    </div>
+
+                    {/* Business Info */}
                     <div className="space-y-1.5">
                         <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                            <Mail className="w-3.5 h-3.5" /> Direct Frequency (Email)
+                            <Building2 className="w-3.5 h-3.5" /> Business Data
                         </label>
-                        <input
-                            {...register("email", { required: "Required", pattern: { value: /^\S+@\S+$/i, message: "Invalid email" } })}
-                            className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/50 transition-all placeholder:text-slate-700"
-                            placeholder="name@company.com"
+                        <textarea
+                            {...register("businessInfo", { required: "Required" })}
+                            className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-700 min-h-[60px]"
+                            placeholder="Brief operational overview..."
                         />
-                        {errors.email && <span className="text-xs text-red-400 flex items-center gap-1"><AlertCircle className="w-3 h-3" />{errors.email.message || "Required"}</span>}
+                        {errors.businessInfo && <span className="text-xs text-red-400">{errors.businessInfo.message}</span>}
                     </div>
 
                     {/* Message */}
                     <div className="space-y-1.5">
                         <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                            <MessageSquare className="w-3.5 h-3.5" /> Additional Context (Optional)
+                            <MessageSquare className="w-3.5 h-3.5" /> Mission Objectives
                         </label>
                         <textarea
-                            {...register("message")}
-                            className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/50 transition-all placeholder:text-slate-700 min-h-[80px]"
-                            placeholder="Brief briefing..."
+                            {...register("message", { required: "Required" })}
+                            className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-700 min-h-[60px]"
+                            placeholder="What are your goals?"
                         />
+                        {errors.message && <span className="text-xs text-red-400">{errors.message.message}</span>}
                     </div>
+
+                    {/* Logistics */}
+                    <div className="grid md:grid-cols-3 gap-4">
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <MapPin className="w-3.5 h-3.5" /> Location
+                            </label>
+                            <input
+                                {...register("location", { required: "Required" })}
+                                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-700"
+                                placeholder="City"
+                            />
+                            {errors.location && <span className="text-xs text-red-400">{errors.location.message}</span>}
+                        </div>
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <Clock className="w-3.5 h-3.5" /> Time
+                            </label>
+                            <input
+                                {...register("preferredTime", { required: "Required" })}
+                                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-700"
+                                placeholder="2-5 PM"
+                            />
+                            {errors.preferredTime && <span className="text-xs text-red-400">{errors.preferredTime.message}</span>}
+                        </div>
+                        <div className="space-y-1.5">
+                            <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
+                                <Calendar className="w-3.5 h-3.5" /> WhatsApp
+                            </label>
+                            <input
+                                {...register("whatsapp")}
+                                className="w-full bg-slate-950 border border-slate-800 rounded-lg p-3 text-white text-sm focus:outline-none focus:border-emerald-500 transition-colors placeholder:text-slate-700"
+                                placeholder="+1..."
+                            />
+                        </div>
+                    </div>
+
 
                     <button
                         type="submit"
                         disabled={loading}
-                        className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group"
+                        className="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3 md:py-4 rounded-lg transition-all flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed group mt-2"
                     >
                         {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : (
                             <>
-                                <span className="uppercase tracking-widest">Execute Transmission</span>
+                                <span className="uppercase tracking-widest text-sm md:text-base">Execute Transmission</span>
                                 <Send className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                             </>
                         )}
@@ -168,28 +217,13 @@ export function ContactForm() {
                 </form>
 
                 {/* Direct Links Footer */}
-                <div className="mt-8 pt-6 border-t border-slate-800 flex flex-col space-y-4">
-                    <div className="flex items-center justify-between text-sm">
+                <div className="mt-6 pt-4 border-t border-slate-800 flex flex-col space-y-4">
+                    <div className="flex items-center justify-between text-xs md:text-sm">
                         <span className="text-slate-500">Manual Override (Email):</span>
                         <div className="flex items-center gap-2">
-                            <span className="text-slate-300 font-mono text-xs md:text-sm">glitchaistudio@gmail.com</span>
+                            <span className="text-slate-300 font-mono text-xs">glitchaistudio@gmail.com</span>
                             <CopyButton text="glitchaistudio@gmail.com" />
                         </div>
-                    </div>
-
-                    <div className="bg-slate-950 rounded-lg p-4 flex items-center justify-between group cursor-pointer hover:border-emerald-500/30 border border-transparent transition-all">
-                        <div className="flex flex-col">
-                            <span className="text-indigo-400 text-xs font-bold uppercase tracking-wider mb-0.5">Verified Partner</span>
-                            <span className="text-slate-300 text-sm font-medium group-hover:text-white transition-colors">Prefer to work via Fiverr?</span>
-                        </div>
-                        <a
-                            href="https://www.fiverr.com/s/WEWZkdB"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="bg-slate-800 p-2 rounded-md group-hover:bg-indigo-600 group-hover:text-white transition-all"
-                        >
-                            <ExternalLink className="w-4 h-4" />
-                        </a>
                     </div>
                 </div>
             </div>

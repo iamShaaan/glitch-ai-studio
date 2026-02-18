@@ -14,11 +14,10 @@ import { Globe, Loader2, Lock, AlertCircle, FileText, Briefcase, Settings, Calen
 import { GlitchText } from "@/components/ui/glitch-text";
 import { FieldValues, useForm } from "react-hook-form";
 
-import { ConsultationManager } from "@/components/admin/consultation-manager";
+
 import { LeadsManager } from "@/components/admin/leads-manager";
 
 const TABS = [
-    { id: "consultations", label: "Consultations", icon: Calendar, component: ConsultationManager },
     { id: "leads", label: "Leads", icon: UserIcon, component: LeadsManager },
     { id: "blog", label: "Blog Manager", icon: FileText, component: BlogManager },
     { id: "career", label: "Recruitment", icon: Briefcase, component: CareerManager },
@@ -33,7 +32,7 @@ interface LoginFormInputs {
 export default function AdminDashboard() {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
-    const [activeTab, setActiveTab] = useState("consultations");
+    const [activeTab, setActiveTab] = useState("leads");
     // const router = useRouter(); 
 
     // Check Auth State
