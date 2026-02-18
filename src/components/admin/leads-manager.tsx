@@ -7,7 +7,7 @@ import { db } from "@/lib/firebase";
 import { APP_ID } from "@/lib/constants";
 import { toast } from "react-hot-toast";
 
-type LeadStatus = 'Lead Collected' | 'Meeting Scheduled' | 'Client Onboarded' | 'Dismissed';
+type LeadStatus = 'Lead Collected' | 'Contacted' | 'Meeting Scheduled' | 'Client Onboarded' | 'Dismissed';
 
 interface UnifiedLead {
     id: string;
@@ -35,6 +35,7 @@ export function LeadsManager() {
     const [loading, setLoading] = useState(true);
     const [selectedLead, setSelectedLead] = useState<UnifiedLead | null>(null);
     const [isEditing, setIsEditing] = useState(false);
+    const [isScheduling, setIsScheduling] = useState(false);
 
     // Edit Form State
     const [editForm, setEditForm] = useState<{
@@ -157,7 +158,7 @@ export function LeadsManager() {
         const s = status.toLowerCase();
         if (s === 'new') return 'Lead Collected';
         if (s === 'lead collected') return 'Lead Collected';
-        if (s === 'contacted') return 'Lead Collected'; // Remap old status
+        if (s === 'contacted') return 'Contacted';
         if (s === 'meeting scheduled') return 'Meeting Scheduled';
         if (s === 'client onboarded') return 'Client Onboarded';
         if (s === 'dismissed' || s === 'archived' || s === 'closed') return 'Dismissed';
@@ -194,6 +195,7 @@ export function LeadsManager() {
     const openModal = (lead: UnifiedLead) => {
         setSelectedLead(lead);
         setIsEditing(false);
+        setIsScheduling(false);
         // Prep edit form
         let meetDate = '';
         let meetTime = '';
@@ -228,6 +230,7 @@ export function LeadsManager() {
 
             toast.success("Details updated successfully");
             setIsEditing(false);
+            setIsScheduling(false);
             // Local update strictly for UI responsiveness until snapshot triggers
             setSelectedLead({
                 ...selectedLead,
@@ -294,12 +297,14 @@ export function LeadsManager() {
                                                 value={lead.status}
                                                 onChange={(e) => updateLeadStatus(lead, e.target.value as LeadStatus)}
                                                 className={`bg-transparent border-none text-xs font-bold focus:ring-0 cursor-pointer uppercase ${lead.status === 'Lead Collected' ? 'text-blue-400' :
+                                                    lead.status === 'Contacted' ? 'text-yellow-400' :
                                                         lead.status === 'Meeting Scheduled' ? 'text-emerald-400' :
                                                             lead.status === 'Client Onboarded' ? 'text-purple-400' :
                                                                 'text-slate-500'
                                                     }`}
                                             >
                                                 <option value="Lead Collected">Collected</option>
+                                                <option value="Contacted">Contacted</option>
                                                 <option value="Meeting Scheduled">Meeting Set</option>
                                                 <option value="Client Onboarded">Onboarded</option>
                                                 <option value="Dismissed">Dismissed</option>
@@ -366,8 +371,19 @@ export function LeadsManager() {
                             </div>
                             <div className="flex items-center gap-2">
                                 <button
+                                    onClick={() => {
+                                        if (isScheduling) saveChanges();
+                                        setIsScheduling(!isScheduling);
+                                    }}
+                                    className={`p-2 rounded transition-colors ${isScheduling ? 'bg-emerald-500 text-white' : 'bg-slate-800 text-emerald-400 hover:bg-slate-700'}`}
+                                    title="Schedule Meeting"
+                                >
+                                    {isScheduling ? <Check className="w-5 h-5" /> : <CalendarIcon className="w-5 h-5" />}
+                                </button>
+                                <button
                                     onClick={() => setIsEditing(!isEditing)}
                                     className={`p-2 rounded transition-colors ${isEditing ? 'bg-emerald-500 text-white' : 'bg-slate-800 text-emerald-400 hover:bg-slate-700'}`}
+                                    title="Edit Details"
                                 >
                                     {isEditing ? <Save onClick={saveChanges} className="w-5 h-5" /> : <Edit2 className="w-5 h-5" />}
                                 </button>
@@ -395,6 +411,7 @@ export function LeadsManager() {
                                     className="bg-slate-800 border-none rounded text-sm text-white focus:ring-emerald-500"
                                 >
                                     <option value="Lead Collected">Lead Collected</option>
+                                    <option value="Contacted">Contacted</option>
                                     <option value="Meeting Scheduled">Meeting Scheduled</option>
                                     <option value="Client Onboarded">Client Onboarded</option>
                                     <option value="Dismissed">Dismissed</option>
@@ -402,7 +419,7 @@ export function LeadsManager() {
                             </div>
 
                             {/* Meeting Scheduler (Edit Mode) */}
-                            {isEditing && (
+                            {isScheduling && (
                                 <div className="bg-emerald-500/5 border border-emerald-500/20 p-4 rounded-lg space-y-4">
                                     <h4 className="text-sm font-semibold text-emerald-400 uppercase flex items-center gap-2">
                                         <CalendarIcon className="w-4 h-4" /> Schedule Meeting
