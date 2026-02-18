@@ -68,6 +68,7 @@ export interface CareerApplication {
     messageToCeo: string; // NEW: Long text
     status: 'new' | 'reviewing' | 'interview' | 'rejected' | 'hired';
     createdAt: Timestamp;
+    meetingTime?: Timestamp; // For scheduled interviews
 }
 
 export interface ConsultationBooking {
