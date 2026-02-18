@@ -6,8 +6,8 @@ const ROLES = [
     {
         title: "AI Video Architect",
         icon: Video,
-        description: "Expert in any video editing tools. Specialist in short-form content, hooks, and high-conversion CTAs. Advanced experience in AI image, video, and audio generation (Runway, Pika, ElevenLabs).",
-        tags: ["Runway", "ElevenLabs", "Short Form", "Hooks"]
+        description: "Expert in any video editing tools. Specialist in short-form content, hooks, and high-conversion CTAs. Advanced experience in AI image, video, and audio generation (Kling, HeyGen, ElevenLabs).",
+        tags: ["Kling", "HeyGen", "ElevenLabs", "Short Form"]
     },
     {
         title: "Generative Graphic Designer",
