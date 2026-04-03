@@ -7,8 +7,8 @@ const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://glitch-ai-studio.vercel.app'),
-  title: "Glitch AI Studio",
-  description: "Digital Twin & AI Automation Agency",
+  title: "Glitch AI Studio — AI Avatar & Automation Agency",
+  description: "We create hyper-realistic AI avatars and influencers for brands, and build custom automation systems and AI-powered apps for businesses worldwide.",
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.className} bg-slate-900 text-slate-100 antialiased`}>
+      <body className={`${outfit.className} bg-[#030712] text-slate-100 antialiased`}>
         {children}
         <Toaster position="bottom-right"
           toastOptions={{

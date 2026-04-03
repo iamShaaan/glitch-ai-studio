@@ -1,15 +1,21 @@
-import { HeroSection } from "@/components/sections/hero";
-import { GrowthFunnelSection } from "@/components/sections/growth-engine";
-import { CTASection } from "@/components/sections/cta";
-import { TrustBar } from "@/components/sections/trust-bar";
+import { LandingHero } from "@/components/landing/landing-hero";
+import { LandingServices } from "@/components/landing/landing-services";
+import { LandingProcess } from "@/components/landing/landing-process";
+import { LandingProof } from "@/components/landing/landing-proof";
+import { LandingForm } from "@/components/landing/landing-form";
+import { LandingFooter } from "@/components/landing/landing-footer";
+import { LandingNav } from "@/components/landing/landing-nav";
 
 export default function Home() {
   return (
     <>
-      <HeroSection />
-      <TrustBar />
-      <GrowthFunnelSection />
-      <CTASection />
+      <LandingNav />
+      <LandingHero />
+      <LandingServices />
+      <LandingProcess />
+      <LandingProof />
+      <LandingForm />
+      <LandingFooter />
     </>
   );
 }
