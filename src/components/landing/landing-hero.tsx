@@ -3,7 +3,6 @@
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
-import { HeroScene } from "@/components/3d/hero-scene";
 
 export function LandingHero() {
   const scrollToContact = () => {
@@ -19,8 +18,6 @@ export function LandingHero() {
       {/* Grid overlay */}
       <div className="absolute inset-0 grid-bg opacity-40" />
 
-      {/* 3D Scene */}
-      <HeroScene />
 
       {/* Spotlight glow effects */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-emerald-500/[0.04] blur-[150px] rounded-full pointer-events-none" />
