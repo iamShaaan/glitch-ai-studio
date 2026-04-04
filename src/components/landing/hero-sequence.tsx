@@ -102,6 +102,16 @@ export function HeroSequence() {
     restDelta: 0.001,
   });
 
+  // Mobile detection for performance optimizations
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile(); // Check immediately
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   // Track video buffer progress for the loading screen
   useEffect(() => {
     let isDone = false;
@@ -115,11 +125,9 @@ export function HeroSequence() {
     };
 
     // --- AGGRESSIVE FALLBACKS (Guaranteed to execute) ---
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    
     // On mobile, bypass almost instantly. Mobile browsers frequently block video preloading.
     // On desktop, maximum wait is 3 seconds.
-    const maxWaitTime = isMobile ? 100 : 3000;
+    const maxWaitTime = (typeof window !== "undefined" && window.innerWidth < 768) ? 100 : 3000;
     const timeoutId = setTimeout(finalizeReady, maxWaitTime);
 
     const video = videoRef.current;
@@ -153,6 +161,11 @@ export function HeroSequence() {
       video.addEventListener("loadeddata", () => setTimeout(finalizeReady, 1500));
     }
 
+    // Force play on mobile if paused (since mobile ignores scrubbing)
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      video.play().catch(() => { /* Silent catch if autoplay blocked */ });
+    }
+
     return () => {
       video.removeEventListener("progress", updateProgress);
       video.removeEventListener("canplaythrough", onCanPlayThrough);
@@ -161,15 +174,22 @@ export function HeroSequence() {
     };
   }, []);
 
-  // Drive video currentTime from scroll — only when ready
+  // Drive video currentTime from scroll — ONLY on desktop!
   useEffect(() => {
-    if (!isReady) return;
+    if (!isReady || isMobile) return;
+    
     return smoothProgress.on("change", (v) => {
       const video = videoRef.current;
       if (!video || !video.duration) return;
-      video.currentTime = Math.min(video.duration, Math.max(0, v * video.duration));
+      
+      // RequestAnimationFrame ensures smoother updates aligning with screen refresh
+      requestAnimationFrame(() => {
+        if (videoRef.current) {
+          videoRef.current.currentTime = Math.min(videoRef.current.duration, Math.max(0, v * videoRef.current.duration));
+        }
+      });
     });
-  }, [smoothProgress, isReady]);
+  }, [smoothProgress, isReady, isMobile]);
 
   // Content rendering based on progress steps
   // Tightly orchestrated to prevent ANY overlapping ghost text
@@ -208,6 +228,7 @@ export function HeroSequence() {
             src="/hero.mp4"
             muted
             playsInline
+            loop
             preload="auto"
             className="absolute inset-0 w-full h-full object-cover"
             style={{ pointerEvents: "none" }}
