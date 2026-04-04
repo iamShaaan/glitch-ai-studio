@@ -101,20 +101,106 @@ const MobileBackground = () => (
 );
 
 const MobileTicker = () => (
-  <div className="absolute bottom-0 left-0 w-full bg-emerald-950/60 border-t border-emerald-500/20 backdrop-blur-xl overflow-hidden py-3 z-50 pointer-events-auto shadow-[0_-5px_20px_rgba(16,185,129,0.1)]">
+  <div className="fixed top-[76px] left-0 w-full bg-emerald-950/60 border-y border-emerald-500/20 backdrop-blur-md overflow-hidden py-1 z-40 pointer-events-auto">
     <motion.div 
       animate={{ x: ["0%", "-50%"] }}
       transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
       className="flex whitespace-nowrap"
     >
       {[...Array(4)].map((_, i) => (
-        <span key={i} className="text-[10px] font-mono tracking-[0.2em] uppercase text-emerald-400/90 px-8 flex items-center">
-          For the full cinematic visual experience, visit from a desktop
+        <span key={i} className="text-[9px] font-mono tracking-[0.1em] uppercase text-emerald-400/90 px-8 flex items-center">
+          For a complete visual experience, please visit from a desktop device
           <span className="ml-16 mr-8 text-emerald-500/30 font-black">///</span>
         </span>
       ))}
     </motion.div>
   </div>
+);
+
+const MobileHero = () => (
+  <section className="relative w-[100vw] min-h-[100svh] bg-[#030712] pt-32 pb-20 px-6 overflow-hidden flex flex-col items-center text-center">
+    
+    <MobileBackground />
+    <MobileTicker />
+    
+    <div className="relative z-10 flex flex-col items-center max-w-lg mx-auto w-full gap-16 mt-8">
+      {/* Beat 1: Intro */}
+      <div className="flex flex-col items-center">
+        <div className="mb-6 w-40 h-12 relative flex justify-center">
+          <Image
+            src="/logo.png"
+            alt="Glitch AI Studio"
+            fill
+            className="object-contain drop-shadow-md"
+            priority
+          />
+        </div>
+        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 mb-6 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+          <Sparkles className="w-3 h-3 text-emerald-400" />
+          <span className="text-[10px] font-semibold tracking-wider text-emerald-300 uppercase">
+            AI Avatar & Automation Studio
+          </span>
+        </div>
+        <h1 className="text-4xl font-black tracking-tight leading-[1.1] mb-4 text-white drop-shadow-lg">
+          We Create <br/>
+          <span className="text-emerald-400 drop-shadow-md">AI Avatars</span>
+        </h1>
+        <p className="text-base text-slate-300 font-light text-balance drop-shadow-md">
+          Hyper-realistic digital humans and intelligent influencers for brands <span className="text-amber-200">ready to scale beyond limits</span>.
+        </p>
+      </div>
+
+      {/* Beat 2: Automation */}
+      <div className="flex flex-col items-center">
+        <h2 className="text-3xl font-black tracking-tight leading-[1.1] mb-4 text-white drop-shadow-lg">
+          & <span className="text-emerald-400 drop-shadow-md">Automate</span><br />
+          Your Business
+        </h2>
+        <p className="text-base text-slate-300 font-light text-balance drop-shadow-md">
+          End-to-end autonomous systems that work 24/7. <span className="text-amber-200">Eliminating bottlenecks</span> to fuel aggressive growth.
+        </p>
+      </div>
+
+      {/* Beat 3: Value */}
+      <div className="flex flex-col items-center">
+        <h2 className="text-3xl font-black tracking-tight leading-[1.1] mb-4 text-white drop-shadow-lg">
+          Next-Gen <br/>
+          <span className="text-emerald-400">Storytelling</span>
+        </h2>
+        <p className="text-base text-slate-300 font-light text-balance drop-shadow-md">
+          Merge cinematic visuals with automated logic. Transform your reach, engage faster, and <span className="text-amber-200">dominate the digital landscape</span>.
+        </p>
+      </div>
+
+      {/* Beat 4: CTA */}
+      <div className="flex flex-col items-center w-full pt-4">
+        <h2 className="text-3xl font-black tracking-tight leading-[1.1] mb-8 text-white drop-shadow-lg">
+          Ready to <span className="text-emerald-400 drop-shadow-md">Scale?</span>
+        </h2>
+        <div className="flex flex-col gap-4 w-full px-4">
+          <button
+            onClick={() => {
+              const el = document.querySelector("#contact");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="group px-6 py-4 w-full bg-emerald-500 text-slate-950 text-base font-bold rounded-full hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2 transform active:scale-95"
+          >
+            Book a Call
+            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </button>
+          <button
+            onClick={() => {
+              const el = document.querySelector("#services");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="px-6 py-4 w-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-300 text-base font-semibold rounded-full hover:bg-yellow-500/20 active:bg-yellow-500/30 transition-all shadow-[0_0_20px_rgba(253,224,71,0.15)] text-center"
+          >
+            Explore Services
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 );
 
 export function HeroSequence() {
@@ -240,17 +326,17 @@ export function HeroSequence() {
   const scrollToContact = () => {
     const el = document.querySelector("#contact");
     if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
-
-  return (
+  };  return (
     <>
       <CinematicLoader progress={loadProgress} isReady={isReady} />
 
-      <section ref={containerRef} className="relative h-[400vh] w-full bg-[#030712]">
-        <div className="sticky top-0 w-full h-screen overflow-hidden">
-
-          {/* Conditional Background Layer */}
-          {(!hasMounted || !isMobile) && (
+      {/* Conditionally Render Entire Architectures */}
+      {hasMounted && isMobile ? (
+        <MobileHero />
+      ) : (
+        <section ref={containerRef} className="relative h-[400vh] w-full bg-[#030712]">
+          <div className="sticky top-0 w-full h-screen overflow-hidden">
+            
             <video
               ref={videoRef}
               src="/hero.mp4"
@@ -262,127 +348,118 @@ export function HeroSequence() {
               className="absolute inset-0 w-full h-full object-cover hidden md:block"
               style={{ pointerEvents: "none" }}
             />
-          )}
 
-          {hasMounted && isMobile && <MobileBackground />}
+            <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent pointer-events-none" />
 
-          {/* Darkening gradient for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent pointer-events-none" />
+            <div className="relative z-10 w-full max-w-[1400px] h-full mx-auto px-6 md:px-12 flex flex-col justify-center pointer-events-none">
+              <div className="max-w-[500px] w-full relative h-full">
 
-          {/* Content */}
-          <div className="relative z-10 w-full max-w-[1400px] h-full mx-auto px-6 md:px-12 flex flex-col justify-center pointer-events-none">
-            <div className="max-w-[500px] w-full relative h-full">
-
-              {/* Beat 1: Intro */}
-              <motion.div
-                style={{ opacity: beat1Opacity, y: beat1Y }}
-                className="absolute inset-0 flex flex-col justify-end pb-[7vh] md:justify-center md:pb-0"
-              >
-                <div className="mb-6 w-36 h-10 md:w-56 md:h-14 relative">
-                  <Image
-                    src="/logo.png"
-                    alt="Glitch AI Studio"
-                    fill
-                    className="object-contain object-left drop-shadow-md"
-                    priority
-                  />
-                </div>
-                <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 mb-4 md:mb-6 shadow-[0_0_15px_rgba(16,185,129,0.15)] self-start">
-                  <Sparkles className="w-3 h-3 text-emerald-400" />
-                  <span className="text-[9px] md:text-[10px] font-semibold tracking-wider text-emerald-300 uppercase">
-                    AI Avatar &amp; Automation Studio
-                  </span>
-                </div>
-                <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
-                  We Create <br/>
-                  <span className="text-emerald-400 drop-shadow-md">AI Avatars</span>
-                </h1>
-                <p className="text-sm sm:text-base md:text-xl text-slate-300 font-light max-w-sm text-balance drop-shadow-md pb-8 md:pb-0">
-                  Hyper-realistic digital humans and intelligent influencers for brands <span className="text-amber-200">ready to scale beyond limits</span>.
-                </p>
-              </motion.div>
-
-              {/* Beat 2: Automation */}
-              <motion.div
-                style={{ opacity: beat2Opacity, y: beat2Y }}
-                className="absolute inset-0 flex flex-col justify-end pb-[7vh] md:justify-center md:pb-0 pointer-events-none"
-              >
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
-                  &amp; <span className="text-emerald-400 drop-shadow-md">Automate</span><br />
-                  Your Business
-                </h2>
-                <p className="text-sm sm:text-base md:text-xl text-slate-300 font-light max-w-md text-balance drop-shadow-md pb-8 md:pb-0">
-                  End-to-end autonomous systems that work 24/7. <span className="text-amber-200">Eliminating bottlenecks</span> to fuel aggressive growth.
-                </p>
-              </motion.div>
-
-              {/* Beat 3: Value */}
-              <motion.div
-                style={{ opacity: beat3Opacity, y: beat3Y }}
-                className="absolute inset-0 flex flex-col justify-end pb-[7vh] md:justify-center md:pb-0 pointer-events-none"
-              >
-                <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
-                  Next-Gen <br/>
-                  <span className="text-emerald-400">Storytelling</span>
-                </h2>
-                <p className="text-sm sm:text-base md:text-xl text-slate-300 font-light max-w-md text-balance drop-shadow-md pb-8 md:pb-0">
-                  Merge cinematic visuals with automated logic. Transform your reach, engage faster, and <span className="text-amber-200">dominate the digital landscape</span>.
-                </p>
-              </motion.div>
-
-              {/* Beat 4: CTA */}
-              <motion.div
-                style={{ opacity: beat4Opacity, y: beat4Y }}
-                className="absolute inset-0 flex flex-col justify-end pb-[10vh] md:pb-[15vh] pointer-events-none"
-              >
-                <div className="pointer-events-auto">
-                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[56px] font-black tracking-tight leading-[1.05] mb-5 md:mb-6 text-white drop-shadow-lg">
-                    Ready to <span className="text-emerald-400 drop-shadow-md">Scale?</span>
-                  </h2>
-                  <div className="flex flex-col sm:flex-row gap-3 md:gap-5 pb-8 md:pb-0 w-full sm:w-auto items-start">
-                    <button
-                      onClick={scrollToContact}
-                      className="group px-6 py-2.5 sm:px-8 sm:py-4 bg-emerald-500 text-slate-950 text-sm sm:text-base md:text-lg font-bold rounded-full hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2 transform hover:scale-105 active:scale-95 w-fit"
-                    >
-                      Book a Call
-                      <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                    </button>
-                    <button
-                      onClick={() => {
-                        const el = document.querySelector("#services");
-                        if (el) el.scrollIntoView({ behavior: "smooth" });
-                      }}
-                      className="px-6 py-2.5 sm:px-8 sm:py-4 border border-yellow-500/30 bg-yellow-500/10 text-yellow-300 text-sm sm:text-base md:text-lg font-semibold rounded-full hover:bg-yellow-500/20 hover:border-yellow-500/50 transition-all shadow-[0_0_20px_rgba(253,224,71,0.15)] w-fit text-center"
-                    >
-                      Explore Services
-                    </button>
+                {/* Beat 1: Intro */}
+                <motion.div
+                  style={{ opacity: beat1Opacity, y: beat1Y }}
+                  className="absolute inset-0 flex flex-col justify-end pb-[7vh] md:justify-center md:pb-0"
+                >
+                  <div className="mb-6 w-36 h-10 md:w-56 md:h-14 relative">
+                    <Image
+                      src="/logo.png"
+                      alt="Glitch AI Studio"
+                      fill
+                      className="object-contain object-left drop-shadow-md"
+                      priority
+                    />
                   </div>
-                </div>
-              </motion.div>
+                  <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 mb-4 md:mb-6 shadow-[0_0_15px_rgba(16,185,129,0.15)] self-start">
+                    <Sparkles className="w-3 h-3 text-emerald-400" />
+                    <span className="text-[9px] md:text-[10px] font-semibold tracking-wider text-emerald-300 uppercase">
+                      AI Avatar &amp; Automation Studio
+                    </span>
+                  </div>
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
+                    We Create <br/>
+                    <span className="text-emerald-400 drop-shadow-md">AI Avatars</span>
+                  </h1>
+                  <p className="text-sm sm:text-base md:text-xl text-slate-300 font-light max-w-sm text-balance drop-shadow-md pb-8 md:pb-0">
+                    Hyper-realistic digital humans and intelligent influencers for brands <span className="text-amber-200">ready to scale beyond limits</span>.
+                  </p>
+                </motion.div>
 
+                {/* Beat 2: Automation */}
+                <motion.div
+                  style={{ opacity: beat2Opacity, y: beat2Y }}
+                  className="absolute inset-0 flex flex-col justify-end pb-[7vh] md:justify-center md:pb-0 pointer-events-none"
+                >
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
+                    &amp; <span className="text-emerald-400 drop-shadow-md">Automate</span><br />
+                    Your Business
+                  </h2>
+                  <p className="text-sm sm:text-base md:text-xl text-slate-300 font-light max-w-md text-balance drop-shadow-md pb-8 md:pb-0">
+                    End-to-end autonomous systems that work 24/7. <span className="text-amber-200">Eliminating bottlenecks</span> to fuel aggressive growth.
+                  </p>
+                </motion.div>
+
+                {/* Beat 3: Value */}
+                <motion.div
+                  style={{ opacity: beat3Opacity, y: beat3Y }}
+                  className="absolute inset-0 flex flex-col justify-end pb-[7vh] md:justify-center md:pb-0 pointer-events-none"
+                >
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
+                    Next-Gen <br/>
+                    <span className="text-emerald-400">Storytelling</span>
+                  </h2>
+                  <p className="text-sm sm:text-base md:text-xl text-slate-300 font-light max-w-md text-balance drop-shadow-md pb-8 md:pb-0">
+                    Merge cinematic visuals with automated logic. Transform your reach, engage faster, and <span className="text-amber-200">dominate the digital landscape</span>.
+                  </p>
+                </motion.div>
+
+                {/* Beat 4: CTA */}
+                <motion.div
+                  style={{ opacity: beat4Opacity, y: beat4Y }}
+                  className="absolute inset-0 flex flex-col justify-end pb-[10vh] md:pb-[15vh] pointer-events-none"
+                >
+                  <div className="pointer-events-auto">
+                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[56px] font-black tracking-tight leading-[1.05] mb-5 md:mb-6 text-white drop-shadow-lg">
+                      Ready to <span className="text-emerald-400 drop-shadow-md">Scale?</span>
+                    </h2>
+                    <div className="flex flex-col sm:flex-row gap-3 md:gap-5 pb-8 md:pb-0 w-full sm:w-auto items-start">
+                      <button
+                        onClick={scrollToContact}
+                        className="group px-6 py-2.5 sm:px-8 sm:py-4 bg-emerald-500 text-slate-950 text-sm sm:text-base md:text-lg font-bold rounded-full hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2 transform hover:scale-105 active:scale-95 w-fit"
+                      >
+                        Book a Call
+                        <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                      </button>
+                      <button
+                        onClick={() => {
+                          const el = document.querySelector("#services");
+                          if (el) el.scrollIntoView({ behavior: "smooth" });
+                        }}
+                        className="px-6 py-2.5 sm:px-8 sm:py-4 border border-yellow-500/30 bg-yellow-500/10 text-yellow-300 text-sm sm:text-base md:text-lg font-semibold rounded-full hover:bg-yellow-500/20 hover:border-yellow-500/50 transition-all shadow-[0_0_20px_rgba(253,224,71,0.15)] w-fit text-center"
+                      >
+                        Explore Services
+                      </button>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
             </div>
+
+            {/* Scroll Prompt */}
+            <motion.div
+              style={{ opacity: scrollPromptOpacity }}
+              className="absolute bottom-6 sm:bottom-8 left-6 sm:left-12 md:left-24 flex items-center gap-3 sm:gap-4 text-emerald-400 pointer-events-none"
+            >
+              <div className="w-5 h-8 sm:w-6 sm:h-10 rounded-full border-2 border-emerald-500/30 flex items-start justify-center p-1 sm:p-1.5 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
+                <motion.div
+                  animate={{ y: [0, 8, 0] }}
+                  transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+                  className="w-1 h-2 sm:h-3 bg-emerald-400 rounded-full"
+                />
+              </div>
+              <span className="uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[10px] sm:text-xs font-bold font-mono text-emerald-400/80">Scroll</span>
+            </motion.div>
           </div>
-
-          {/* Scroll Prompt */}
-          <motion.div
-            style={{ opacity: scrollPromptOpacity }}
-            className="absolute bottom-6 sm:bottom-8 left-6 sm:left-12 md:left-24 flex items-center gap-3 sm:gap-4 text-emerald-400 pointer-events-none"
-          >
-            <div className="w-5 h-8 sm:w-6 sm:h-10 rounded-full border-2 border-emerald-500/30 flex items-start justify-center p-1 sm:p-1.5 shadow-[0_0_15px_rgba(16,185,129,0.2)]">
-              <motion.div
-                animate={{ y: [0, 8, 0] }}
-                transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
-                className="w-1 h-2 sm:h-3 bg-emerald-400 rounded-full"
-              />
-            </div>
-            <span className="uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[10px] sm:text-xs font-bold font-mono text-emerald-400/80">Scroll</span>
-          </motion.div>
-
-          {/* Mobile Text Ticker */}
-          {hasMounted && isMobile && <MobileTicker />}
-
-        </div>
-      </section>
+        </section>
+      )}
     </>
   );
 }

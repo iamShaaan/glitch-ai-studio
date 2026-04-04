@@ -90,8 +90,19 @@ export function LandingNav() {
   );
 
   useMotionValueEvent(scrollY, "change", (latest) => {
-    setIsVisible(latest > 100);
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      setIsVisible(true); // Always visible on mobile
+    } else {
+      setIsVisible(latest > 100);
+    }
   });
+
+  // Init visibility on mobile instantly
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.innerWidth < 768) {
+      setIsVisible(true);
+    }
+  }, []);
 
   const scrollToSection = (href: string) => {
     setIsOpen(false);
