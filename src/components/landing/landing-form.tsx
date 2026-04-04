@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
 import {
@@ -21,11 +21,6 @@ interface BookingFormInputs {
 }
 
 export function LandingForm() {
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, []);
-
   const {
     register,
     handleSubmit,
@@ -41,13 +36,16 @@ export function LandingForm() {
       // 1. Grab User Location via free IP API
       let locationStr = "Unknown Location";
       try {
-        // Fallback to a highly permissive CORS IP tracker 
-        const ipRes = await fetch("https://api.db-ip.com/v2/free/self");
+        const ipRes = await fetch("https://api.db-ip.com/v2/free/self", {
+          // Add signal with a short timeout to prevent hanging on mobile
+          signal: AbortSignal.timeout(5000),
+        });
         const ipData = await ipRes.json();
         if (ipData.city && ipData.countryName) {
           locationStr = `${ipData.city}, ${ipData.countryName}`;
         }
       } catch (locErr) {
+        // Non-fatal: silently fall back to unknown
         console.warn("Could not fetch location:", locErr);
       }
 
@@ -58,33 +56,41 @@ export function LandingForm() {
         message: data.message,
         timestamp: new Date().toISOString(),
         timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-        pageSource: typeof window !== "undefined" ? window.location.href : "Unknown",
+        pageSource:
+          typeof window !== "undefined" ? window.location.href : "Unknown",
         location: locationStr,
       };
 
-      // 3. Send to N8N Webhook
+      // 3. Validate Webhook URL
       const webhookUrl = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL;
-      
+
       if (!webhookUrl) {
-        console.warn("N8N webhook URL is missing from environment variables.");
-        // Fallback for development if env var isn't set yet
-        toast.error("Webhook not configured.");
+        console.error(
+          "[LandingForm] NEXT_PUBLIC_N8N_WEBHOOK_URL is not set. Check your .env.local or Vercel environment variables."
+        );
+        toast.error("Configuration error. Please contact us directly.");
         setSubmitting(false);
         return;
       }
 
+      // 4. Send to N8N Webhook
       const res = await fetch(webhookUrl, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
+        // Prevent mobile network timeout from hanging indefinitely
+        signal: AbortSignal.timeout(15000),
       });
 
       if (!res.ok) {
+        const errorText = await res.text().catch(() => "Unknown server error");
+        console.error(`[LandingForm] Webhook responded with ${res.status}: ${errorText}`);
         throw new Error(`Server responded with ${res.status}`);
       }
 
+      // 5. Success
       setSuccess(true);
       toast.success("Call request received!");
       setTimeout(() => {
@@ -92,15 +98,19 @@ export function LandingForm() {
         reset();
       }, 5000);
     } catch (error) {
-      console.error(error);
-      toast.error("Failed to submit request. Please try again.");
+      console.error("[LandingForm] Submission error:", error);
+      if (error instanceof Error && error.name === "TimeoutError") {
+        toast.error("Request timed out. Please check your connection and try again.");
+      } else {
+        toast.error("Failed to submit request. Please try again.");
+      }
     } finally {
       setSubmitting(false);
     }
   };
 
   const inputClasses =
-    "w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/[0.05] transition-all duration-300";
+    "w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/[0.05] transition-all duration-300";
   const labelClasses =
     "text-xs font-medium text-slate-400 flex items-center gap-2 mb-1.5";
 
@@ -118,57 +128,49 @@ export function LandingForm() {
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
 
       <div className="relative z-10 max-w-3xl mx-auto px-4">
-        {/* Header */}
-        {isMobile ? (
-          <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-emerald-500/15 mb-6">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-[10px] font-medium tracking-widest text-emerald-300 uppercase">
-                Let&apos;s Talk
-              </span>
-            </div>
-
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
-              Book a{" "}
-              <span className="text-emerald-400">Call with Us</span>
-            </h2>
-            <p className="text-slate-400 max-w-lg mx-auto text-[13px] md:text-base leading-relaxed px-4">
-              Tell us about your brand. We&apos;ll analyze your needs and show you exactly how AI can transform your business.
-            </p>
+        {/* Header — single version for all devices */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.6, ease: "easeOut" }}
+          className="text-center mb-10 md:mb-12"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-emerald-500/15 mb-6">
+            <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
+            <span className="text-[10px] md:text-xs font-medium tracking-widest text-emerald-300 uppercase">
+              Let&apos;s Talk
+            </span>
           </div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            className="text-center mb-12"
-          >
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-emerald-500/15 mb-6">
-              <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-              <span className="text-xs font-medium tracking-widest text-emerald-300 uppercase">
-                Let&apos;s Talk
-              </span>
-            </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
-              Book a{" "}
-              <span className="text-emerald-400">Call with Us</span>
-            </h2>
-            <p className="text-slate-400 max-w-lg mx-auto text-base leading-relaxed">
-              Tell us about your brand. We&apos;ll analyze your needs and show you exactly how AI can transform your business.
-            </p>
-          </motion.div>
-        )}
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
+            Book a{" "}
+            <span className="text-emerald-400">Call with Us</span>
+          </h2>
+          <p className="text-slate-400 max-w-lg mx-auto text-[13px] md:text-base leading-relaxed px-2">
+            Tell us about your brand. We&apos;ll analyze your needs and show you
+            exactly how AI can transform your business.
+          </p>
+        </motion.div>
 
-        {/* Form Card */}
-        {isMobile ? (
+        {/* Form Card — single version for all devices */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1, margin: "0px 0px -50px 0px" }}
+          transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
+        >
           <div className="glass rounded-3xl p-5 sm:p-6 md:p-8 relative overflow-hidden animate-border-glow">
             {/* Top accent gradient */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
 
             {success ? (
-              <div className="flex flex-col items-center justify-center py-16 text-center animate-in fade-in zoom-in duration-500">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.4 }}
+                className="flex flex-col items-center justify-center py-16 text-center"
+              >
                 <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6 animate-glow-pulse">
                   <CheckCircle className="w-10 h-10 text-emerald-400" />
                 </div>
@@ -176,26 +178,28 @@ export function LandingForm() {
                   Request Received! 🎉
                 </h3>
                 <p className="text-slate-400 max-w-sm">
-                  We&apos;ve received your call details. Our team will
-                  review your profile and reach out within 24 hours.
+                  We&apos;ve received your call details. Our team will review
+                  your profile and reach out within 24 hours.
                 </p>
-              </div>
+              </motion.div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4" noValidate>
                 {/* Row 1: Name + Email */}
-                <div className="grid md:grid-cols-2 gap-5">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-5">
                   <div>
                     <label className={labelClasses}>
                       <User className="w-3.5 h-3.5 text-emerald-500" /> Full
                       Name
                     </label>
                     <input
+                      type="text"
+                      autoComplete="name"
                       {...register("name", { required: "Name is required" })}
                       className={inputClasses}
                       placeholder="John Doe"
                     />
                     {errors.name && (
-                      <span className="text-xs text-red-400 mt-1">
+                      <span className="text-xs text-red-400 mt-1 block">
                         {errors.name.message}
                       </span>
                     )}
@@ -206,6 +210,8 @@ export function LandingForm() {
                       Address
                     </label>
                     <input
+                      type="email"
+                      autoComplete="email"
                       {...register("email", {
                         required: "Email is required",
                         pattern: {
@@ -217,7 +223,7 @@ export function LandingForm() {
                       placeholder="john@example.com"
                     />
                     {errors.email && (
-                      <span className="text-xs text-red-400 mt-1">
+                      <span className="text-xs text-red-400 mt-1 block">
                         {errors.email.message}
                       </span>
                     )}
@@ -238,7 +244,7 @@ export function LandingForm() {
                     placeholder="Tell us what you're looking to achieve..."
                   />
                   {errors.message && (
-                    <span className="text-xs text-red-400 mt-1">
+                    <span className="text-xs text-red-400 mt-1 block">
                       {errors.message.message}
                     </span>
                   )}
@@ -251,7 +257,10 @@ export function LandingForm() {
                   className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-base rounded-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
                   {submitting ? (
-                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <>
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span>Sending...</span>
+                    </>
                   ) : (
                     <>
                       Schedule Your Call
@@ -266,122 +275,7 @@ export function LandingForm() {
               </form>
             )}
           </div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.1, margin: "0px 0px -50px 0px" }}
-            transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
-          >
-            <div className="glass rounded-3xl p-5 sm:p-6 md:p-8 relative overflow-hidden animate-border-glow">
-              {/* Top accent gradient */}
-              <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
-
-              {success ? (
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.9 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className="flex flex-col items-center justify-center py-16 text-center"
-                >
-                  <div className="w-20 h-20 bg-emerald-500/10 rounded-full flex items-center justify-center mb-6 animate-glow-pulse">
-                    <CheckCircle className="w-10 h-10 text-emerald-400" />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white mb-3">
-                    Request Received! 🎉
-                  </h3>
-                  <p className="text-slate-400 max-w-sm">
-                    We&apos;ve received your call details. Our team will
-                    review your profile and reach out within 24 hours.
-                  </p>
-                </motion.div>
-              ) : (
-                <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                  {/* Row 1: Name + Email */}
-                  <div className="grid md:grid-cols-2 gap-5">
-                    <div>
-                      <label className={labelClasses}>
-                        <User className="w-3.5 h-3.5 text-emerald-500" /> Full
-                        Name
-                      </label>
-                      <input
-                        {...register("name", { required: "Name is required" })}
-                        className={inputClasses}
-                        placeholder="John Doe"
-                      />
-                      {errors.name && (
-                        <span className="text-xs text-red-400 mt-1">
-                          {errors.name.message}
-                        </span>
-                      )}
-                    </div>
-                    <div>
-                      <label className={labelClasses}>
-                        <Mail className="w-3.5 h-3.5 text-emerald-500" /> Email
-                        Address
-                      </label>
-                      <input
-                        {...register("email", {
-                          required: "Email is required",
-                          pattern: {
-                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Invalid email address",
-                          },
-                        })}
-                        className={inputClasses}
-                        placeholder="john@example.com"
-                      />
-                      {errors.email && (
-                        <span className="text-xs text-red-400 mt-1">
-                          {errors.email.message}
-                        </span>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Row 2: Message */}
-                  <div>
-                    <label className={labelClasses}>
-                      <MessageSquare className="w-3.5 h-3.5 text-emerald-500" />
-                      What do you expect from us?
-                    </label>
-                    <textarea
-                      {...register("message", {
-                        required: "Message is required",
-                      })}
-                      className={`${inputClasses} min-h-[120px] resize-none`}
-                      placeholder="Tell us what you're looking to achieve..."
-                    />
-                    {errors.message && (
-                      <span className="text-xs text-red-400 mt-1">
-                        {errors.message.message}
-                      </span>
-                    )}
-                  </div>
-
-                  {/* Submit */}
-                  <button
-                    type="submit"
-                    disabled={submitting}
-                    className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-base rounded-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
-                  >
-                    {submitting ? (
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                    ) : (
-                      <>
-                        Schedule Your Call
-                        <ArrowRight className="w-5 h-5" />
-                      </>
-                    )}
-                  </button>
-
-                  <p className="text-center text-xs text-slate-600">
-                    We respect your privacy. No spam, ever.
-                  </p>
-                </form>
-              )}
-            </div>
-          </motion.div>
-        )}
+        </motion.div>
       </div>
     </section>
   );
