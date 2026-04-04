@@ -104,17 +104,30 @@ export function HeroSequence() {
 
   // Track video buffer progress for the loading screen
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
-
     let isDone = false;
 
     const finalizeReady = () => {
       if (isDone) return;
       isDone = true;
       setLoadProgress(100);
+      // Small delay for 100% visual completion
       setTimeout(() => setIsReady(true), 400);
     };
+
+    // --- AGGRESSIVE FALLBACKS (Guaranteed to execute) ---
+    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+    
+    // On mobile, bypass almost instantly. Mobile browsers frequently block video preloading.
+    // On desktop, maximum wait is 3 seconds.
+    const maxWaitTime = isMobile ? 100 : 3000;
+    const timeoutId = setTimeout(finalizeReady, maxWaitTime);
+
+    const video = videoRef.current;
+    
+    // If video ref is missing for any reason, wait for the global timeout
+    if (!video) {
+        return () => clearTimeout(timeoutId);
+    }
 
     const updateProgress = () => {
       if (isDone) return;
@@ -133,26 +146,12 @@ export function HeroSequence() {
     // If video has already started buffering substantially or is fully cached, mark ready
     if (video.readyState >= 3) {
       finalizeReady();
-      return;
+    } else {
+      video.addEventListener("progress", updateProgress);
+      video.addEventListener("canplaythrough", onCanPlayThrough);
+      video.addEventListener("timeupdate", updateProgress);
+      video.addEventListener("loadeddata", () => setTimeout(finalizeReady, 1500));
     }
-
-    video.addEventListener("progress", updateProgress);
-    video.addEventListener("canplaythrough", onCanPlayThrough);
-    video.addEventListener("timeupdate", updateProgress);
-    
-    // Fallback 1: if loadeddata fires but not canplaythrough (common on iOS low data mode)
-    // we give it 1.5 more seconds to buffer, then force unblock.
-    video.addEventListener("loadeddata", () => {
-      setTimeout(finalizeReady, 1500);
-    });
-
-    // Detect if we are on mobile using viewport width
-    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
-
-    // Ultimate fallback: don't block the site for more than 4 seconds regardless of video state
-    // iOS Safari and mobile Chrome aggressively block preload="auto" on cellular data
-    // On mobile devices, we reduce this to 500ms so users aren't left staring at a 0% progress bar
-    const timeoutId = setTimeout(finalizeReady, isMobile ? 500 : 4000);
 
     return () => {
       video.removeEventListener("progress", updateProgress);
