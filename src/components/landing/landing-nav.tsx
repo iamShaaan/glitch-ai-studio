@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent, useTransform } from "framer-motion";
 import { Menu, X, ArrowRight } from "lucide-react";
 
 const navLinks = [
@@ -15,7 +15,79 @@ const navLinks = [
 export function LandingNav() {
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
-  const { scrollY } = useScroll();
+  const { scrollY, scrollYProgress } = useScroll();
+
+  // Button Colors: True Mapping Sequence holding colors per section
+  // 0 -> 0.40 : Yellow (Hero & Explore Services)
+  // 0.45 -> 0.55 : Green (Services: Infinite Scale)
+  // 0.60 -> 0.70 : Purple (Process: Work)
+  // 0.75 -> 0.85 : Yellow (Proof: Fiverr Stars)
+  // 0.90 -> 1.00 : Green (Form: Consultation)
+  
+  const thresholds = [0, 0.3, 0.35, 0.4, 0.45, 0.55, 0.6, 0.7, 0.75, 0.85, 0.9, 1];
+
+  const buttonBorder = useTransform(
+    scrollYProgress,
+    thresholds,
+    [
+      "rgba(245, 158, 11, 0.4)", "rgba(245, 158, 11, 0.4)", // Y
+      "rgba(245, 158, 11, 0.4)", "rgba(245, 158, 11, 0.4)", // Y
+      "rgba(16, 185, 129, 0.4)", "rgba(16, 185, 129, 0.4)", // G
+      "rgba(139, 92, 246, 0.4)", "rgba(139, 92, 246, 0.4)", // P
+      "rgba(245, 158, 11, 0.4)", "rgba(245, 158, 11, 0.4)", // Y
+      "rgba(16, 185, 129, 0.4)", "rgba(16, 185, 129, 0.4)", // G
+    ]
+  );
+  
+  const buttonBg = useTransform(
+    scrollYProgress,
+    thresholds,
+    [
+      "rgba(245, 158, 11, 0.15)", "rgba(245, 158, 11, 0.15)", // Y
+      "rgba(245, 158, 11, 0.15)", "rgba(245, 158, 11, 0.15)", // Y
+      "rgba(16, 185, 129, 0.15)", "rgba(16, 185, 129, 0.15)", // G
+      "rgba(139, 92, 246, 0.15)", "rgba(139, 92, 246, 0.15)", // P
+      "rgba(245, 158, 11, 0.15)", "rgba(245, 158, 11, 0.15)", // Y
+      "rgba(16, 185, 129, 0.15)", "rgba(16, 185, 129, 0.15)", // G
+    ]
+  );
+  
+  const buttonColor = useTransform(
+    scrollYProgress,
+    thresholds,
+    [
+      "rgb(251, 191, 36)", "rgb(251, 191, 36)", // Y
+      "rgb(251, 191, 36)", "rgb(251, 191, 36)", // Y
+      "rgb(52, 211, 153)", "rgb(52, 211, 153)", // G
+      "rgb(167, 139, 250)", "rgb(167, 139, 250)", // P
+      "rgb(251, 191, 36)", "rgb(251, 191, 36)", // Y
+      "rgb(52, 211, 153)", "rgb(52, 211, 153)", // G
+    ]
+  );
+  
+  const buttonShadow = useTransform(
+    scrollYProgress,
+    thresholds,
+    [
+      "0 0 15px rgba(245,158,11,0.1)", "0 0 15px rgba(245,158,11,0.1)", // Y
+      "0 0 15px rgba(245,158,11,0.1)", "0 0 15px rgba(245,158,11,0.1)", // Y
+      "0 0 15px rgba(16,185,129,0.1)", "0 0 15px rgba(16,185,129,0.1)", // G
+      "0 0 15px rgba(139,92,246,0.1)", "0 0 15px rgba(139,92,246,0.1)", // P
+      "0 0 15px rgba(245,158,11,0.1)", "0 0 15px rgba(245,158,11,0.1)", // Y
+      "0 0 15px rgba(16,185,129,0.1)", "0 0 15px rgba(16,185,129,0.1)", // G
+    ]
+  );
+
+  // Link Colors: Starts Emerald, then Violet, then Amber
+  const linkColor = useTransform(
+    scrollYProgress,
+    [0, 0.5, 1],
+    [
+      "rgb(52, 211, 153)", // emerald-400
+      "rgb(167, 139, 250)", // violet-400
+      "rgb(251, 191, 36)", // amber-400
+    ]
+  );
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     setIsVisible(latest > 100);
@@ -55,63 +127,35 @@ export function LandingNav() {
                   </div>
                 </Link>
 
-                {/* Desktop Nav */}
-                <nav className="hidden md:flex items-center gap-8">
-                  {navLinks.map((item) => (
-                    <button
-                      key={item.name}
-                      onClick={() => scrollToSection(item.href)}
-                      className="text-sm font-medium text-slate-400 hover:text-emerald-400 transition-colors cursor-pointer"
-                    >
-                      {item.name}
-                    </button>
-                  ))}
-                  <button
+                <div className="flex items-center gap-6">
+                  {/* Desktop Nav Links */}
+                  <nav className="hidden md:flex items-center gap-8">
+                    {navLinks.map((item) => (
+                      <button
+                        key={item.name}
+                        onClick={() => scrollToSection(item.href)}
+                        className="text-sm font-medium text-white/80 hover:text-white transition-all cursor-pointer hover:-translate-y-0.5"
+                      >
+                        {item.name}
+                      </button>
+                    ))}
+                  </nav>
+
+                  {/* Book a Call Button (Always Visible) */}
+                  <motion.button
                     onClick={() => scrollToSection("#contact")}
-                    className="px-5 py-2 bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-sm font-semibold rounded-full hover:bg-emerald-500/20 hover:border-emerald-500/50 transition-all cursor-pointer"
+                    style={{
+                      backgroundColor: buttonBg,
+                      borderColor: buttonBorder,
+                      color: buttonColor,
+                      boxShadow: buttonShadow,
+                    }}
+                    className="px-4 py-1.5 md:px-5 md:py-2 border text-xs md:text-sm font-semibold rounded-full hover:brightness-125 transition-all cursor-pointer whitespace-nowrap"
                   >
                     Book a Call
-                  </button>
-                </nav>
-
-                {/* Mobile Toggle */}
-                <button
-                  className="md:hidden text-slate-300 p-2"
-                  onClick={() => setIsOpen(!isOpen)}
-                >
-                  {isOpen ? <X size={20} /> : <Menu size={20} />}
-                </button>
+                  </motion.button>
+                </div>
               </div>
-
-              {/* Mobile Nav */}
-              <AnimatePresence>
-                {isOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, height: 0 }}
-                    animate={{ opacity: 1, height: "auto" }}
-                    exit={{ opacity: 0, height: 0 }}
-                    className="md:hidden overflow-hidden"
-                  >
-                    <div className="flex flex-col gap-3 pt-4 pb-2 border-t border-white/5 mt-3">
-                      {navLinks.map((item) => (
-                        <button
-                          key={item.name}
-                          onClick={() => scrollToSection(item.href)}
-                          className="text-slate-300 hover:text-emerald-400 py-2 text-left transition-colors"
-                        >
-                          {item.name}
-                        </button>
-                      ))}
-                      <button
-                        onClick={() => scrollToSection("#contact")}
-                        className="mt-2 px-5 py-3 bg-emerald-500 text-slate-950 font-bold rounded-xl text-center"
-                      >
-                        Book a Call
-                      </button>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
           </div>
         </motion.header>

@@ -10,20 +10,20 @@ const services = [
     description:
       "We design, train, and deploy hyper-realistic AI avatars and virtual influencers that become the face of your brand — speaking in any language, creating content 24/7, and scaling your digital presence infinitely.",
     icon: Bot,
-    accentColor: "emerald",
+    accentColor: "violet",
     features: [
       { icon: Video, text: "Photorealistic video avatars" },
       { icon: Globe, text: "29+ languages with your tone" },
       { icon: Sparkles, text: "AI influencer character design" },
       { icon: Users, text: "Brand ambassador at scale" },
     ],
-    gradient: "from-emerald-500/20 via-emerald-500/5 to-transparent",
-    borderColor: "hover:border-emerald-500/40",
-    glowColor: "group-hover:shadow-[0_0_60px_rgba(52,211,153,0.12)]",
-    iconBg: "bg-emerald-500/10",
-    iconColor: "text-emerald-400",
-    featureIconColor: "text-emerald-500/70",
-    dotColor: "bg-emerald-500",
+    gradient: "from-violet-500/20 via-violet-500/5 to-transparent",
+    borderColor: "hover:border-violet-500/40",
+    glowColor: "group-hover:shadow-[0_0_60px_rgba(139,92,246,0.12)]",
+    iconBg: "bg-violet-500/10",
+    iconColor: "text-violet-400",
+    featureIconColor: "text-violet-500/70",
+    dotColor: "bg-violet-500",
   },
   {
     title: "Automation & Custom App Development",
@@ -31,20 +31,20 @@ const services = [
     description:
       "We build intelligent automation systems and custom applications that eliminate manual work, streamline operations, and give your business a competitive edge with AI-powered workflows.",
     icon: Cpu,
-    accentColor: "cyan",
+    accentColor: "emerald",
     features: [
       { icon: Workflow, text: "End-to-end workflow automation" },
       { icon: Code, text: "Custom AI-powered apps" },
       { icon: Zap, text: "System integration & APIs" },
       { icon: Sparkles, text: "AI agents & chatbots" },
     ],
-    gradient: "from-cyan-500/20 via-cyan-500/5 to-transparent",
-    borderColor: "hover:border-cyan-500/40",
-    glowColor: "group-hover:shadow-[0_0_60px_rgba(34,211,238,0.12)]",
-    iconBg: "bg-cyan-500/10",
-    iconColor: "text-cyan-400",
-    featureIconColor: "text-cyan-500/70",
-    dotColor: "bg-cyan-500",
+    gradient: "from-emerald-500/20 via-emerald-500/5 to-transparent",
+    borderColor: "hover:border-emerald-500/40",
+    glowColor: "group-hover:shadow-[0_0_60px_rgba(16,185,129,0.12)]",
+    iconBg: "bg-emerald-500/10",
+    iconColor: "text-emerald-400",
+    featureIconColor: "text-emerald-500/70",
+    dotColor: "bg-emerald-500",
   },
 ];
 
@@ -56,15 +56,15 @@ export function LandingServices() {
       <div className="absolute inset-0 grid-bg opacity-20" />
 
       {/* Decorative glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-violet-500/20 to-transparent" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4">
         {/* Section Header */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
+          viewport={{ once: true, margin: "0px" }}
+          transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
           className="text-center mb-16 md:mb-20"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/5 mb-6">
@@ -75,7 +75,7 @@ export function LandingServices() {
           </div>
           <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-4">
             Two Services.{" "}
-            <span className="text-gradient-emerald">Infinite Scale.</span>
+            <span className="text-emerald-400">Infinite Scale.</span>
           </h2>
           <p className="text-slate-400 max-w-xl mx-auto text-base md:text-lg leading-relaxed">
             We focus on what matters — building AI-powered assets that grow your brand and streamline your operations.
@@ -87,17 +87,17 @@ export function LandingServices() {
           {services.map((service, index) => (
             <motion.div
               key={index}
-              initial={{ opacity: 0, y: 40 }}
+              initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: index * 0.15, duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+              viewport={{ once: true, amount: 0.1, margin: "0px 0px -50px 0px" }}
+              transition={{ delay: index * 0.15, duration: 0.8, ease: "easeOut" }}
               className={`group relative rounded-3xl border border-white/[0.06] bg-white/[0.02] p-8 md:p-10 transition-all duration-700 ${service.borderColor} ${service.glowColor} overflow-hidden`}
             >
               {/* Gradient overlay */}
               <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
 
               {/* Top accent line */}
-              <div className={`absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent ${service.accentColor === 'emerald' ? 'via-emerald-500/30' : 'via-cyan-500/30'} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+              <div className={`absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent ${service.accentColor === 'violet' ? 'via-violet-500/30' : 'via-emerald-500/30'} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
               <div className="relative z-10">
                 {/* Icon */}

@@ -1,4 +1,4 @@
-import { LandingHero } from "@/components/landing/landing-hero";
+import { HeroSequence } from "@/components/landing/hero-sequence";
 import { LandingServices } from "@/components/landing/landing-services";
 import { LandingProcess } from "@/components/landing/landing-process";
 import { LandingProof } from "@/components/landing/landing-proof";
@@ -12,7 +12,7 @@ export default function Home() {
     <>
       <InfinityBackground />
       <LandingNav />
-      <LandingHero />
+      <HeroSequence />
       <LandingServices />
       <LandingProcess />
       <LandingProof />

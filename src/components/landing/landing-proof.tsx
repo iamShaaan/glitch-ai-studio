@@ -56,7 +56,7 @@ const stats = [
     suffix: "%",
     label: "Client Satisfaction",
     icon: CheckCircle,
-    color: "text-cyan-400",
+    color: "text-emerald-400",
   },
   {
     value: 15,
@@ -91,8 +91,8 @@ export function LandingProof() {
               key={index}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1, duration: 0.6 }}
+              viewport={{ once: true, margin: "0px" }}
+              transition={{ delay: index * 0.15, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
               className="glass rounded-2xl p-6 md:p-8 text-center group hover:bg-white/[0.04] transition-all duration-500"
             >
               <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-4 opacity-60 group-hover:opacity-100 transition-opacity`} />
@@ -116,23 +116,23 @@ export function LandingProof() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left: Content */}
           <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
           >
             <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white mb-6">
               Results That{" "}
-              <span className="text-gradient-emerald">Speak</span>
+              <span className="text-emerald-400">Speak</span>
             </h2>
             <div className="space-y-4">
               {outcomes.map((outcome, index) => (
                 <motion.div
                   key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: index * 0.1 + 0.2, duration: 0.5 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.1, margin: "0px 0px -50px 0px" }}
+                  transition={{ delay: index * 0.1, duration: 0.8, ease: "easeOut" }}
                   className="flex items-start gap-3"
                 >
                   <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
@@ -148,20 +148,20 @@ export function LandingProof() {
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
+            viewport={{ once: true, margin: "0px" }}
+            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
           >
             <div className="glass rounded-3xl p-8 md:p-10 relative overflow-hidden group">
-              {/* Gradient accent */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-emerald-500 via-cyan-500 to-violet-500" />
+              {/* Accent line */}
+              <div className="absolute top-0 left-0 right-0 h-1 bg-emerald-400" />
 
               <div className="flex items-center gap-3 mb-6">
-                <div className="flex -space-x-1">
+                <div className="flex gap-1.5">
                   {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="w-5 h-5 text-amber-400 fill-amber-400" />
+                    <Star key={i} className="w-5 h-5 text-amber-300 fill-amber-300" />
                   ))}
                 </div>
-                <span className="text-sm font-bold text-white">5.0 / 5.0</span>
+                <span className="text-sm font-bold text-amber-300">5.0 / 5.0</span>
               </div>
 
               <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
@@ -176,14 +176,14 @@ export function LandingProof() {
                 href="https://www.fiverr.com/soumitrohalder"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-emerald-500 text-slate-950 font-bold rounded-full hover:bg-emerald-400 transition-all group hover:gap-3"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-amber-300 text-slate-950 font-bold rounded-full hover:bg-amber-200 transition-all group hover:gap-3 shadow-[0_0_15px_rgba(252,211,77,0.3)]"
               >
                 View Portfolio & Reviews
                 <ArrowUpRight className="w-4 h-4" />
               </a>
 
               {/* Decorative glow */}
-              <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-emerald-500/10 blur-[80px] rounded-full pointer-events-none" />
+              <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-amber-500/10 blur-[80px] rounded-full pointer-events-none" />
             </div>
           </motion.div>
         </div>

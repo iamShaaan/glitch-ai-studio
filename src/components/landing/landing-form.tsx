@@ -6,13 +6,7 @@ import { useForm } from "react-hook-form";
 import {
   User,
   Mail,
-  Globe,
-  Linkedin,
-  Building2,
   MessageSquare,
-  MapPin,
-  Clock,
-  Phone,
   Loader2,
   CheckCircle,
   ArrowRight,
@@ -24,13 +18,7 @@ import { submitConsultationBooking } from "@/lib/firestore";
 interface BookingFormInputs {
   name: string;
   email: string;
-  website?: string;
-  socialMedia: string;
-  businessInfo: string;
   message: string;
-  location: string;
-  preferredTime: string;
-  whatsapp?: string;
 }
 
 export function LandingForm() {
@@ -48,7 +36,7 @@ export function LandingForm() {
     try {
       await submitConsultationBooking(data);
       setSuccess(true);
-      toast.success("Consultation request received!");
+      toast.success("Call request received!");
       setTimeout(() => {
         setSuccess(false);
         reset();
@@ -62,7 +50,7 @@ export function LandingForm() {
   };
 
   const inputClasses =
-    "w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-3.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/[0.05] transition-all duration-300";
+    "w-full bg-white/[0.03] border border-white/[0.08] rounded-xl px-4 py-2.5 text-white text-sm placeholder:text-slate-600 focus:outline-none focus:border-emerald-500/50 focus:bg-white/[0.05] transition-all duration-300";
   const labelClasses =
     "text-xs font-medium text-slate-400 flex items-center gap-2 mb-1.5";
 
@@ -74,7 +62,7 @@ export function LandingForm() {
 
       {/* Decorative glows */}
       <div className="absolute top-1/4 left-0 w-[500px] h-[500px] bg-emerald-500/[0.03] blur-[200px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-cyan-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-violet-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
 
       {/* Top border */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-emerald-500/20 to-transparent" />
@@ -82,10 +70,10 @@ export function LandingForm() {
       <div className="relative z-10 max-w-3xl mx-auto px-4">
         {/* Header */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.8 }}
+          viewport={{ once: true, amount: 0.2 }}
+          transition={{ duration: 0.8, ease: "easeOut" }}
           className="text-center mb-12"
         >
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-emerald-500/15 mb-6">
@@ -97,7 +85,7 @@ export function LandingForm() {
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
             Book a{" "}
-            <span className="text-gradient-emerald">Consultation</span>
+            <span className="text-emerald-400">Call with Us</span>
           </h2>
           <p className="text-slate-400 max-w-lg mx-auto text-base leading-relaxed">
             Tell us about your brand. We&apos;ll analyze your needs and show you exactly how AI can transform your business.
@@ -106,12 +94,12 @@ export function LandingForm() {
 
         {/* Form Card */}
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 0.8, delay: 0.1 }}
+          viewport={{ once: true, amount: 0.1, margin: "0px 0px -50px 0px" }}
+          transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
         >
-          <div className="glass rounded-3xl p-6 sm:p-8 md:p-10 relative overflow-hidden animate-border-glow">
+          <div className="glass rounded-3xl p-5 sm:p-6 md:p-8 relative overflow-hidden animate-border-glow">
             {/* Top accent gradient */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
 
@@ -128,12 +116,12 @@ export function LandingForm() {
                   Request Received! 🎉
                 </h3>
                 <p className="text-slate-400 max-w-sm">
-                  We&apos;ve received your consultation details. Our team will
+                  We&apos;ve received your call details. Our team will
                   review your profile and reach out within 24 hours.
                 </p>
               </motion.div>
             ) : (
-              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
                 {/* Row 1: Name + Email */}
                 <div className="grid md:grid-cols-2 gap-5">
                   <div>
@@ -176,71 +164,18 @@ export function LandingForm() {
                   </div>
                 </div>
 
-                {/* Row 2: Website + Social */}
-                <div className="grid md:grid-cols-2 gap-5">
-                  <div>
-                    <label className={labelClasses}>
-                      <Globe className="w-3.5 h-3.5 text-emerald-500" /> Website
-                      (Optional)
-                    </label>
-                    <input
-                      {...register("website")}
-                      className={inputClasses}
-                      placeholder="https://yourbrand.com"
-                    />
-                  </div>
-                  <div>
-                    <label className={labelClasses}>
-                      <Linkedin className="w-3.5 h-3.5 text-emerald-500" /> Best
-                      Social Media Profile
-                    </label>
-                    <input
-                      {...register("socialMedia", {
-                        required: "Social media link is required",
-                      })}
-                      className={inputClasses}
-                      placeholder="LinkedIn / Twitter / Instagram URL"
-                    />
-                    {errors.socialMedia && (
-                      <span className="text-xs text-red-400 mt-1">
-                        {errors.socialMedia.message}
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Row 3: Business Info */}
+                {/* Row 2: Message */}
                 <div>
                   <label className={labelClasses}>
-                    <Building2 className="w-3.5 h-3.5 text-emerald-500" />{" "}
-                    Business Info
-                  </label>
-                  <textarea
-                    {...register("businessInfo", {
-                      required: "Business info is required",
-                    })}
-                    className={`${inputClasses} min-h-[90px] resize-none`}
-                    placeholder="Tell us about your company ... what you do, your industry, your size ..."
-                  />
-                  {errors.businessInfo && (
-                    <span className="text-xs text-red-400 mt-1">
-                      {errors.businessInfo.message}
-                    </span>
-                  )}
-                </div>
-
-                {/* Row 4: Goals */}
-                <div>
-                  <label className={labelClasses}>
-                    <MessageSquare className="w-3.5 h-3.5 text-emerald-500" />{" "}
-                    What are your goals?
+                    <MessageSquare className="w-3.5 h-3.5 text-emerald-500" />
+                    What do you expect from us?
                   </label>
                   <textarea
                     {...register("message", {
                       required: "Message is required",
                     })}
-                    className={`${inputClasses} min-h-[90px] resize-none`}
-                    placeholder="What are you looking to achieve? e.g. AI avatar for social media, automation for sales pipeline..."
+                    className={`${inputClasses} min-h-[120px] resize-none`}
+                    placeholder="Tell us what you're looking to achieve..."
                   />
                   {errors.message && (
                     <span className="text-xs text-red-400 mt-1">
@@ -249,68 +184,17 @@ export function LandingForm() {
                   )}
                 </div>
 
-                {/* Row 5: Location + Time + WhatsApp */}
-                <div className="grid md:grid-cols-3 gap-5">
-                  <div>
-                    <label className={labelClasses}>
-                      <MapPin className="w-3.5 h-3.5 text-emerald-500" />{" "}
-                      Location
-                    </label>
-                    <input
-                      {...register("location", {
-                        required: "Location is required",
-                      })}
-                      className={inputClasses}
-                      placeholder="City, Country"
-                    />
-                    {errors.location && (
-                      <span className="text-xs text-red-400 mt-1">
-                        {errors.location.message}
-                      </span>
-                    )}
-                  </div>
-                  <div>
-                    <label className={labelClasses}>
-                      <Clock className="w-3.5 h-3.5 text-emerald-500" /> Best
-                      Time to Call
-                    </label>
-                    <input
-                      {...register("preferredTime", {
-                        required: "Preferred time is required",
-                      })}
-                      className={inputClasses}
-                      placeholder="e.g. Weekdays 2-5PM"
-                    />
-                    {errors.preferredTime && (
-                      <span className="text-xs text-red-400 mt-1">
-                        {errors.preferredTime.message}
-                      </span>
-                    )}
-                  </div>
-                  <div>
-                    <label className={labelClasses}>
-                      <Phone className="w-3.5 h-3.5 text-emerald-500" />{" "}
-                      WhatsApp (Optional)
-                    </label>
-                    <input
-                      {...register("whatsapp")}
-                      className={inputClasses}
-                      placeholder="+1 234 567 8900"
-                    />
-                  </div>
-                </div>
-
                 {/* Submit */}
                 <button
                   type="submit"
                   disabled={submitting}
-                  className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-base rounded-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed glow-emerald hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
+                  className="w-full py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-base rounded-xl transition-all flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_20px_rgba(16,185,129,0.2)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer"
                 >
                   {submitting ? (
                     <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
-                      Submit Consultation Request
+                      Schedule Your Call
                       <ArrowRight className="w-5 h-5" />
                     </>
                   )}

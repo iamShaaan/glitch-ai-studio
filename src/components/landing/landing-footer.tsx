@@ -13,8 +13,7 @@ const socialLinks = [
 export function LandingFooter() {
   return (
     <footer className="relative py-12 overflow-hidden">
-      {/* Background */}
-      <div className="absolute inset-0 bg-[#020408]" />
+      {/* Background (Removed to match site) */}
 
       {/* Top border */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
@@ -46,7 +45,7 @@ export function LandingFooter() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-slate-500 hover:text-emerald-400 transition-colors text-xs font-medium"
+                    className="text-emerald-500 hover:text-emerald-400 transition-colors text-xs font-medium"
                   >
                     {link.name}
                   </a>

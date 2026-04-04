@@ -76,11 +76,11 @@ export interface ConsultationBooking {
     name: string;
     email: string;
     website?: string;
-    socialMedia: string;
-    businessInfo: string;
+    socialMedia?: string;
+    businessInfo?: string;
     message: string;
-    location: string;
-    preferredTime: string;
+    location?: string;
+    preferredTime?: string;
     whatsapp?: string;
     status: 'new' | 'contacted' | 'archived';
     createdAt: Timestamp;
