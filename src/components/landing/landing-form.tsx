@@ -13,7 +13,6 @@ import {
   Sparkles,
 } from "lucide-react";
 import { toast } from "react-hot-toast";
-import { submitConsultationBooking } from "@/lib/firestore";
 
 interface BookingFormInputs {
   name: string;
@@ -39,7 +38,52 @@ export function LandingForm() {
   const onSubmit = async (data: BookingFormInputs) => {
     setSubmitting(true);
     try {
-      await submitConsultationBooking(data);
+      // 1. Grab User Location via free IP API
+      let locationStr = "Unknown Location";
+      try {
+        const ipRes = await fetch("https://ipapi.co/json/");
+        const ipData = await ipRes.json();
+        if (ipData.city && ipData.country_name) {
+          locationStr = `${ipData.city}, ${ipData.country_name}`;
+        }
+      } catch (locErr) {
+        console.warn("Could not fetch location:", locErr);
+      }
+
+      // 2. Construct Enhanced Payload
+      const payload = {
+        name: data.name,
+        email: data.email,
+        message: data.message,
+        timestamp: new Date().toISOString(),
+        timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+        pageSource: typeof window !== "undefined" ? window.location.href : "Unknown",
+        location: locationStr,
+      };
+
+      // 3. Send to N8N Webhook
+      const webhookUrl = process.env.NEXT_PUBLIC_N8N_WEBHOOK_URL;
+      
+      if (!webhookUrl) {
+        console.warn("N8N webhook URL is missing from environment variables.");
+        // Fallback for development if env var isn't set yet
+        toast.error("Webhook not configured.");
+        setSubmitting(false);
+        return;
+      }
+
+      const res = await fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        throw new Error(`Server responded with ${res.status}`);
+      }
+
       setSuccess(true);
       toast.success("Call request received!");
       setTimeout(() => {
