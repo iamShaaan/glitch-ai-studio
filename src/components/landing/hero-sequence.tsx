@@ -226,6 +226,7 @@ export function HeroSequence() {
           <video
             ref={videoRef}
             src="/hero.mp4"
+            poster="/hero-poster.jpg"
             muted
             playsInline
             loop
