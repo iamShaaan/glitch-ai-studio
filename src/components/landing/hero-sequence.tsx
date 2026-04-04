@@ -1,67 +1,15 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
 
-const FRAME_COUNT = 304;
-const INITIAL_BATCH = 60;   // Frames loaded before animation starts — covers first scroll section
-const BATCH_SIZE = 60;       // Subsequent background batch sizes
-
-// Load a single image, resolving when complete
-function loadImage(url: string): Promise<HTMLImageElement> {
-  return new Promise((resolve) => {
-    const img = new window.Image();
-    img.onload = () => resolve(img);
-    img.onerror = () => resolve(img); // Resolve anyway to not block the queue
-    img.src = url;
-  });
-}
-
-function frameUrl(i: number) {
-  return `/sequence-webp/frame_${i}.webp`;
-}
-
-function useProgressiveImageSequence() {
-  const imagesRef = useRef<(HTMLImageElement | null)[]>(
-    new Array(FRAME_COUNT).fill(null)
-  );
-  const [initialReady, setInitialReady] = useState(false);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadInitialBatch() {
-      // Load first INITIAL_BATCH frames in parallel — fast, ~2.5MB
-      const urls = Array.from({ length: INITIAL_BATCH }, (_, i) => frameUrl(i));
-      const loaded = await Promise.all(urls.map((url) => loadImage(url)));
-      if (cancelled) return;
-      loaded.forEach((img, i) => { imagesRef.current[i] = img; });
-      setInitialReady(true);
-
-      // Load remaining frames in background batches — user is already scrolling
-      for (let start = INITIAL_BATCH; start < FRAME_COUNT; start += BATCH_SIZE) {
-        if (cancelled) break;
-        const end = Math.min(start + BATCH_SIZE, FRAME_COUNT);
-        const batchUrls = Array.from({ length: end - start }, (_, j) => frameUrl(start + j));
-        const batch = await Promise.all(batchUrls.map((url) => loadImage(url)));
-        if (cancelled) break;
-        batch.forEach((img, j) => { imagesRef.current[start + j] = img; });
-      }
-    }
-
-    loadInitialBatch();
-    return () => { cancelled = true; };
-  }, []);
-
-  return { imagesRef, initialReady };
-}
+const VIDEO_DURATION = 10.133; // seconds — must match actual video duration
 
 export function HeroSequence() {
-  const { imagesRef, initialReady } = useProgressiveImageSequence();
   const containerRef = useRef<HTMLDivElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -69,58 +17,21 @@ export function HeroSequence() {
   });
 
   const smoothProgress = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
+    stiffness: 120,
+    damping: 35,
     restDelta: 0.001,
   });
 
-  const frameIndex = useTransform(smoothProgress, [0, 1], [0, FRAME_COUNT - 1]);
-
-  const renderFrame = useCallback(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-
-    const index = Math.min(FRAME_COUNT - 1, Math.max(0, Math.floor(frameIndex.get())));
-    const img = imagesRef.current[index];
-    if (!img || !img.complete || img.naturalWidth === 0) return;
-
-    const dpr = window.devicePixelRatio || 1;
-    const rect = canvas.getBoundingClientRect();
-
-    canvas.width = rect.width * dpr;
-    canvas.height = rect.height * dpr;
-    ctx.scale(dpr, dpr);
-
-    const canvasW = rect.width;
-    const canvasH = rect.height;
-    const imgW = img.naturalWidth;
-    const imgH = img.naturalHeight;
-
-    const scale = Math.max(canvasW / imgW, canvasH / imgH);
-    const w = imgW * scale;
-    const h = imgH * scale;
-    const x = (canvasW - w) / 2;
-    const y = (canvasH - h) / 2;
-
-    ctx.clearRect(0, 0, canvasW, canvasH);
-    ctx.drawImage(img, x, y, w, h);
-  }, [frameIndex, imagesRef]);
-
+  // Drive video currentTime directly from scroll position
   useEffect(() => {
-    if (!initialReady) return;
-    // Render once immediately
-    renderFrame();
-    const unsubscribe = frameIndex.on("change", renderFrame);
-    window.addEventListener("resize", renderFrame);
-    return () => {
-      unsubscribe();
-      window.removeEventListener("resize", renderFrame);
-    };
-  }, [initialReady, frameIndex, renderFrame]);
+    return smoothProgress.on("change", (v) => {
+      const video = videoRef.current;
+      if (!video || !video.duration) return;
+      video.currentTime = Math.min(video.duration, Math.max(0, v * video.duration));
+    });
+  }, [smoothProgress]);
 
-  // Content rendering based on progress steps
+  // Content rendering based on progress steps (unchanged from before)
   const beat1Opacity = useTransform(smoothProgress, [0, 0.15, 0.25, 0.3], [1, 1, 0, 0]);
   const beat1Y = useTransform(smoothProgress, [0, 0.25], [0, -40]);
 
@@ -146,17 +57,16 @@ export function HeroSequence() {
       {/* Sticky Canvas & Content Layer */}
       <div className="sticky top-0 w-full h-screen overflow-hidden">
 
-        {/* The Frame Canvas — visible immediately once initialReady */}
-        <canvas
-          ref={canvasRef}
-          className="absolute inset-0 w-full h-full"
-          style={{ opacity: initialReady ? 1 : 0, transition: "opacity 0.3s ease" }}
+        {/* Hardware-accelerated video — muted, no controls, no autoplay */}
+        <video
+          ref={videoRef}
+          src="/hero.mp4"
+          muted
+          playsInline
+          preload="auto"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ pointerEvents: "none" }}
         />
-
-        {/* Fallback background while first frames load (~0.5s on fast, ~2s on slow) */}
-        {!initialReady && (
-          <div className="absolute inset-0 bg-[#030712]" />
-        )}
 
         {/* Darkening gradient for text readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent pointer-events-none" />
