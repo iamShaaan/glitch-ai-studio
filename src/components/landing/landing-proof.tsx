@@ -75,6 +75,11 @@ const outcomes = [
 ];
 
 export function LandingProof() {
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, []);
+
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
@@ -86,106 +91,181 @@ export function LandingProof() {
       <div className="relative z-10 max-w-6xl mx-auto px-4">
         {/* Stats Grid */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-20">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "0px" }}
-              transition={{ delay: index * 0.15, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-              className="glass rounded-2xl p-6 md:p-8 text-center group hover:bg-white/[0.04] transition-all duration-500"
-            >
-              <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-4 opacity-60 group-hover:opacity-100 transition-opacity`} />
-              <div className={`text-3xl md:text-4xl font-black ${stat.color} mb-1`}>
-                {stat.value === 5.0 ? (
-                  <span>
-                    <AnimatedCounter target={5} />.0
-                  </span>
-                ) : (
-                  <AnimatedCounter target={stat.value} suffix={stat.suffix} />
-                )}
+          {stats.map((stat, index) => {
+            const cardClasses = "glass rounded-2xl p-6 md:p-8 text-center group hover:bg-white/[0.04] transition-all duration-500";
+            const content = (
+              <>
+                <stat.icon className={`w-6 h-6 ${stat.color} mx-auto mb-4 opacity-60 group-hover:opacity-100 transition-opacity`} />
+                <div className={`text-3xl md:text-4xl font-black ${stat.color} mb-1`}>
+                  {stat.value === 5.0 ? (
+                    <span>
+                      <AnimatedCounter target={5} />.0
+                    </span>
+                  ) : (
+                    <AnimatedCounter target={stat.value} suffix={stat.suffix} />
+                  )}
+                </div>
+                <p className="text-slate-500 text-xs md:text-sm font-medium tracking-wide">
+                  {stat.label}
+                </p>
+              </>
+            );
+
+            return isMobile ? (
+              <div key={index} className={cardClasses}>
+                {content}
               </div>
-              <p className="text-slate-500 text-xs md:text-sm font-medium tracking-wide">
-                {stat.label}
-              </p>
-            </motion.div>
-          ))}
+            ) : (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "0px" }}
+                transition={{ delay: index * 0.15, duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+                className={cardClasses}
+              >
+                {content}
+              </motion.div>
+            );
+          })}
         </div>
 
         {/* Results Section */}
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Left: Content */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
-          >
-            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white mb-6">
-              Results That{" "}
-              <span className="text-emerald-400">Speak</span>
-            </h2>
-            <div className="space-y-4">
-              {outcomes.map((outcome, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, amount: 0.1, margin: "0px 0px -50px 0px" }}
-                  transition={{ delay: index * 0.1, duration: 0.8, ease: "easeOut" }}
-                  className="flex items-start gap-3"
-                >
-                  <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
-                  <p className="text-slate-300 text-sm md:text-base leading-relaxed">
-                    {outcome}
-                  </p>
-                </motion.div>
-              ))}
+          {isMobile ? (
+            <div>
+              <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white mb-6">
+                Results That{" "}
+                <span className="text-emerald-400">Speak</span>
+              </h2>
+              <div className="space-y-4">
+                {outcomes.map((outcome, index) => (
+                  <div
+                    key={index}
+                    className="flex items-start gap-3"
+                  >
+                    <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <p className="text-slate-300 text-[13px] md:text-base leading-relaxed">
+                      {outcome}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
-          </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.2 }}
+              transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
+            >
+              <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white mb-6">
+                Results That{" "}
+                <span className="text-emerald-400">Speak</span>
+              </h2>
+              <div className="space-y-4">
+                {outcomes.map((outcome, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, amount: 0.1, margin: "0px 0px -50px 0px" }}
+                    transition={{ delay: index * 0.1, duration: 0.8, ease: "easeOut" }}
+                    className="flex items-start gap-3"
+                  >
+                    <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <p className="text-slate-300 text-sm md:text-base leading-relaxed">
+                      {outcome}
+                    </p>
+                  </motion.div>
+                ))}
+              </div>
+            </motion.div>
+          )}
 
           {/* Right: Fiverr CTA Card */}
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "0px" }}
-            transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <div className="glass rounded-3xl p-8 md:p-10 relative overflow-hidden group">
-              {/* Accent line */}
-              <div className="absolute top-0 left-0 right-0 h-1 bg-emerald-400" />
+          {/* Right: Fiverr CTA Card */}
+          {isMobile ? (
+            <div>
+              <div className="glass rounded-3xl p-6 md:p-10 relative overflow-hidden group">
+                {/* Accent line */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-emerald-400" />
 
-              <div className="flex items-center gap-3 mb-6">
-                <div className="flex gap-1.5">
-                  {[1, 2, 3, 4, 5].map((i) => (
-                    <Star key={i} className="w-5 h-5 text-amber-300 fill-amber-300" />
-                  ))}
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex gap-1.5">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <Star key={i} className="w-4 h-4 md:w-5 md:h-5 text-amber-300 fill-amber-300" />
+                    ))}
+                  </div>
+                  <span className="text-xs md:text-sm font-bold text-amber-300">5.0 / 5.0</span>
                 </div>
-                <span className="text-sm font-bold text-amber-300">5.0 / 5.0</span>
+
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+                  Trusted on Fiverr
+                </h3>
+                <p className="text-slate-400 text-[13px] md:text-sm leading-relaxed mb-6">
+                  See why 50+ businesses trust us with their AI transformation.
+                  Check out our portfolio and verified client reviews.
+                </p>
+
+                <a
+                  href="https://www.fiverr.com/soumitrohalder"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex w-full justify-center md:w-auto items-center gap-2 px-6 py-3 bg-amber-300 text-slate-950 font-bold rounded-full hover:bg-amber-200 transition-all group hover:gap-3 shadow-[0_0_15px_rgba(252,211,77,0.3)]"
+                >
+                  View Portfolio & Reviews
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+
+                {/* Decorative glow */}
+                <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-amber-500/10 blur-[80px] rounded-full pointer-events-none" />
               </div>
-
-              <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
-                Trusted on Fiverr
-              </h3>
-              <p className="text-slate-400 text-sm leading-relaxed mb-6">
-                See why 50+ businesses trust us with their AI transformation.
-                Check out our portfolio and verified client reviews.
-              </p>
-
-              <a
-                href="https://www.fiverr.com/soumitrohalder"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3 bg-amber-300 text-slate-950 font-bold rounded-full hover:bg-amber-200 transition-all group hover:gap-3 shadow-[0_0_15px_rgba(252,211,77,0.3)]"
-              >
-                View Portfolio & Reviews
-                <ArrowUpRight className="w-4 h-4" />
-              </a>
-
-              {/* Decorative glow */}
-              <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-amber-500/10 blur-[80px] rounded-full pointer-events-none" />
             </div>
-          </motion.div>
+          ) : (
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true, margin: "0px" }}
+              transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
+            >
+              <div className="glass rounded-3xl p-8 md:p-10 relative overflow-hidden group">
+                {/* Accent line */}
+                <div className="absolute top-0 left-0 right-0 h-1 bg-emerald-400" />
+
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="flex gap-1.5">
+                    {[1, 2, 3, 4, 5].map((i) => (
+                      <Star key={i} className="w-5 h-5 text-amber-300 fill-amber-300" />
+                    ))}
+                  </div>
+                  <span className="text-sm font-bold text-amber-300">5.0 / 5.0</span>
+                </div>
+
+                <h3 className="text-xl md:text-2xl font-bold text-white mb-2">
+                  Trusted on Fiverr
+                </h3>
+                <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                  See why 50+ businesses trust us with their AI transformation.
+                  Check out our portfolio and verified client reviews.
+                </p>
+
+                <a
+                  href="https://www.fiverr.com/soumitrohalder"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-amber-300 text-slate-950 font-bold rounded-full hover:bg-amber-200 transition-all group hover:gap-3 shadow-[0_0_15px_rgba(252,211,77,0.3)]"
+                >
+                  View Portfolio & Reviews
+                  <ArrowUpRight className="w-4 h-4" />
+                </a>
+
+                {/* Decorative glow */}
+                <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-amber-500/10 blur-[80px] rounded-full pointer-events-none" />
+              </div>
+            </motion.div>
+          )}
         </div>
       </div>
     </section>

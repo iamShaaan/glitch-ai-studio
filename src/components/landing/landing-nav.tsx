@@ -168,6 +168,13 @@ export function LandingNav() {
                 </div>
               </div>
             </div>
+            
+            {/* Mobile Desktop Disclaimer Banner */}
+            <div className="md:hidden mt-2 flex justify-center">
+              <span className="text-[10px] sm:text-xs text-slate-400 bg-black/40 backdrop-blur-md border border-white/5 px-4 py-1 rounded-full shadow-lg">
+                Visit from desktop for a complete visual experience
+              </span>
+            </div>
           </div>
         </motion.header>
       )}

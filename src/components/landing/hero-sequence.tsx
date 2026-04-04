@@ -118,15 +118,15 @@ const MobileTicker = () => (
 );
 
 const MobileHero = () => (
-  <section className="relative w-[100vw] min-h-[100svh] bg-[#030712] pt-32 pb-20 px-6 overflow-hidden flex flex-col items-center text-center">
+  <section className="relative w-[100vw] min-h-[100svh] bg-[#030712] pt-32 pb-12 px-6 overflow-hidden flex flex-col items-center text-center">
     
     <MobileBackground />
     <MobileTicker />
     
-    <div className="relative z-10 flex flex-col items-center max-w-lg mx-auto w-full gap-16 mt-8">
+    <div className="relative z-10 flex flex-col items-center max-w-lg mx-auto w-full gap-10 mt-6">
       {/* Beat 1: Intro */}
       <div className="flex flex-col items-center">
-        <div className="mb-6 w-40 h-12 relative flex justify-center">
+        <div className="mb-6 w-28 h-8 relative flex justify-center">
           <Image
             src="/logo.png"
             alt="Glitch AI Studio"
@@ -135,65 +135,65 @@ const MobileHero = () => (
             priority
           />
         </div>
-        <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 mb-6 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
+        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 mb-5 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
           <Sparkles className="w-3 h-3 text-emerald-400" />
-          <span className="text-[10px] font-semibold tracking-wider text-emerald-300 uppercase">
+          <span className="text-[9px] font-semibold tracking-wider text-emerald-300 uppercase">
             AI Avatar & Automation Studio
           </span>
         </div>
-        <h1 className="text-4xl font-black tracking-tight leading-[1.1] mb-4 text-white drop-shadow-lg">
+        <h1 className="text-[26px] font-black tracking-tight leading-[1.1] mb-3 text-white drop-shadow-lg">
           We Create <br/>
           <span className="text-emerald-400 drop-shadow-md">AI Avatars</span>
         </h1>
-        <p className="text-base text-slate-300 font-light text-balance drop-shadow-md">
+        <p className="text-[13px] sm:text-sm text-slate-300 font-light text-balance drop-shadow-md pb-2">
           Hyper-realistic digital humans and intelligent influencers for brands <span className="text-amber-200">ready to scale beyond limits</span>.
         </p>
       </div>
 
       {/* Beat 2: Automation */}
-      <div className="flex flex-col items-center">
-        <h2 className="text-3xl font-black tracking-tight leading-[1.1] mb-4 text-white drop-shadow-lg">
+      <div className="flex flex-col items-center pb-2">
+        <h2 className="text-2xl font-black tracking-tight leading-[1.1] mb-3 text-white drop-shadow-lg">
           & <span className="text-emerald-400 drop-shadow-md">Automate</span><br />
           Your Business
         </h2>
-        <p className="text-base text-slate-300 font-light text-balance drop-shadow-md">
+        <p className="text-[13px] sm:text-sm text-slate-300 font-light text-balance drop-shadow-md">
           End-to-end autonomous systems that work 24/7. <span className="text-amber-200">Eliminating bottlenecks</span> to fuel aggressive growth.
         </p>
       </div>
 
       {/* Beat 3: Value */}
-      <div className="flex flex-col items-center">
-        <h2 className="text-3xl font-black tracking-tight leading-[1.1] mb-4 text-white drop-shadow-lg">
+      <div className="flex flex-col items-center pb-2">
+        <h2 className="text-2xl font-black tracking-tight leading-[1.1] mb-3 text-white drop-shadow-lg">
           Next-Gen <br/>
           <span className="text-emerald-400">Storytelling</span>
         </h2>
-        <p className="text-base text-slate-300 font-light text-balance drop-shadow-md">
+        <p className="text-[13px] sm:text-sm text-slate-300 font-light text-balance drop-shadow-md">
           Merge cinematic visuals with automated logic. Transform your reach, engage faster, and <span className="text-amber-200">dominate the digital landscape</span>.
         </p>
       </div>
 
       {/* Beat 4: CTA */}
-      <div className="flex flex-col items-center w-full pt-4">
-        <h2 className="text-3xl font-black tracking-tight leading-[1.1] mb-8 text-white drop-shadow-lg">
+      <div className="flex flex-col items-center w-full pt-2">
+        <h2 className="text-2xl font-black tracking-tight leading-[1.1] mb-6 text-white drop-shadow-lg">
           Ready to <span className="text-emerald-400 drop-shadow-md">Scale?</span>
         </h2>
-        <div className="flex flex-col gap-4 w-full px-4">
+        <div className="flex flex-col gap-3 w-full px-2">
           <button
             onClick={() => {
               const el = document.querySelector("#contact");
               if (el) el.scrollIntoView({ behavior: "smooth" });
             }}
-            className="group px-6 py-4 w-full bg-emerald-500 text-slate-950 text-base font-bold rounded-full hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2 transform active:scale-95"
+            className="group px-6 py-3.5 w-full bg-emerald-500 text-slate-950 text-[15px] font-bold rounded-full hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2 transform active:scale-95"
           >
             Book a Call
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
           <button
             onClick={() => {
               const el = document.querySelector("#services");
               if (el) el.scrollIntoView({ behavior: "smooth" });
             }}
-            className="px-6 py-4 w-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-300 text-base font-semibold rounded-full hover:bg-yellow-500/20 active:bg-yellow-500/30 transition-all shadow-[0_0_20px_rgba(253,224,71,0.15)] text-center"
+            className="px-6 py-3.5 w-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-300 text-[15px] font-semibold rounded-full hover:bg-yellow-500/20 active:bg-yellow-500/30 transition-all shadow-[0_0_20px_rgba(253,224,71,0.15)] text-center"
           >
             Explore Services
           </button>
@@ -224,7 +224,14 @@ export function HeroSequence() {
 
   useEffect(() => {
     setHasMounted(true);
-    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    const checkMobile = () => {
+      const isMobileDevice = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      setIsMobile(isMobileDevice);
+      if (isMobileDevice) {
+        setLoadProgress(100);
+        setIsReady(true);
+      }
+    };
     checkMobile(); // Check immediately
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
@@ -232,6 +239,8 @@ export function HeroSequence() {
 
   // Track video buffer progress for the loading screen
   useEffect(() => {
+    if (isMobile) return; // Completely skip buffering logic if mobile
+
     let isDone = false;
 
     const finalizeReady = () => {
@@ -242,11 +251,8 @@ export function HeroSequence() {
       setTimeout(() => setIsReady(true), 400);
     };
 
-    // --- AGGRESSIVE FALLBACKS (Guaranteed to execute) ---
-    // On mobile, bypass almost instantly. Mobile browsers frequently block video preloading.
     // On desktop, maximum wait is 3 seconds.
-    const maxWaitTime = (typeof window !== "undefined" && window.innerWidth < 768) ? 100 : 3000;
-    const timeoutId = setTimeout(finalizeReady, maxWaitTime);
+    const timeoutId = setTimeout(finalizeReady, 3000);
 
     const video = videoRef.current;
     
