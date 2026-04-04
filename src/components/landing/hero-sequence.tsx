@@ -154,17 +154,18 @@ export function HeroSequence() {
   }, [smoothProgress, isReady]);
 
   // Content rendering based on progress steps
-  const beat1Opacity = useTransform(smoothProgress, [0, 0.15, 0.25, 0.3], [1, 1, 0, 0]);
-  const beat1Y = useTransform(smoothProgress, [0, 0.25], [0, -40]);
+  // Tightly orchestrated to prevent ANY overlapping ghost text
+  const beat1Opacity = useTransform(smoothProgress, [0, 0.15, 0.2, 0.25], [1, 1, 0, 0]);
+  const beat1Y = useTransform(smoothProgress, [0, 0.2], [0, -40]);
 
-  const beat2Opacity = useTransform(smoothProgress, [0.2, 0.3, 0.5, 0.6], [0, 1, 1, 0]);
-  const beat2Y = useTransform(smoothProgress, [0.2, 0.3, 0.5, 0.6], [40, 0, 0, -40]);
+  const beat2Opacity = useTransform(smoothProgress, [0.25, 0.3, 0.45, 0.5], [0, 1, 1, 0]);
+  const beat2Y = useTransform(smoothProgress, [0.25, 0.3, 0.45, 0.5], [40, 0, 0, -40]);
 
-  const beat3Opacity = useTransform(smoothProgress, [0.5, 0.6, 0.8, 0.9], [0, 1, 1, 0]);
-  const beat3Y = useTransform(smoothProgress, [0.5, 0.6, 0.8, 0.9], [40, 0, 0, -40]);
+  const beat3Opacity = useTransform(smoothProgress, [0.55, 0.6, 0.75, 0.8], [0, 1, 1, 0]);
+  const beat3Y = useTransform(smoothProgress, [0.55, 0.6, 0.75, 0.8], [40, 0, 0, -40]);
 
-  const beat4Opacity = useTransform(smoothProgress, [0.8, 0.9, 1], [0, 1, 1]);
-  const beat4Y = useTransform(smoothProgress, [0.8, 0.9], [40, 0]);
+  const beat4Opacity = useTransform(smoothProgress, [0.85, 0.9, 1], [0, 1, 1]);
+  const beat4Y = useTransform(smoothProgress, [0.85, 0.9], [40, 0]);
 
   const scrollPromptOpacity = useTransform(smoothProgress, [0, 0.05], [0.7, 0]);
 
