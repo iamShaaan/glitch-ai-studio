@@ -41,10 +41,11 @@ export function LandingForm() {
       // 1. Grab User Location via free IP API
       let locationStr = "Unknown Location";
       try {
-        const ipRes = await fetch("https://ipapi.co/json/");
+        // Fallback to a highly permissive CORS IP tracker 
+        const ipRes = await fetch("https://api.db-ip.com/v2/free/self");
         const ipData = await ipRes.json();
-        if (ipData.city && ipData.country_name) {
-          locationStr = `${ipData.city}, ${ipData.country_name}`;
+        if (ipData.city && ipData.countryName) {
+          locationStr = `${ipData.city}, ${ipData.countryName}`;
         }
       } catch (locErr) {
         console.warn("Could not fetch location:", locErr);
