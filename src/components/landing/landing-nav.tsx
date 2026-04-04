@@ -89,20 +89,22 @@ export function LandingNav() {
     ]
   );
 
-  useMotionValueEvent(scrollY, "change", (latest) => {
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      setIsVisible(true); // Always visible on mobile
-    } else {
-      setIsVisible(latest > 100);
-    }
-  });
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Init visibility on mobile instantly
   useEffect(() => {
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      setIsVisible(true);
-    }
+    const check = () => {
+      const mobile = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      setIsMobile(mobile);
+      if (mobile) setIsVisible(true);
+    };
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
   }, []);
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (!isMobile) setIsVisible(latest > 100);
+  });
 
   const scrollToSection = (href: string) => {
     setIsOpen(false);
@@ -152,28 +154,37 @@ export function LandingNav() {
                     ))}
                   </nav>
 
-                  {/* Book a Call Button (Always Visible) */}
-                  <motion.button
-                    onClick={() => scrollToSection("#contact")}
-                    style={{
-                      backgroundColor: buttonBg,
-                      borderColor: buttonBorder,
-                      color: buttonColor,
-                      boxShadow: buttonShadow,
-                    }}
-                    className="px-4 py-1.5 md:px-5 md:py-2 border text-xs md:text-sm font-semibold rounded-full hover:brightness-125 transition-all cursor-pointer whitespace-nowrap"
-                  >
-                    Book a Call
-                  </motion.button>
+                  {/* Book a Call Button — static on mobile, animated on desktop */}
+                  {isMobile ? (
+                    <button
+                      onClick={() => scrollToSection("#contact")}
+                      className="px-4 py-1.5 border border-emerald-500/40 bg-emerald-500/15 text-emerald-300 text-xs font-semibold rounded-full whitespace-nowrap"
+                    >
+                      Book a Call
+                    </button>
+                  ) : (
+                    <motion.button
+                      onClick={() => scrollToSection("#contact")}
+                      style={{
+                        backgroundColor: buttonBg,
+                        borderColor: buttonBorder,
+                        color: buttonColor,
+                        boxShadow: buttonShadow,
+                      }}
+                      className="px-4 py-1.5 md:px-5 md:py-2 border text-xs md:text-sm font-semibold rounded-full hover:brightness-125 transition-all cursor-pointer whitespace-nowrap"
+                    >
+                      Book a Call
+                    </motion.button>
+                  )}
                 </div>
               </div>
-            </div>
-            
-            {/* Mobile Desktop Disclaimer Banner */}
-            <div className="md:hidden mt-2 flex justify-center">
-              <span className="text-[10px] sm:text-xs text-slate-400 bg-black/40 backdrop-blur-md border border-white/5 px-4 py-1 rounded-full shadow-lg">
-                Visit from desktop for a complete visual experience
-              </span>
+
+              {/* Mobile disclaimer — inline inside the card, not a separate strip */}
+              <div className="md:hidden mt-2 border-t border-white/5 pt-2">
+                <p className="text-center text-[9px] text-slate-500 tracking-wide">
+                  ✦ Visit from desktop for a complete visual experience ✦
+                </p>
+              </div>
             </div>
           </div>
         </motion.header>

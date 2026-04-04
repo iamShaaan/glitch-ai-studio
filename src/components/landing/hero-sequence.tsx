@@ -85,119 +85,74 @@ function CinematicLoader({ progress, isReady }: { progress: number; isReady: boo
   );
 }
 
+// Static CSS-only ambient background — zero GPU-draining JS animations
 const MobileBackground = () => (
-  <div className="absolute inset-0 overflow-hidden pointer-events-none bg-[#030712] flex items-center justify-center z-0">
-    <motion.div
-      animate={{ opacity: [0.3, 0.7, 0.3], scale: [1, 1.25, 1], x: ['-10%', '10%', '-10%'] }}
-      transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
-      className="absolute top-[20%] left-[-10%] w-[70vw] h-[70vw] bg-emerald-500/20 rounded-full blur-[90px]"
-    />
-    <motion.div
-      animate={{ opacity: [0.2, 0.6, 0.2], scale: [1, 1.3, 1], x: ['10%', '-10%', '10%'] }}
-      transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 2 }}
-      className="absolute bottom-[20%] right-[-10%] w-[60vw] h-[60vw] bg-violet-500/15 rounded-full blur-[80px]"
-    />
-  </div>
-);
-
-const MobileTicker = () => (
-  <div className="fixed top-[76px] left-0 w-full bg-emerald-950/60 border-y border-emerald-500/20 backdrop-blur-md overflow-hidden py-1 z-40 pointer-events-auto">
-    <motion.div 
-      animate={{ x: ["0%", "-50%"] }}
-      transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-      className="flex whitespace-nowrap"
-    >
-      {[...Array(4)].map((_, i) => (
-        <span key={i} className="text-[9px] font-mono tracking-[0.1em] uppercase text-emerald-400/90 px-8 flex items-center">
-          For a complete visual experience, please visit from a desktop device
-          <span className="ml-16 mr-8 text-emerald-500/30 font-black">///</span>
-        </span>
-      ))}
-    </motion.div>
+  <div className="absolute inset-0 overflow-hidden pointer-events-none bg-[#030712] z-0">
+    <div className="absolute top-[-10%] left-[-20%] w-[80vw] h-[80vw] bg-emerald-500/15 rounded-full blur-[100px]" />
+    <div className="absolute bottom-[-10%] right-[-20%] w-[70vw] h-[70vw] bg-violet-500/10 rounded-full blur-[90px]" />
   </div>
 );
 
 const MobileHero = () => (
-  <section className="relative w-[100vw] min-h-[100svh] bg-[#030712] pt-32 pb-12 px-6 overflow-hidden flex flex-col items-center text-center">
-    
+  <section className="relative w-[100vw] min-h-[100svh] bg-[#030712] pt-28 pb-16 px-6 overflow-hidden flex flex-col items-center text-center">
     <MobileBackground />
-    <MobileTicker />
-    
-    <div className="relative z-10 flex flex-col items-center max-w-lg mx-auto w-full gap-10 mt-6">
-      {/* Beat 1: Intro */}
-      <div className="flex flex-col items-center">
-        <div className="mb-6 w-28 h-8 relative flex justify-center">
-          <Image
-            src="/logo.png"
-            alt="Glitch AI Studio"
-            fill
-            className="object-contain drop-shadow-md"
-            priority
-          />
-        </div>
-        <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 mb-5 shadow-[0_0_15px_rgba(16,185,129,0.15)]">
-          <Sparkles className="w-3 h-3 text-emerald-400" />
-          <span className="text-[9px] font-semibold tracking-wider text-emerald-300 uppercase">
-            AI Avatar & Automation Studio
-          </span>
-        </div>
-        <h1 className="text-[26px] font-black tracking-tight leading-[1.1] mb-3 text-white drop-shadow-lg">
-          We Create <br/>
-          <span className="text-emerald-400 drop-shadow-md">AI Avatars</span>
-        </h1>
-        <p className="text-[13px] sm:text-sm text-slate-300 font-light text-balance drop-shadow-md pb-2">
-          Hyper-realistic digital humans and intelligent influencers for brands <span className="text-amber-200">ready to scale beyond limits</span>.
-        </p>
+
+    <div className="relative z-10 flex flex-col items-center max-w-sm mx-auto w-full gap-6">
+      {/* Logo */}
+      <div className="w-32 h-9 relative flex justify-center">
+        <Image
+          src="/logo.png"
+          alt="Glitch AI Studio"
+          fill
+          className="object-contain"
+          priority
+        />
       </div>
 
-      {/* Beat 2: Automation */}
-      <div className="flex flex-col items-center pb-2">
-        <h2 className="text-2xl font-black tracking-tight leading-[1.1] mb-3 text-white drop-shadow-lg">
-          & <span className="text-emerald-400 drop-shadow-md">Automate</span><br />
-          Your Business
-        </h2>
-        <p className="text-[13px] sm:text-sm text-slate-300 font-light text-balance drop-shadow-md">
-          End-to-end autonomous systems that work 24/7. <span className="text-amber-200">Eliminating bottlenecks</span> to fuel aggressive growth.
-        </p>
+      {/* Badge */}
+      <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10">
+        <Sparkles className="w-3 h-3 text-emerald-400" />
+        <span className="text-[9px] font-semibold tracking-wider text-emerald-300 uppercase">
+          AI Avatar &amp; Automation Studio
+        </span>
       </div>
 
-      {/* Beat 3: Value */}
-      <div className="flex flex-col items-center pb-2">
-        <h2 className="text-2xl font-black tracking-tight leading-[1.1] mb-3 text-white drop-shadow-lg">
-          Next-Gen <br/>
-          <span className="text-emerald-400">Storytelling</span>
-        </h2>
-        <p className="text-[13px] sm:text-sm text-slate-300 font-light text-balance drop-shadow-md">
-          Merge cinematic visuals with automated logic. Transform your reach, engage faster, and <span className="text-amber-200">dominate the digital landscape</span>.
-        </p>
-      </div>
+      {/* Headline */}
+      <h1 className="text-[28px] font-black tracking-tight leading-[1.1] text-white">
+        We Build <span className="text-emerald-400">AI Avatars</span> &amp;{" "}
+        <span className="text-emerald-400">Automate</span> Your Business
+      </h1>
 
-      {/* Beat 4: CTA */}
-      <div className="flex flex-col items-center w-full pt-2">
-        <h2 className="text-2xl font-black tracking-tight leading-[1.1] mb-6 text-white drop-shadow-lg">
-          Ready to <span className="text-emerald-400 drop-shadow-md">Scale?</span>
-        </h2>
-        <div className="flex flex-col gap-3 w-full px-2">
-          <button
-            onClick={() => {
-              const el = document.querySelector("#contact");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="group px-6 py-3.5 w-full bg-emerald-500 text-slate-950 text-[15px] font-bold rounded-full hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2 transform active:scale-95"
-          >
-            Book a Call
-            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
-          <button
-            onClick={() => {
-              const el = document.querySelector("#services");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="px-6 py-3.5 w-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-300 text-[15px] font-semibold rounded-full hover:bg-yellow-500/20 active:bg-yellow-500/30 transition-all shadow-[0_0_20px_rgba(253,224,71,0.15)] text-center"
-          >
-            Explore Services
-          </button>
-        </div>
+      {/* Single paragraph */}
+      <p className="text-[13px] text-slate-400 leading-relaxed text-balance">
+        Hyper-realistic AI influencers, end-to-end automation systems, and next-gen storytelling — built for brands{" "}
+        <span className="text-amber-300 font-medium">ready to scale beyond limits</span>.
+      </p>
+
+      {/* Divider */}
+      <div className="w-12 h-px bg-emerald-500/30" />
+
+      {/* CTAs */}
+      <div className="flex flex-col gap-3 w-full">
+        <button
+          onClick={() => {
+            const el = document.querySelector("#contact");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          }}
+          className="w-full py-4 bg-emerald-500 text-slate-950 text-[15px] font-bold rounded-full active:scale-95 transition-transform shadow-[0_0_20px_rgba(16,185,129,0.25)] flex items-center justify-center gap-2"
+        >
+          Book a Call
+          <ArrowRight className="w-4 h-4" />
+        </button>
+        <button
+          onClick={() => {
+            const el = document.querySelector("#services");
+            if (el) el.scrollIntoView({ behavior: "smooth" });
+          }}
+          className="w-full py-4 border border-white/10 bg-white/5 text-white/80 text-[14px] font-medium rounded-full active:scale-95 transition-transform"
+        >
+          Explore Services
+        </button>
       </div>
     </div>
   </section>
