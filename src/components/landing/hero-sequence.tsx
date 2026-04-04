@@ -85,11 +85,45 @@ function CinematicLoader({ progress, isReady }: { progress: number; isReady: boo
   );
 }
 
+const MobileBackground = () => (
+  <div className="absolute inset-0 overflow-hidden pointer-events-none bg-[#030712] flex items-center justify-center z-0">
+    <motion.div
+      animate={{ opacity: [0.3, 0.7, 0.3], scale: [1, 1.25, 1], x: ['-10%', '10%', '-10%'] }}
+      transition={{ duration: 12, repeat: Infinity, ease: "easeInOut" }}
+      className="absolute top-[20%] left-[-10%] w-[70vw] h-[70vw] bg-emerald-500/20 rounded-full blur-[90px]"
+    />
+    <motion.div
+      animate={{ opacity: [0.2, 0.6, 0.2], scale: [1, 1.3, 1], x: ['10%', '-10%', '10%'] }}
+      transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 2 }}
+      className="absolute bottom-[20%] right-[-10%] w-[60vw] h-[60vw] bg-violet-500/15 rounded-full blur-[80px]"
+    />
+  </div>
+);
+
+const MobileTicker = () => (
+  <div className="absolute bottom-0 left-0 w-full bg-emerald-950/60 border-t border-emerald-500/20 backdrop-blur-xl overflow-hidden py-3 z-50 pointer-events-auto shadow-[0_-5px_20px_rgba(16,185,129,0.1)]">
+    <motion.div 
+      animate={{ x: ["0%", "-50%"] }}
+      transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+      className="flex whitespace-nowrap"
+    >
+      {[...Array(4)].map((_, i) => (
+        <span key={i} className="text-[10px] font-mono tracking-[0.2em] uppercase text-emerald-400/90 px-8 flex items-center">
+          For the full cinematic visual experience, visit from a desktop
+          <span className="ml-16 mr-8 text-emerald-500/30 font-black">///</span>
+        </span>
+      ))}
+    </motion.div>
+  </div>
+);
+
 export function HeroSequence() {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [loadProgress, setLoadProgress] = useState(0);
   const [isReady, setIsReady] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -102,10 +136,8 @@ export function HeroSequence() {
     restDelta: 0.001,
   });
 
-  // Mobile detection for performance optimizations
-  const [isMobile, setIsMobile] = useState(false);
-
   useEffect(() => {
+    setHasMounted(true);
     const checkMobile = () => setIsMobile(window.innerWidth < 768);
     checkMobile(); // Check immediately
     window.addEventListener("resize", checkMobile);
@@ -161,9 +193,9 @@ export function HeroSequence() {
       video.addEventListener("loadeddata", () => setTimeout(finalizeReady, 1500));
     }
 
-    // Force play on mobile if paused (since mobile ignores scrubbing)
+    // Force play on mobile if paused (if video is somehow rendered on mobile dimensions)
     if (typeof window !== "undefined" && window.innerWidth < 768) {
-      video.play().catch(() => { /* Silent catch if autoplay blocked */ });
+      video.play().catch(() => { /* silent */ });
     }
 
     return () => {
@@ -182,7 +214,6 @@ export function HeroSequence() {
       const video = videoRef.current;
       if (!video || !video.duration) return;
       
-      // RequestAnimationFrame ensures smoother updates aligning with screen refresh
       requestAnimationFrame(() => {
         if (videoRef.current) {
           videoRef.current.currentTime = Math.min(videoRef.current.duration, Math.max(0, v * videoRef.current.duration));
@@ -192,7 +223,6 @@ export function HeroSequence() {
   }, [smoothProgress, isReady, isMobile]);
 
   // Content rendering based on progress steps
-  // Tightly orchestrated to prevent ANY overlapping ghost text
   const beat1Opacity = useTransform(smoothProgress, [0, 0.15, 0.2, 0.25], [1, 1, 0, 0]);
   const beat1Y = useTransform(smoothProgress, [0, 0.2], [0, -40]);
 
@@ -205,7 +235,7 @@ export function HeroSequence() {
   const beat4Opacity = useTransform(smoothProgress, [0.85, 0.9, 1], [0, 1, 1]);
   const beat4Y = useTransform(smoothProgress, [0.85, 0.9], [40, 0]);
 
-  const scrollPromptOpacity = useTransform(smoothProgress, [0, 0.05], [0.7, 0]);
+  const scrollPromptOpacity = useTransform(smoothProgress, [0, 0.05], [1, 0]);
 
   const scrollToContact = () => {
     const el = document.querySelector("#contact");
@@ -214,26 +244,27 @@ export function HeroSequence() {
 
   return (
     <>
-      {/* Branded Cinematic Loading Screen */}
       <CinematicLoader progress={loadProgress} isReady={isReady} />
 
       <section ref={containerRef} className="relative h-[400vh] w-full bg-[#030712]">
-
-        {/* Sticky Canvas & Content Layer */}
         <div className="sticky top-0 w-full h-screen overflow-hidden">
 
-          {/* Hardware-accelerated video */}
-          <video
-            ref={videoRef}
-            src="/hero.mp4"
-            poster="/hero-poster.jpg"
-            muted
-            playsInline
-            loop
-            preload="auto"
-            className="absolute inset-0 w-full h-full object-cover"
-            style={{ pointerEvents: "none" }}
-          />
+          {/* Conditional Background Layer */}
+          {(!hasMounted || !isMobile) && (
+            <video
+              ref={videoRef}
+              src="/hero.mp4"
+              poster="/hero-poster.jpg"
+              muted
+              playsInline
+              loop
+              preload="auto"
+              className="absolute inset-0 w-full h-full object-cover hidden md:block"
+              style={{ pointerEvents: "none" }}
+            />
+          )}
+
+          {hasMounted && isMobile && <MobileBackground />}
 
           {/* Darkening gradient for text readability */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent pointer-events-none" />
@@ -346,6 +377,9 @@ export function HeroSequence() {
             </div>
             <span className="uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[10px] sm:text-xs font-bold font-mono text-emerald-400/80">Scroll</span>
           </motion.div>
+
+          {/* Mobile Text Ticker */}
+          {hasMounted && isMobile && <MobileTicker />}
 
         </div>
       </section>
