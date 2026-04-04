@@ -107,7 +107,17 @@ export function HeroSequence() {
     const video = videoRef.current;
     if (!video) return;
 
+    let isDone = false;
+
+    const finalizeReady = () => {
+      if (isDone) return;
+      isDone = true;
+      setLoadProgress(100);
+      setTimeout(() => setIsReady(true), 400);
+    };
+
     const updateProgress = () => {
+      if (isDone) return;
       if (!video.duration) return;
       try {
         const buffered = video.buffered;
@@ -118,28 +128,37 @@ export function HeroSequence() {
       } catch {}
     };
 
-    const onCanPlayThrough = () => {
-      setLoadProgress(100);
-      // Small delay so the 100% tick is visible before fade-out
-      setTimeout(() => setIsReady(true), 400);
-    };
+    const onCanPlayThrough = () => finalizeReady();
 
-    // If video is already fully buffered (cached), mark ready immediately
-    if (video.readyState >= 4) {
-      setLoadProgress(100);
-      setIsReady(true);
+    // If video has already started buffering substantially or is fully cached, mark ready
+    if (video.readyState >= 3) {
+      finalizeReady();
       return;
     }
 
     video.addEventListener("progress", updateProgress);
     video.addEventListener("canplaythrough", onCanPlayThrough);
-    // Also listen for timeupdate as a fallback on mobile
     video.addEventListener("timeupdate", updateProgress);
+    
+    // Fallback 1: if loadeddata fires but not canplaythrough (common on iOS low data mode)
+    // we give it 1.5 more seconds to buffer, then force unblock.
+    video.addEventListener("loadeddata", () => {
+      setTimeout(finalizeReady, 1500);
+    });
+
+    // Detect if we are on mobile using viewport width
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+    // Ultimate fallback: don't block the site for more than 4 seconds regardless of video state
+    // iOS Safari and mobile Chrome aggressively block preload="auto" on cellular data
+    // On mobile devices, we reduce this to 500ms so users aren't left staring at a 0% progress bar
+    const timeoutId = setTimeout(finalizeReady, isMobile ? 500 : 4000);
 
     return () => {
       video.removeEventListener("progress", updateProgress);
       video.removeEventListener("canplaythrough", onCanPlayThrough);
       video.removeEventListener("timeupdate", updateProgress);
+      clearTimeout(timeoutId);
     };
   }, []);
 
