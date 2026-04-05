@@ -165,6 +165,8 @@ export function HeroSequence() {
   const [isReady, setIsReady] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  // Use a ref so the buffering effect always reads the latest value without a stale closure
+  const isMobileRef = useRef(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -181,39 +183,58 @@ export function HeroSequence() {
     setHasMounted(true);
     const checkMobile = () => {
       const isMobileDevice = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+      isMobileRef.current = isMobileDevice;
       setIsMobile(isMobileDevice);
       if (isMobileDevice) {
         setLoadProgress(100);
         setIsReady(true);
       }
     };
-    checkMobile(); // Check immediately
+    checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Track video buffer progress for the loading screen
   useEffect(() => {
-    if (isMobile) return; // Completely skip buffering logic if mobile
+    // Always read from the ref (not state) to avoid stale closure on first render
+    if (isMobileRef.current) return;
 
     let isDone = false;
+    // Record when loading started so we can enforce a minimum display time
+    const startTime = Date.now();
+    // Minimum time the loader must be visible so the animation feels intentional
+    const MIN_DISPLAY_MS = 1500;
 
     const finalizeReady = () => {
       if (isDone) return;
       isDone = true;
       setLoadProgress(100);
-      // Small delay for 100% visual completion
-      setTimeout(() => setIsReady(true), 400);
+      // Enforce the minimum display time before fading out
+      const elapsed = Date.now() - startTime;
+      const remaining = Math.max(0, MIN_DISPLAY_MS - elapsed);
+      setTimeout(() => setIsReady(true), remaining + 400);
     };
 
-    // On desktop, maximum wait is 3 seconds.
-    const timeoutId = setTimeout(finalizeReady, 3000);
+    // Hard fallback: 10 seconds max wait — enough for slow/3G connections
+    const timeoutId = setTimeout(finalizeReady, 10000);
+
+    // Simulated minimum progress so the bar always fills smoothly even if no
+    // buffer events fire yet (prevents bar stuck at 0% on cold cache)
+    let simulatedPct = 0;
+    const simulationInterval = setInterval(() => {
+      if (isDone) { clearInterval(simulationInterval); return; }
+      simulatedPct = Math.min(simulatedPct + 2, 85); // cap at 85% — real load goes to 100%
+      setLoadProgress((prev) => Math.max(prev, simulatedPct));
+    }, 120);
 
     const video = videoRef.current;
-    
-    // If video ref is missing for any reason, wait for the global timeout
+
     if (!video) {
-        return () => clearTimeout(timeoutId);
+      return () => {
+        clearTimeout(timeoutId);
+        clearInterval(simulationInterval);
+      };
     }
 
     const updateProgress = () => {
@@ -222,35 +243,42 @@ export function HeroSequence() {
       try {
         const buffered = video.buffered;
         if (buffered.length > 0) {
-          const pct = Math.min(100, (buffered.end(buffered.length - 1) / video.duration) * 100);
-          setLoadProgress(pct);
+          const pct = Math.min(99, (buffered.end(buffered.length - 1) / video.duration) * 100);
+          setLoadProgress((prev) => Math.max(prev, pct));
         }
       } catch {}
     };
 
+    // Only finalize once metadata is loaded so video.duration is valid for scrubbing
+    const onMetadataLoaded = () => {
+      // If already well-buffered when metadata arrives, mark ready right away
+      if (video.readyState >= 4) {
+        finalizeReady();
+      }
+    };
+
     const onCanPlayThrough = () => finalizeReady();
 
-    // If video has already started buffering substantially or is fully cached, mark ready
-    if (video.readyState >= 3) {
+    // If video is already fully ready (cached), skip straight to done
+    if (video.readyState >= 4) {
+      // Still run the minimum display time
+      clearInterval(simulationInterval);
+      setLoadProgress(100);
       finalizeReady();
     } else {
+      video.addEventListener("loadedmetadata", onMetadataLoaded);
       video.addEventListener("progress", updateProgress);
       video.addEventListener("canplaythrough", onCanPlayThrough);
-      video.addEventListener("timeupdate", updateProgress);
-      video.addEventListener("loadeddata", () => setTimeout(finalizeReady, 1500));
-    }
-
-    // Force play on mobile if paused (if video is somehow rendered on mobile dimensions)
-    if (typeof window !== "undefined" && window.innerWidth < 768) {
-      video.play().catch(() => { /* silent */ });
     }
 
     return () => {
+      clearTimeout(timeoutId);
+      clearInterval(simulationInterval);
+      video.removeEventListener("loadedmetadata", onMetadataLoaded);
       video.removeEventListener("progress", updateProgress);
       video.removeEventListener("canplaythrough", onCanPlayThrough);
-      video.removeEventListener("timeupdate", updateProgress);
-      clearTimeout(timeoutId);
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Drive video currentTime from scroll — ONLY on desktop!
