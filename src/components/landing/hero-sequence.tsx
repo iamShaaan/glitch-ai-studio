@@ -12,8 +12,16 @@ function CinematicLoader({ progress, isReady }: { progress: number; isReady: boo
         <motion.div
           key="loader"
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.8, ease: "easeInOut" }}
+          exit={{ opacity: 0, pointerEvents: "none" }}
+          transition={{ duration: 0.6, ease: "easeInOut" }}
+          // pointer-events none during exit so the fading overlay never blocks scroll on the hero
+          style={{ pointerEvents: "auto" }}
+          onAnimationStart={(def) => {
+            // As soon as exit starts, disable pointer events immediately
+            if ((def as Record<string, unknown>).opacity === 0) {
+              (document.activeElement as HTMLElement | null)?.blur();
+            }
+          }}
           className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#030712]"
         >
           {/* Ambient glow */}
@@ -55,8 +63,8 @@ function CinematicLoader({ progress, isReady }: { progress: number; isReady: boo
               <div className="relative w-full h-[1px] bg-white/5 rounded-full overflow-hidden">
                 <motion.div
                   className="absolute top-0 left-0 h-full bg-emerald-400 rounded-full"
-                  style={{ width: `${progress}%` }}
-                  transition={{ ease: "easeOut", duration: 0.3 }}
+                  animate={{ width: `${progress}%` }}
+                  transition={{ ease: "easeOut", duration: 0.5 }}
                 />
                 {/* Shimmer */}
                 <motion.div
@@ -219,14 +227,17 @@ export function HeroSequence() {
     // Hard fallback: 10 seconds max wait — enough for slow/3G connections
     const timeoutId = setTimeout(finalizeReady, 10000);
 
-    // Simulated minimum progress so the bar always fills smoothly even if no
-    // buffer events fire yet (prevents bar stuck at 0% on cold cache)
+    // Simulated progress — always keeps the bar moving so it never looks frozen.
+    // Fast phase: 0→80% in ~4.8s (60 ticks × 100ms interval)
+    // Slow phase: 80→98% much slower so it doesn't stall visually before real load finishes
     let simulatedPct = 0;
     const simulationInterval = setInterval(() => {
       if (isDone) { clearInterval(simulationInterval); return; }
-      simulatedPct = Math.min(simulatedPct + 2, 85); // cap at 85% — real load goes to 100%
-      setLoadProgress((prev) => Math.max(prev, simulatedPct));
-    }, 120);
+      // Ease: fast early, increasingly slow as it approaches 98%.
+      const increment = simulatedPct < 80 ? 2 : simulatedPct < 90 ? 0.5 : 0.15;
+      simulatedPct = Math.min(simulatedPct + increment, 98);
+      setLoadProgress((prev) => Math.max(prev, Math.round(simulatedPct * 10) / 10));
+    }, 100);
 
     const video = videoRef.current;
 
