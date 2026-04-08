@@ -75,7 +75,7 @@ export function LandingReviews() {
     trackRef.current?.scrollTo({ left: scrollForIndex(i), behavior: "smooth" });
 
   return (
-    <section className="relative py-12 md:py-16 overflow-hidden">
+    <section className="relative pt-12 pb-0 md:pt-16 overflow-hidden">
       <div className="absolute inset-0 bg-[#030712]" />
       <div className="absolute inset-0 grid-bg opacity-10" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
@@ -114,8 +114,8 @@ export function LandingReviews() {
               scrollbarWidth: "none",
               msOverflowStyle: "none",
               gap: `${GAP}px`,
-              paddingTop: 32,
-              paddingBottom: 24,
+              paddingTop: 24,
+              paddingBottom: 8,
               paddingLeft: `calc(50vw - ${CARD_W / 2}px)`,
               paddingRight: `calc(50vw - ${CARD_W / 2}px)`,
             }}
