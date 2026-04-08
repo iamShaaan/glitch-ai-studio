@@ -6,9 +6,9 @@ import { Search, Palette, Rocket, BarChart3 } from "lucide-react";
 const steps = [
   {
     number: "01",
-    title: "Discovery",
+    title: "Discovery & AI Audit",
     description:
-      "We start with a deep-dive consultation to understand your brand, audience, goals, and the specific problems AI can solve for you.",
+      "We analyze your brand, operational bottlenecks, and identify the highest-ROI opportunities for AI avatars or workflow automation.",
     icon: Search,
     color: "text-emerald-400",
     borderColor: "border-emerald-500/30",
@@ -17,9 +17,9 @@ const steps = [
   },
   {
     number: "02",
-    title: "Design & Strategy",
+    title: "Strategy & Blueprint",
     description:
-      "We architect the perfect solution — whether it's an AI character design, automation workflow, or custom app blueprint tailored to your needs.",
+      "We architect the exact technical blueprint—whether it's a custom AI character design, an automation workflow, or a custom app architecture.",
     icon: Palette,
     color: "text-violet-400",
     borderColor: "border-violet-500/30",
@@ -30,7 +30,7 @@ const steps = [
     number: "03",
     title: "Build & Train",
     description:
-      "Our team brings the vision to life — training AI models, building custom systems, and crafting every detail to perfection.",
+      "Our engineers bring the vision to life: training realistic AI voice/video models, writing custom app code, and configuring seamless API integrations.",
     icon: Rocket,
     color: "text-emerald-400",
     borderColor: "border-emerald-500/30",
@@ -39,9 +39,9 @@ const steps = [
   },
   {
     number: "04",
-    title: "Launch & Scale",
+    title: "Launch & Optimization",
     description:
-      "We deploy, test, and optimize your solution. Then we help you scale — turning your AI investment into measurable business growth.",
+      "We deploy the final AI systems into your business. We then monitor, optimize, and help you scale your new capabilities for maximum growth.",
     icon: BarChart3,
     color: "text-violet-400",
     borderColor: "border-violet-600/30",
@@ -77,7 +77,7 @@ export function LandingProcess() {
               <span className="text-violet-400">Work</span>
             </h2>
             <p className="text-slate-400 max-w-lg mx-auto text-[13px] md:text-lg leading-relaxed px-2">
-              A proven 4-step process from idea to launch — designed for speed, precision, and scale.
+              A proven 4-step deployment process — designed for speed, precision, and business scale.
             </p>
           </div>
         ) : (
@@ -93,7 +93,7 @@ export function LandingProcess() {
               <span className="text-violet-400">Work</span>
             </h2>
             <p className="text-slate-400 max-w-lg mx-auto text-base md:text-lg leading-relaxed">
-              A proven 4-step process from idea to launch — designed for speed, precision, and scale.
+              A proven 4-step deployment process — designed for speed, precision, and business scale.
             </p>
           </motion.div>
         )}

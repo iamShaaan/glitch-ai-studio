@@ -40,21 +40,21 @@ const stats = [
   {
     value: 50,
     suffix: "+",
-    label: "Projects Delivered",
+    label: "AI Systems Deployed",
     icon: TrendingUp,
     color: "text-emerald-400",
   },
   {
     value: 5.0,
     suffix: "",
-    label: "Fiverr Rating",
+    label: "Client Rating",
     icon: Star,
     color: "text-amber-400",
   },
   {
     value: 100,
     suffix: "%",
-    label: "Client Satisfaction",
+    label: "Delivery Success",
     icon: CheckCircle,
     color: "text-emerald-400",
   },
@@ -68,10 +68,10 @@ const stats = [
 ];
 
 const outcomes = [
-  "Hyper-realistic AI avatars that are indistinguishable from humans",
-  "24/7 content creation across 29+ languages",
-  "Custom automation saving 50+ hours per week",
-  "End-to-end AI apps built for your exact needs",
+  "Clone your exact likeness and tone into a hyper-realistic AI avatar.",
+  "Scale video content production without cameras, studios, or editing time.",
+  "Reclaim 50+ hours per week with custom business automation workflows.",
+  "Deploy proprietary custom AI applications designed exclusively for your team.",
 ];
 
 export function LandingProof() {

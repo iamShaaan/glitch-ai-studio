@@ -1,0 +1,106 @@
+{
+  "name": "Glitch AI Consultation Workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "consultation",
+        "options": {}
+      },
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [250, 300]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "Sheet1",
+          "mode": "name"
+        },
+        "options": {},
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{$json.body.timestamp}}",
+            "Name": "={{$json.body.name}}",
+            "Email": "={{$json.body.email}}",
+            "Message": "={{$json.body.message}}",
+            "Page Source": "={{$json.body.pageSource}}",
+            "Timezone": "={{$json.body.timezone}}",
+            "Location": "={{$json.body.location}}"
+          }
+        }
+      },
+      "name": "Google Sheets",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4,
+      "position": [450, 300]
+    },
+    {
+      "parameters": {
+        "model": "gemini-1.5-pro",
+        "prompt": "=Write a casual and friendly thank you email to {{$node[\"Webhook\"].json[\"body\"][\"name\"]}}. Start with \"Hey dude, it's great that you booked a call with us.\". Then mention that before we suggest some things to prepare, we'd like to know where we can text them. Give options like WhatsApp, Telegram, Discord, Facebook, or Instagram. Their original message was: {{$node[\"Webhook\"].json[\"body\"][\"message\"]}}"
+      },
+      "name": "Google Gemini",
+      "type": "n8n-nodes-base.googleGemini",
+      "typeVersion": 1,
+      "position": [650, 300]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$node[\"Webhook\"].json[\"body\"][\"email\"]}}",
+        "subject": "Thanks for booking a call with Glitch AI Studio! 🚀",
+        "message": "={{$json.text}}",
+        "appendAttribution": false
+      },
+      "name": "Gmail",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2,
+      "position": [850, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Google Sheets",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Sheets": {
+      "main": [
+        [
+          {
+            "node": "Google Gemini",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini": {
+      "main": [
+        [
+          {
+            "node": "Gmail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {}
+}

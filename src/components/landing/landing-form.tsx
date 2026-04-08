@@ -144,12 +144,11 @@ export function LandingForm() {
           </div>
 
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
-            Book a{" "}
-            <span className="text-emerald-400">Call with Us</span>
+            Book Your Free{" "}
+            <span className="text-emerald-400">AI Growth Audit</span>
           </h2>
           <p className="text-slate-400 max-w-lg mx-auto text-[13px] md:text-base leading-relaxed px-2">
-            Tell us about your brand. We&apos;ll analyze your needs and show you
-            exactly how AI can transform your business.
+            Tell us about your operational bottlenecks or content goals. We&apos;ll map out an exact AI strategy to scale your brand.
           </p>
         </motion.div>
 
@@ -263,7 +262,7 @@ export function LandingForm() {
                     </>
                   ) : (
                     <>
-                      Schedule Your Call
+                      Schedule Your Growth Audit
                       <ArrowRight className="w-5 h-5" />
                     </>
                   )}

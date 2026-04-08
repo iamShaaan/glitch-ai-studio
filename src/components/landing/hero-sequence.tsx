@@ -121,27 +121,32 @@ const MobileHero = () => (
       <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10">
         <Sparkles className="w-3 h-3 text-emerald-400" />
         <span className="text-[9px] font-semibold tracking-wider text-emerald-300 uppercase">
-          AI Avatar &amp; Automation Studio
+          AI Avatar &amp; Automation Agency
         </span>
       </div>
 
       {/* Headline */}
-      <h1 className="text-[28px] font-black tracking-tight leading-[1.1] text-white">
+      <h1 className="text-[32px] sm:text-[36px] font-black tracking-tight leading-[1.1] text-white">
         We Build <span className="text-emerald-400">AI Avatars</span> &amp;{" "}
-        <span className="text-emerald-400">Automate</span> Your Business
+        <span className="text-emerald-400">Influencers</span>
       </h1>
 
       {/* Single paragraph */}
-      <p className="text-[13px] text-slate-400 leading-relaxed text-balance">
-        Hyper-realistic AI influencers, end-to-end automation systems, and next-gen storytelling — built for brands{" "}
-        <span className="text-amber-300 font-medium">ready to scale beyond limits</span>.
+      <p className="text-[14px] sm:text-[15px] text-slate-400 leading-relaxed text-balance">
+        We create hyper-realistic AI avatars and digital influencers for any brand or niche. If you don&apos;t have time to film, your digital twin stays active online 24/7. Beyond visuals, we build the custom AI apps, intelligent agents, and automated workflows that run your operations. <span className="block mt-2">With our end-to-end automated systems, <span className="text-amber-300 font-medium">your brand scales infinitely without you doing manual work.</span></span>
       </p>
 
       {/* Divider */}
-      <div className="w-12 h-px bg-emerald-500/30" />
+      <div className="w-12 h-px bg-emerald-500/30 mb-8" />
 
       {/* CTAs */}
       <div className="flex flex-col gap-3 w-full">
+        <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
+          Ready to <span className="text-emerald-400">Grow?</span>
+        </h2>
+        <p className="text-[14px] sm:text-[15px] text-slate-400 leading-relaxed text-balance mb-4">
+          Whether you want to build an AI avatar to showcase your brand online, automate repetitive backend tasks with efficiency, or create a custom app to manage your workforce—we have the solution. Let&apos;s have a call.
+        </p>
         <button
           onClick={() => {
             const el = document.querySelector("#contact");
@@ -149,7 +154,7 @@ const MobileHero = () => (
           }}
           className="w-full py-4 bg-emerald-500 text-slate-950 text-[15px] font-bold rounded-full active:scale-95 transition-transform shadow-[0_0_20px_rgba(16,185,129,0.25)] flex items-center justify-center gap-2"
         >
-          Book a Call
+          Book an AI Audit
           <ArrowRight className="w-4 h-4" />
         </button>
         <button
@@ -159,7 +164,7 @@ const MobileHero = () => (
           }}
           className="w-full py-4 border border-white/10 bg-white/5 text-white/80 text-[14px] font-medium rounded-full active:scale-95 transition-transform"
         >
-          Explore Services
+          Explore Our Solutions
         </button>
       </div>
     </div>
@@ -352,12 +357,12 @@ export function HeroSequence() {
             <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent pointer-events-none" />
 
             <div className="relative z-10 w-full max-w-[1400px] h-full mx-auto px-6 md:px-12 flex flex-col justify-center pointer-events-none">
-              <div className="max-w-[500px] w-full relative h-full">
+              <div className="max-w-[700px] w-full relative h-full">
 
                 {/* Beat 1: Intro */}
                 <motion.div
                   style={{ opacity: beat1Opacity, y: beat1Y }}
-                  className="absolute inset-0 flex flex-col justify-end pb-[7vh] md:justify-center md:pb-0"
+                  className="absolute inset-0 flex flex-col justify-end pb-[10vh] md:pb-[15vh]"
                 >
                   <div className="mb-6 w-36 h-10 md:w-56 md:h-14 relative">
                     <Image
@@ -371,43 +376,43 @@ export function HeroSequence() {
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 mb-4 md:mb-6 shadow-[0_0_15px_rgba(16,185,129,0.15)] self-start">
                     <Sparkles className="w-3 h-3 text-emerald-400" />
                     <span className="text-[9px] md:text-[10px] font-semibold tracking-wider text-emerald-300 uppercase">
-                      AI Avatar &amp; Automation Studio
+                      AI Avatar &amp; Automation Agency
                     </span>
                   </div>
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
-                    We Create <br/>
-                    <span className="text-emerald-400 drop-shadow-md">AI Avatars</span>
+                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
+                    We Build <br/>
+                    <span className="text-emerald-400 drop-shadow-md">AI Influencers</span>
                   </h1>
-                  <p className="text-sm sm:text-base md:text-xl text-slate-300 font-light max-w-sm text-balance drop-shadow-md pb-8 md:pb-0">
-                    Hyper-realistic digital humans and intelligent influencers for brands <span className="text-amber-200">ready to scale beyond limits</span>.
+                  <p className="text-[13px] sm:text-sm md:text-[15px] text-slate-300 font-light max-w-2xl leading-relaxed text-balance drop-shadow-md mb-6 md:mb-8">
+                    We create hyper-realistic AI avatars and digital influencers tailored to any niche. More than just visuals, we engineer the custom AI apps, intelligent agents, and backend automations that power them. Whether you need an always-on brand ambassador or an automated workflow to eliminate manual tasks, <span className="text-amber-300 font-medium">we orchestrate the entire pipeline so you can scale endlessly.</span>
                   </p>
                 </motion.div>
 
                 {/* Beat 2: Automation */}
                 <motion.div
                   style={{ opacity: beat2Opacity, y: beat2Y }}
-                  className="absolute inset-0 flex flex-col justify-end pb-[7vh] md:justify-center md:pb-0 pointer-events-none"
+                  className="absolute inset-0 flex flex-col justify-end pb-[10vh] md:pb-[15vh] pointer-events-none"
                 >
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
-                    &amp; <span className="text-emerald-400 drop-shadow-md">Automate</span><br />
-                    Your Business
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
+                    Avatars For <br />
+                    <span className="text-emerald-400 drop-shadow-md">Real Personas</span>
                   </h2>
-                  <p className="text-sm sm:text-base md:text-xl text-slate-300 font-light max-w-md text-balance drop-shadow-md pb-8 md:pb-0">
-                    End-to-end autonomous systems that work 24/7. <span className="text-amber-200">Eliminating bottlenecks</span> to fuel aggressive growth.
+                  <p className="text-[13px] sm:text-sm md:text-[15px] text-slate-300 font-light max-w-2xl leading-relaxed text-balance drop-shadow-md mb-6 md:mb-8">
+                    We know founders, coaches, and creators are often too busy to film. We clone your exact look and voice into a stunning digital twin, so you can generate countless videos just by typing text. Paired with our automated pipelines, <span className="text-amber-300 font-medium">your personal brand stays aggressively active 24/7.</span>
                   </p>
                 </motion.div>
 
                 {/* Beat 3: Value */}
                 <motion.div
                   style={{ opacity: beat3Opacity, y: beat3Y }}
-                  className="absolute inset-0 flex flex-col justify-end pb-[7vh] md:justify-center md:pb-0 pointer-events-none"
+                  className="absolute inset-0 flex flex-col justify-end pb-[10vh] md:pb-[15vh] pointer-events-none"
                 >
-                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[64px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
-                    Next-Gen <br/>
-                    <span className="text-emerald-400">Storytelling</span>
+                  <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
+                    Full-Stack AI <br/>
+                    <span className="text-emerald-400 drop-shadow-md">Systems &amp; Automation</span>
                   </h2>
-                  <p className="text-sm sm:text-base md:text-xl text-slate-300 font-light max-w-md text-balance drop-shadow-md pb-8 md:pb-0">
-                    Merge cinematic visuals with automated logic. Transform your reach, engage faster, and <span className="text-amber-200">dominate the digital landscape</span>.
+                  <p className="text-[13px] sm:text-sm md:text-[15px] text-slate-300 font-light max-w-xl leading-relaxed text-balance drop-shadow-md mb-6 md:mb-8">
+                    From designing high-converting landing pages and deploying intelligent voice agents, to engineering seamless client onboarding systems. <span className="block mt-2">We build custom web apps to connect all your tools so your team can manage workflows effortlessly—<span className="text-amber-300 font-medium">eliminating friction and driving scale.</span></span>
                   </p>
                 </motion.div>
 
@@ -417,15 +422,18 @@ export function HeroSequence() {
                   className="absolute inset-0 flex flex-col justify-end pb-[10vh] md:pb-[15vh] pointer-events-none"
                 >
                   <div className="pointer-events-auto">
-                    <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[56px] font-black tracking-tight leading-[1.05] mb-5 md:mb-6 text-white drop-shadow-lg">
-                      Ready to <span className="text-emerald-400 drop-shadow-md">Scale?</span>
+                    <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
+                      Ready to <span className="text-emerald-400 drop-shadow-md">Grow?</span>
                     </h2>
+                    <p className="text-[13px] sm:text-sm md:text-[15px] text-slate-300 font-light max-w-xl leading-relaxed text-balance drop-shadow-md mb-6 md:mb-8">
+                      Whether you want to build an AI avatar to showcase your brand online, automate repetitive backend tasks with efficiency, or create a custom app to manage your workforce—we have the solution. Let&apos;s have a call.
+                    </p>
                     <div className="flex flex-col sm:flex-row gap-3 md:gap-5 pb-8 md:pb-0 w-full sm:w-auto items-start">
                       <button
                         onClick={scrollToContact}
                         className="group px-6 py-2.5 sm:px-8 sm:py-4 bg-emerald-500 text-slate-950 text-sm sm:text-base md:text-lg font-bold rounded-full hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2 transform hover:scale-105 active:scale-95 w-fit"
                       >
-                        Book a Call
+                        Book an AI Audit
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </button>
                       <button
@@ -435,7 +443,7 @@ export function HeroSequence() {
                         }}
                         className="px-6 py-2.5 sm:px-8 sm:py-4 border border-yellow-500/30 bg-yellow-500/10 text-yellow-300 text-sm sm:text-base md:text-lg font-semibold rounded-full hover:bg-yellow-500/20 hover:border-yellow-500/50 transition-all shadow-[0_0_20px_rgba(253,224,71,0.15)] w-fit text-center"
                       >
-                        Explore Services
+                        Explore Our Solutions
                       </button>
                     </div>
                   </div>

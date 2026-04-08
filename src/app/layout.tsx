@@ -7,8 +7,8 @@ const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://glitch-ai-studio.vercel.app'),
-  title: "Glitch AI Studio — AI Avatar & Automation Agency",
-  description: "We create hyper-realistic AI avatars and influencers for brands, and build custom automation systems and AI-powered apps for businesses worldwide.",
+  title: "Glitch AI Studio | AI Avatar Creation & Business Automation Agency",
+  description: "Scale your brand with hyper-realistic AI avatars, custom AI apps, and workflow automation. Glitch AI Studio helps founders and agencies create video content 24/7 and automate operations.",
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',

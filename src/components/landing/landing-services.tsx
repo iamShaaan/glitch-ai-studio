@@ -6,16 +6,16 @@ import { Bot, Cpu, Sparkles, ArrowRight, Zap, Globe, Video, Code, Users, Workflo
 const services = [
   {
     title: "AI Avatar & Influencer Creation",
-    subtitle: "For Any Business & Brand",
+    subtitle: "Scale Your Content 24/7",
     description:
-      "We design, train, and deploy hyper-realistic AI avatars and virtual influencers that become the face of your brand — speaking in any language, creating content 24/7, and scaling your digital presence infinitely.",
+      "Stop filming manual videos. We design, clone, and deploy hyper-realistic AI avatars and digital influencers. Let your custom AI spokesperson speak in 29+ languages, educate customers, and generate leads around the clock.",
     icon: Bot,
     accentColor: "violet",
     features: [
       { icon: Video, text: "Photorealistic video avatars" },
-      { icon: Globe, text: "29+ languages with your tone" },
-      { icon: Sparkles, text: "AI influencer character design" },
-      { icon: Users, text: "Brand ambassador at scale" },
+      { icon: Globe, text: "Multi-language content scaling" },
+      { icon: Sparkles, text: "Custom AI voice cloning" },
+      { icon: Users, text: "Digital brand ambassadors" },
     ],
     gradient: "from-violet-500/20 via-violet-500/5 to-transparent",
     borderColor: "hover:border-violet-500/40",
@@ -26,17 +26,17 @@ const services = [
     dotColor: "bg-violet-500",
   },
   {
-    title: "Automation & Custom App Development",
-    subtitle: "For Any Business & Brand",
+    title: "AI Automation & Custom App Development",
+    subtitle: "Eliminate Manual Operations",
     description:
-      "We build intelligent automation systems and custom applications that eliminate manual work, streamline operations, and give your business a competitive edge with AI-powered workflows.",
+      "Stop losing time on repetitive tasks. We build intelligent workflows and custom AI applications tailored to your business rules. From automated lead generation to complete internal tool development.",
     icon: Cpu,
     accentColor: "emerald",
     features: [
       { icon: Workflow, text: "End-to-end workflow automation" },
-      { icon: Code, text: "Custom AI-powered apps" },
-      { icon: Zap, text: "System integration & APIs" },
-      { icon: Sparkles, text: "AI agents & chatbots" },
+      { icon: Code, text: "Custom AI app development" },
+      { icon: Zap, text: "CRM & API integrations" },
+      { icon: Sparkles, text: "AI agents & intelligent chatbots" },
     ],
     gradient: "from-emerald-500/20 via-emerald-500/5 to-transparent",
     borderColor: "hover:border-emerald-500/40",
@@ -75,11 +75,11 @@ export function LandingServices() {
             </span>
           </div>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-4">
-            Two Services.{" "}
-            <span className="text-emerald-400">Infinite Scale.</span>
+            Two Specialized AI Solutions.{" "}
+            <span className="text-emerald-400">Infinite Business Scale.</span>
           </h2>
           <p className="text-slate-400 max-w-xl mx-auto text-sm md:text-lg leading-relaxed px-4">
-            We focus on what matters — building AI-powered assets that grow your brand and streamline your operations.
+            We engineer AI systems that solve your two biggest bottlenecks: content creation at scale and operational efficiency.
           </p>
         </div>
 
