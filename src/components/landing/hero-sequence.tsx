@@ -149,15 +149,19 @@ export function HeroSequence() {
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
-  if (!hasMounted) return null;
+  // Do NOT return null here — containerRef must always be attached so useScroll
+  // can track the hero section. Returning null causes useScroll to fall back to
+  // tracking the full window scroll, breaking Beats 3 and 4.
+
+  // Show mobile hero only after mount confirms it's mobile
+  if (hasMounted && isMobile) {
+    return <MobileHero />;
+  }
 
   return (
     <>
-      {isMobile ? (
-        <MobileHero />
-      ) : (
-        <section ref={containerRef} className="relative h-[400vh] w-full bg-[#030712]">
-          <div className="sticky top-0 w-full h-screen overflow-hidden">
+      <section ref={containerRef} className="relative h-[400vh] w-full bg-[#030712]">
+        <div className="sticky top-0 w-full h-screen overflow-hidden">
             
             <video
               ref={videoRef}
@@ -284,7 +288,6 @@ export function HeroSequence() {
             </motion.div>
           </div>
         </section>
-      )}
     </>
   );
 }
