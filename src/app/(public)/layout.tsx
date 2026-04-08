@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
+import { LoadingProvider } from "@/context/loading-context";
+import { GlobalLoader } from "@/components/loading/global-loader";
 
 export default function PublicLayout({
     children,
@@ -13,8 +15,11 @@ export default function PublicLayout({
     }, []);
 
     return (
-        <main>
-            {children}
-        </main>
+        <LoadingProvider>
+            <GlobalLoader />
+            <main>
+                {children}
+            </main>
+        </LoadingProvider>
     );
 }

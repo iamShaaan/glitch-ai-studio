@@ -1,97 +1,10 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence, useScroll, useTransform, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
 import { ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
-
-function CinematicLoader({ progress, isReady }: { progress: number; isReady: boolean }) {
-  return (
-    <AnimatePresence>
-      {!isReady && (
-        <motion.div
-          key="loader"
-          initial={{ opacity: 1 }}
-          exit={{ opacity: 0, pointerEvents: "none" }}
-          transition={{ duration: 0.6, ease: "easeInOut" }}
-          // pointer-events none during exit so the fading overlay never blocks scroll on the hero
-          style={{ pointerEvents: "auto" }}
-          onAnimationStart={(def) => {
-            // As soon as exit starts, disable pointer events immediately
-            if ((def as Record<string, unknown>).opacity === 0) {
-              (document.activeElement as HTMLElement | null)?.blur();
-            }
-          }}
-          className="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-[#030712]"
-        >
-          {/* Ambient glow */}
-          <div className="absolute inset-0 overflow-hidden pointer-events-none">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-[120px]" />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-violet-500/5 rounded-full blur-[80px]" />
-          </div>
-
-          <div className="relative flex flex-col items-center gap-10 px-8 w-full max-w-sm">
-            {/* Logo */}
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.6 }}
-              className="relative w-48 h-14"
-            >
-              <Image src="/logo.png" alt="Glitch AI Studio" fill className="object-contain" priority />
-            </motion.div>
-
-            {/* Label */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="flex flex-col items-center gap-1"
-            >
-              <p className="text-white/30 text-[10px] tracking-[0.3em] uppercase font-mono">
-                Preparing Cinematic Experience
-              </p>
-            </motion.div>
-
-            {/* Progress bar */}
-            <motion.div
-              initial={{ opacity: 0, scaleX: 0.8 }}
-              animate={{ opacity: 1, scaleX: 1 }}
-              transition={{ delay: 0.5, duration: 0.4 }}
-              className="w-full"
-            >
-              <div className="relative w-full h-[1px] bg-white/5 rounded-full overflow-hidden">
-                <motion.div
-                  className="absolute top-0 left-0 h-full bg-emerald-400 rounded-full"
-                  animate={{ width: `${progress}%` }}
-                  transition={{ ease: "easeOut", duration: 0.5 }}
-                />
-                {/* Shimmer */}
-                <motion.div
-                  className="absolute top-0 h-full w-12 bg-gradient-to-r from-transparent via-emerald-300/40 to-transparent"
-                  animate={{ left: [`-10%`, `110%`] }}
-                  transition={{ duration: 1.4, repeat: Infinity, ease: "linear" }}
-                />
-              </div>
-              <div className="flex justify-between items-center mt-3">
-                <span className="text-white/20 text-[9px] font-mono tracking-widest">GLITCH.AI</span>
-                <span className="text-emerald-400/60 text-[10px] font-mono tabular-nums">
-                  {Math.round(progress)}%
-                </span>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Corner accents */}
-          <div className="absolute top-6 left-6 w-8 h-8 border-t border-l border-white/5" />
-          <div className="absolute top-6 right-6 w-8 h-8 border-t border-r border-white/5" />
-          <div className="absolute bottom-6 left-6 w-8 h-8 border-b border-l border-white/5" />
-          <div className="absolute bottom-6 right-6 w-8 h-8 border-b border-r border-white/5" />
-        </motion.div>
-      )}
-    </AnimatePresence>
-  );
-}
+import { useLoading } from "@/context/loading-context";
 
 // Static CSS-only ambient background — zero GPU-draining JS animations
 const MobileBackground = () => (
@@ -172,14 +85,11 @@ const MobileHero = () => (
 );
 
 export function HeroSequence() {
+  const { registerAsset, updateAssetProgress, setAssetLoaded, isReady } = useLoading();
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [loadProgress, setLoadProgress] = useState(0);
-  const [isReady, setIsReady] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
-  // Use a ref so the buffering effect always reads the latest value without a stale closure
-  const isMobileRef = useRef(false);
 
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -196,106 +106,61 @@ export function HeroSequence() {
     setHasMounted(true);
     const checkMobile = () => {
       const isMobileDevice = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-      isMobileRef.current = isMobileDevice;
       setIsMobile(isMobileDevice);
       if (isMobileDevice) {
-        setLoadProgress(100);
-        setIsReady(true);
+        // Mobile doesn't use the video asset for scrub
+        setAssetLoaded("hero_video");
       }
     };
+    
+    // Register the video asset for desktop
+    registerAsset("hero_video", "video");
+    
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
-  }, []);
+  }, [registerAsset, setAssetLoaded]);
 
-  // Track video buffer progress for the loading screen
+  // Track video buffer progress for the global loading screen
   useEffect(() => {
-    // Always read from the ref (not state) to avoid stale closure on first render
-    if (isMobileRef.current) return;
+    const video = videoRef.current;
+    if (!video || isMobile) return;
 
     let isDone = false;
-    // Record when loading started so we can enforce a minimum display time
-    const startTime = Date.now();
-    // Minimum time the loader must be visible so the animation feels intentional
-    const MIN_DISPLAY_MS = 1500;
 
-    const finalizeReady = () => {
-      if (isDone) return;
-      isDone = true;
-      setLoadProgress(100);
-      // Enforce the minimum display time before fading out
-      const elapsed = Date.now() - startTime;
-      const remaining = Math.max(0, MIN_DISPLAY_MS - elapsed);
-      setTimeout(() => setIsReady(true), remaining + 400);
-    };
-
-    // Hard fallback: 10 seconds max wait — enough for slow/3G connections
-    const timeoutId = setTimeout(finalizeReady, 10000);
-
-    // Simulated progress — always keeps the bar moving so it never looks frozen.
-    // Fast phase: 0→80% in ~4.8s (60 ticks × 100ms interval)
-    // Slow phase: 80→98% much slower so it doesn't stall visually before real load finishes
-    let simulatedPct = 0;
-    const simulationInterval = setInterval(() => {
-      if (isDone) { clearInterval(simulationInterval); return; }
-      // Ease: fast early, increasingly slow as it approaches 98%.
-      const increment = simulatedPct < 80 ? 2 : simulatedPct < 90 ? 0.5 : 0.15;
-      simulatedPct = Math.min(simulatedPct + increment, 98);
-      setLoadProgress((prev) => Math.max(prev, Math.round(simulatedPct * 10) / 10));
-    }, 100);
-
-    const video = videoRef.current;
-
-    if (!video) {
-      return () => {
-        clearTimeout(timeoutId);
-        clearInterval(simulationInterval);
-      };
-    }
-
-    const updateProgress = () => {
+    const onProgress = () => {
       if (isDone) return;
       if (!video.duration) return;
       try {
         const buffered = video.buffered;
         if (buffered.length > 0) {
-          const pct = Math.min(99, (buffered.end(buffered.length - 1) / video.duration) * 100);
-          setLoadProgress((prev) => Math.max(prev, pct));
+          const pct = (buffered.end(buffered.length - 1) / video.duration) * 100;
+          updateAssetProgress("hero_video", Math.min(99, pct));
         }
       } catch {}
     };
 
-    // Only finalize once metadata is loaded so video.duration is valid for scrubbing
-    const onMetadataLoaded = () => {
-      // If already well-buffered when metadata arrives, mark ready right away
-      if (video.readyState >= 4) {
-        finalizeReady();
-      }
+    const onCanPlayThrough = () => {
+      if (isDone) return;
+      isDone = true;
+      setAssetLoaded("hero_video");
     };
-
-    const onCanPlayThrough = () => finalizeReady();
 
     // If video is already fully ready (cached), skip straight to done
     if (video.readyState >= 4) {
-      // Still run the minimum display time
-      clearInterval(simulationInterval);
-      setLoadProgress(100);
-      finalizeReady();
+      onCanPlayThrough();
     } else {
-      video.addEventListener("loadedmetadata", onMetadataLoaded);
-      video.addEventListener("progress", updateProgress);
+      video.addEventListener("progress", onProgress);
       video.addEventListener("canplaythrough", onCanPlayThrough);
+      video.addEventListener("loadedmetadata", onProgress);
     }
 
     return () => {
-      clearTimeout(timeoutId);
-      clearInterval(simulationInterval);
-      video.removeEventListener("loadedmetadata", onMetadataLoaded);
-      video.removeEventListener("progress", updateProgress);
+      video.removeEventListener("progress", onProgress);
       video.removeEventListener("canplaythrough", onCanPlayThrough);
+      video.removeEventListener("loadedmetadata", onProgress);
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [isMobile, updateAssetProgress, setAssetLoaded]);
 
   // Drive video currentTime from scroll — ONLY on desktop!
   useEffect(() => {
@@ -313,7 +178,7 @@ export function HeroSequence() {
     });
   }, [smoothProgress, isReady, isMobile]);
 
-  // Content rendering based on progress steps
+  // Content rendering transitions
   const beat1Opacity = useTransform(smoothProgress, [0, 0.15, 0.2, 0.25], [1, 1, 0, 0]);
   const beat1Y = useTransform(smoothProgress, [0, 0.2], [0, -40]);
 
@@ -331,12 +196,13 @@ export function HeroSequence() {
   const scrollToContact = () => {
     const el = document.querySelector("#contact");
     if (el) el.scrollIntoView({ behavior: "smooth" });
-  };  return (
-    <>
-      <CinematicLoader progress={loadProgress} isReady={isReady} />
+  };
 
-      {/* Conditionally Render Entire Architectures */}
-      {hasMounted && isMobile ? (
+  if (!hasMounted) return null;
+
+  return (
+    <>
+      {isMobile ? (
         <MobileHero />
       ) : (
         <section ref={containerRef} className="relative h-[400vh] w-full bg-[#030712]">

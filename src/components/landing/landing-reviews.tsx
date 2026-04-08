@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useLoading } from "@/context/loading-context";
 
 const TOTAL_REVIEWS = 63;
 const reviews = Array.from({ length: TOTAL_REVIEWS }, (_, i) => ({
@@ -16,20 +17,45 @@ const STRIDE = CARD_W + GAP;
 const MID = Math.floor(TOTAL_REVIEWS / 2); // 31
 
 export function LandingReviews() {
+  const { registerAsset, setAssetLoaded } = useLoading();
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(MID);
   const dragRef = useRef({ dragging: false, startX: 0, startScroll: 0 });
 
-  /* ── Centering helpers ───────────────────────────────────────────
-   * Padding = calc(50vw - CARD_W/2) so that:
-   *   card[i] centre = paddingLeft + i*STRIDE + CARD_W/2
-   *                  = (50vw - CARD_W/2) + i*STRIDE + CARD_W/2
-   *                  = 50vw + i*STRIDE
-   * Card[i] is visually centred when scrollLeft = i * STRIDE
-   * ─────────────────────────────────────────────────────────────── */
+  useEffect(() => {
+    // Register the gallery as a critical asset
+    registerAsset("review_gallery", "image");
+
+    // Preload the most important 10 images around the starting point
+    const criticalIndexes = Array.from({ length: 11 }, (_, i) => MID - 5 + i);
+    let loadedCount = 0;
+    const targetCount = criticalIndexes.length;
+
+    criticalIndexes.forEach(idx => {
+      if (idx < 0 || idx >= TOTAL_REVIEWS) {
+        loadedCount++;
+        return;
+      }
+      const img = new window.Image();
+      img.src = reviews[idx].src;
+      img.onload = () => {
+        loadedCount++;
+        if (loadedCount >= targetCount) {
+          setAssetLoaded("review_gallery");
+        }
+      };
+      img.onerror = () => {
+        loadedCount++;
+        if (loadedCount >= targetCount) {
+          setAssetLoaded("review_gallery");
+        }
+      };
+    });
+  }, [registerAsset, setAssetLoaded]);
+
+  /* ── Centering helpers ─────────────────────────────────────────── */
   const scrollForIndex = (i: number) => i * STRIDE;
 
-  /* Detect which card is centred */
   const onScroll = useCallback(() => {
     const t = trackRef.current;
     if (!t) return;
@@ -37,7 +63,6 @@ export function LandingReviews() {
     setActive(Math.max(0, Math.min(idx, reviews.length - 1)));
   }, []);
 
-  /* Init: jump to middle card immediately */
   useEffect(() => {
     const t = trackRef.current;
     if (!t) return;
@@ -46,7 +71,6 @@ export function LandingReviews() {
       t.scrollLeft = scrollForIndex(MID);
       setActive(MID);
     };
-    // Two rAFs: first ensures layout, second ensures scroll is applied after paint
     const id = requestAnimationFrame(() => requestAnimationFrame(init));
 
     t.addEventListener("scroll", onScroll, { passive: true });
@@ -69,7 +93,6 @@ export function LandingReviews() {
     return () => t.removeEventListener("wheel", onWheel);
   }, []);
 
-  /* Mouse drag */
   const mDown = (e: React.MouseEvent) => {
     dragRef.current = { dragging: true, startX: e.clientX, startScroll: trackRef.current?.scrollLeft ?? 0 };
     document.body.style.userSelect = "none";
@@ -91,7 +114,6 @@ export function LandingReviews() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
 
       <div className="relative z-10">
-        {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -113,7 +135,6 @@ export function LandingReviews() {
           </p>
         </motion.div>
 
-        {/* Carousel */}
         <div className="relative w-full">
           {/* Edge fades */}
           <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-40 md:w-64 z-10 bg-gradient-to-r from-[#030712] via-[#030712]/80 to-transparent" />
@@ -128,13 +149,6 @@ export function LandingReviews() {
               gap: `${GAP}px`,
               paddingTop: 48,
               paddingBottom: 48,
-              /* KEY FIX:
-               * card[i] center in scroll-content = paddingLeft + i*STRIDE + CARD_W/2
-               * We want card[i] centered in viewport (50vw) when scrollLeft = i*STRIDE.
-               * So: 50vw = paddingLeft + i*STRIDE + CARD_W/2 - scrollLeft
-               *       = paddingLeft + CARD_W/2  (when scrollLeft = i*STRIDE)
-               * Therefore: paddingLeft = 50vw - CARD_W/2 = calc(50vw - 200px)
-               */
               paddingLeft: `calc(50vw - ${CARD_W / 2}px)`,
               paddingRight: `calc(50vw - ${CARD_W / 2}px)`,
             }}
