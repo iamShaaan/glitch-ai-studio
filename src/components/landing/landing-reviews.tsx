@@ -22,6 +22,8 @@ export function LandingReviews() {
   const [active, setActive] = useState(MID);
   const dragRef = useRef({ dragging: false, startX: 0, startScroll: 0 });
 
+  const preloadRefs = useRef<HTMLImageElement[]>([]);
+
   useEffect(() => {
     // Register the gallery as a critical asset
     registerAsset("review_gallery", "image");
@@ -30,6 +32,11 @@ export function LandingReviews() {
     const criticalIndexes = Array.from({ length: 11 }, (_, i) => MID - 5 + i);
     let loadedCount = 0;
     const targetCount = criticalIndexes.length;
+    
+    // Fail-safe: if images take too long (e.g. 5s), mark as loaded anyway
+    const failSafe = setTimeout(() => {
+      setAssetLoaded("review_gallery");
+    }, 5000);
 
     criticalIndexes.forEach(idx => {
       if (idx < 0 || idx >= TOTAL_REVIEWS) {
@@ -37,20 +44,28 @@ export function LandingReviews() {
         return;
       }
       const img = new window.Image();
+      preloadRefs.current.push(img); // Prevent GC
       img.src = reviews[idx].src;
       img.onload = () => {
         loadedCount++;
         if (loadedCount >= targetCount) {
+          clearTimeout(failSafe);
           setAssetLoaded("review_gallery");
         }
       };
       img.onerror = () => {
         loadedCount++;
         if (loadedCount >= targetCount) {
+          clearTimeout(failSafe);
           setAssetLoaded("review_gallery");
         }
       };
     });
+
+    return () => {
+      clearTimeout(failSafe);
+      preloadRefs.current = [];
+    };
   }, [registerAsset, setAssetLoaded]);
 
   /* ── Centering helpers ─────────────────────────────────────────── */

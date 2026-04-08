@@ -44,10 +44,11 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
 
   const setAssetLoaded = useCallback((id: string) => {
     setAssets((prev) => {
-      if (!prev[id]) return prev;
+      // If asset isn't registered yet, we create it to avoid race conditions
+      const existing = prev[id] || { id, progress: 0, isLoaded: false, type: "other" };
       return {
         ...prev,
-        [id]: { ...prev[id], progress: 100, isLoaded: true },
+        [id]: { ...existing, progress: 100, isLoaded: true },
       };
     });
   }, []);
