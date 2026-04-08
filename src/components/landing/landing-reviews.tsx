@@ -3,7 +3,6 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { useLoading } from "@/context/loading-context";
 
 const TOTAL_REVIEWS = 63;
 const reviews = Array.from({ length: TOTAL_REVIEWS }, (_, i) => ({
@@ -17,56 +16,9 @@ const STRIDE = CARD_W + GAP;
 const MID = Math.floor(TOTAL_REVIEWS / 2); // 31
 
 export function LandingReviews() {
-  const { registerAsset, setAssetLoaded } = useLoading();
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(MID);
   const dragRef = useRef({ dragging: false, startX: 0, startScroll: 0 });
-
-  const preloadRefs = useRef<HTMLImageElement[]>([]);
-
-  useEffect(() => {
-    // Register the gallery as a critical asset
-    registerAsset("review_gallery", "image");
-
-    // Preload the most important 10 images around the starting point
-    const criticalIndexes = Array.from({ length: 11 }, (_, i) => MID - 5 + i);
-    let loadedCount = 0;
-    const targetCount = criticalIndexes.length;
-    
-    // Fail-safe: if images take too long (e.g. 5s), mark as loaded anyway
-    const failSafe = setTimeout(() => {
-      setAssetLoaded("review_gallery");
-    }, 5000);
-
-    criticalIndexes.forEach(idx => {
-      if (idx < 0 || idx >= TOTAL_REVIEWS) {
-        loadedCount++;
-        return;
-      }
-      const img = new window.Image();
-      preloadRefs.current.push(img); // Prevent GC
-      img.src = reviews[idx].src;
-      img.onload = () => {
-        loadedCount++;
-        if (loadedCount >= targetCount) {
-          clearTimeout(failSafe);
-          setAssetLoaded("review_gallery");
-        }
-      };
-      img.onerror = () => {
-        loadedCount++;
-        if (loadedCount >= targetCount) {
-          clearTimeout(failSafe);
-          setAssetLoaded("review_gallery");
-        }
-      };
-    });
-
-    return () => {
-      clearTimeout(failSafe);
-      preloadRefs.current = [];
-    };
-  }, [registerAsset, setAssetLoaded]);
 
   /* ── Centering helpers ─────────────────────────────────────────── */
   const scrollForIndex = (i: number) => i * STRIDE;
@@ -215,8 +167,8 @@ export function LandingReviews() {
                       height={300}
                       className="w-full h-auto block"
                       sizes="(max-width: 640px) 90vw, 420px"
-                      priority={Math.abs(i - MID) <= 2}
-                      loading={Math.abs(i - MID) <= 2 ? "eager" : "lazy"}
+                      priority={Math.abs(i - MID) <= 5}
+                      loading={Math.abs(i - MID) <= 5 ? "eager" : "lazy"}
                     />
                   </div>
                 </div>

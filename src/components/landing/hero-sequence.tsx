@@ -85,7 +85,7 @@ const MobileHero = () => (
 );
 
 export function HeroSequence() {
-  const { registerAsset, updateAssetProgress, setAssetLoaded, isReady } = useLoading();
+  const { isReady } = useLoading();
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [hasMounted, setHasMounted] = useState(false);
@@ -107,62 +107,13 @@ export function HeroSequence() {
     const checkMobile = () => {
       const isMobileDevice = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       setIsMobile(isMobileDevice);
-      if (isMobileDevice) {
-        // Mobile doesn't use the video asset for scrub
-        setAssetLoaded("hero_video");
-      }
     };
-    
-    // Register the video asset for desktop
-    registerAsset("hero_video", "video");
-    
     checkMobile();
     window.addEventListener("resize", checkMobile);
     return () => window.removeEventListener("resize", checkMobile);
-  }, [registerAsset, setAssetLoaded]);
+  }, []);
 
-  // Track video buffer progress for the global loading screen
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video || isMobile) return;
-
-    let isDone = false;
-
-    const onProgress = () => {
-      if (isDone) return;
-      if (!video.duration) return;
-      try {
-        const buffered = video.buffered;
-        if (buffered.length > 0) {
-          const pct = (buffered.end(buffered.length - 1) / video.duration) * 100;
-          updateAssetProgress("hero_video", Math.min(99, pct));
-        }
-      } catch {}
-    };
-
-    const onCanPlayThrough = () => {
-      if (isDone) return;
-      isDone = true;
-      setAssetLoaded("hero_video");
-    };
-
-    // If video is already fully ready (cached), skip straight to done
-    if (video.readyState >= 4) {
-      onCanPlayThrough();
-    } else {
-      video.addEventListener("progress", onProgress);
-      video.addEventListener("canplaythrough", onCanPlayThrough);
-      video.addEventListener("loadedmetadata", onProgress);
-    }
-
-    return () => {
-      video.removeEventListener("progress", onProgress);
-      video.removeEventListener("canplaythrough", onCanPlayThrough);
-      video.removeEventListener("loadedmetadata", onProgress);
-    };
-  }, [isMobile, updateAssetProgress, setAssetLoaded]);
-
-  // Drive video currentTime from scroll — ONLY on desktop!
+  // Drive video currentTime from scroll — ONLY on desktop, ONLY when ready!
   useEffect(() => {
     if (!isReady || isMobile) return;
     
