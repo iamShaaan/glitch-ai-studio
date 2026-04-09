@@ -1,25 +1,37 @@
 "use client";
 
-import { useEffect } from "react";
 import { LoadingProvider } from "@/context/loading-context";
 import { GlobalLoader } from "@/components/loading/global-loader";
+import { useLoading } from "@/context/loading-context";
+
+// Inner wrapper so we can read isReady from context
+function PageContent({ children }: { children: React.ReactNode }) {
+  const { isReady } = useLoading();
+
+  return (
+    <main
+      style={{
+        // Layout is computed while loading (so scroll measurements work),
+        // but nothing is visible. Once isReady flips we show instantly.
+        visibility: isReady ? "visible" : "hidden",
+        // Prevent any opacity flash — use visibility not opacity so
+        // framer-motion whileInView animations still register correctly.
+      }}
+    >
+      {children}
+    </main>
+  );
+}
 
 export default function PublicLayout({
-    children,
+  children,
 }: {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }) {
-    useEffect(() => {
-        // Always start at the top of the page on load/navigation
-        window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-    }, []);
-
-    return (
-        <LoadingProvider>
-            <GlobalLoader />
-            <main>
-                {children}
-            </main>
-        </LoadingProvider>
-    );
+  return (
+    <LoadingProvider>
+      <GlobalLoader />
+      <PageContent>{children}</PageContent>
+    </LoadingProvider>
+  );
 }

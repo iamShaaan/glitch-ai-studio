@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion, AnimatePresence, useScroll, useMotionValueEvent, useTransform } from "framer-motion";
+import { useLoading } from "@/context/loading-context";
 import { Menu, X, ArrowRight } from "lucide-react";
 
 const navLinks = [
@@ -13,6 +14,7 @@ const navLinks = [
 ];
 
 export function LandingNav() {
+  const { isReady } = useLoading();
   const [isOpen, setIsOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const { scrollY, scrollYProgress } = useScroll();
@@ -95,7 +97,7 @@ export function LandingNav() {
     const check = () => {
       const mobile = window.innerWidth < 768 || /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
       setIsMobile(mobile);
-      if (mobile) setIsVisible(true);
+      // Do NOT set isVisible here — that is gated on isReady below
     };
     check();
     window.addEventListener("resize", check);
@@ -103,8 +105,15 @@ export function LandingNav() {
   }, []);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
+    // Only start tracking scroll after site is fully revealed
+    if (!isReady) return;
     if (!isMobile) setIsVisible(latest > 100);
   });
+
+  // On mobile isVisible is set immediately; on desktop we need isReady first
+  useEffect(() => {
+    if (isReady && isMobile) setIsVisible(true);
+  }, [isReady, isMobile]);
 
   const scrollToSection = (href: string) => {
     setIsOpen(false);

@@ -3,6 +3,7 @@
 import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useLoading } from "@/context/loading-context";
 
 const TOTAL_REVIEWS = 63;
 const reviews = Array.from({ length: TOTAL_REVIEWS }, (_, i) => ({
@@ -16,12 +17,67 @@ const STRIDE = CARD_W + GAP;
 const MID = Math.floor(TOTAL_REVIEWS / 2); // 31
 
 export function LandingReviews() {
+  const { isReady } = useLoading();
   const trackRef = useRef<HTMLDivElement>(null);
   const [active, setActive] = useState(MID);
   const dragRef = useRef({ dragging: false, startX: 0, startScroll: 0 });
+  const initializedRef = useRef(false);
 
   /* ── Centering helpers ─────────────────────────────────────────── */
   const scrollForIndex = (i: number) => i * STRIDE;
+
+  const centerMid = useCallback(() => {
+    const t = trackRef.current;
+    if (!t) return false;
+    // Only proceed once the track has a real scrollable width
+    if (t.scrollWidth <= t.clientWidth) return false;
+    t.scrollLeft = scrollForIndex(MID);
+    setActive(MID);
+    return true;
+  }, []);
+
+  /* Center on mount — retry until layout is ready (handles visibility:hidden
+     parent: the track has no layout until the parent is visible). */
+  useEffect(() => {
+    if (initializedRef.current) return;
+
+    // First attempt immediately
+    if (centerMid()) {
+      initializedRef.current = true;
+      return;
+    }
+
+    // Use ResizeObserver to catch the first time the track gets real dimensions
+    const t = trackRef.current;
+    if (!t) return;
+
+    const ro = new ResizeObserver(() => {
+      if (initializedRef.current) {
+        ro.disconnect();
+        return;
+      }
+      if (centerMid()) {
+        initializedRef.current = true;
+        ro.disconnect();
+      }
+    });
+    ro.observe(t);
+
+    return () => ro.disconnect();
+  }, [centerMid]);
+
+  /* Also re-center when isReady flips (visibility:hidden → visible) */
+  useEffect(() => {
+    if (!isReady) return;
+    // Small delay lets the browser do the paint first
+    const id = setTimeout(() => {
+      if (!initializedRef.current) {
+        centerMid();
+        initializedRef.current = true;
+      }
+    }, 50);
+    return () => clearTimeout(id);
+  }, [isReady, centerMid]);
 
   const onScroll = useCallback(() => {
     const t = trackRef.current;
@@ -33,18 +89,8 @@ export function LandingReviews() {
   useEffect(() => {
     const t = trackRef.current;
     if (!t) return;
-
-    const init = () => {
-      t.scrollLeft = scrollForIndex(MID);
-      setActive(MID);
-    };
-    const id = requestAnimationFrame(() => requestAnimationFrame(init));
-
     t.addEventListener("scroll", onScroll, { passive: true });
-    return () => {
-      cancelAnimationFrame(id);
-      t.removeEventListener("scroll", onScroll);
-    };
+    return () => t.removeEventListener("scroll", onScroll);
   }, [onScroll]);
 
   /* Wheel → horizontal */
@@ -61,7 +107,11 @@ export function LandingReviews() {
   }, []);
 
   const mDown = (e: React.MouseEvent) => {
-    dragRef.current = { dragging: true, startX: e.clientX, startScroll: trackRef.current?.scrollLeft ?? 0 };
+    dragRef.current = {
+      dragging: true,
+      startX: e.clientX,
+      startScroll: trackRef.current?.scrollLeft ?? 0,
+    };
     document.body.style.userSelect = "none";
   };
   const mMove = (e: React.MouseEvent) => {
@@ -69,7 +119,10 @@ export function LandingReviews() {
     if (!dragging || !trackRef.current) return;
     trackRef.current.scrollLeft = startScroll - (e.clientX - startX);
   };
-  const mUp = () => { dragRef.current.dragging = false; document.body.style.userSelect = ""; };
+  const mUp = () => {
+    dragRef.current.dragging = false;
+    document.body.style.userSelect = "";
+  };
 
   const goTo = (i: number) =>
     trackRef.current?.scrollTo({ left: scrollForIndex(i), behavior: "smooth" });
@@ -97,8 +150,12 @@ export function LandingReviews() {
             What Clients Say <span className="text-emerald-400">About Us</span>
           </h2>
           <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-            Real screenshots from Fiverr — no edits, no cherry-picking. Good reviews and the occasional critical one too.{" "}
-            <span className="text-amber-300 font-medium">100% transparent</span>, because the results speak for themselves.
+            Real screenshots from Fiverr — no edits, no cherry-picking. Good
+            reviews and the occasional critical one too.{" "}
+            <span className="text-amber-300 font-medium">
+              100% transparent
+            </span>
+            , because the results speak for themselves.
           </p>
         </motion.div>
 
@@ -132,16 +189,27 @@ export function LandingReviews() {
               return (
                 <div
                   key={i}
-                  onClick={() => { if (!dragRef.current.dragging) goTo(i); }}
+                  onClick={() => {
+                    if (!dragRef.current.dragging) goTo(i);
+                  }}
                   style={{
                     minWidth: CARD_W,
                     width: CARD_W,
                     flexShrink: 0,
                     position: "relative",
                     zIndex: isC ? 20 : isN ? 10 : 1,
-                    transition: "transform .4s cubic-bezier(.25,.46,.45,.94), filter .4s ease, opacity .4s ease",
-                    transform: isC ? "scale(1.08)" : isN ? "scale(0.91)" : "scale(0.82)",
-                    filter: isC ? "none" : isN ? "blur(1.5px) brightness(0.6)" : "blur(3px) brightness(0.35)",
+                    transition:
+                      "transform .4s cubic-bezier(.25,.46,.45,.94), filter .4s ease, opacity .4s ease",
+                    transform: isC
+                      ? "scale(1.08)"
+                      : isN
+                      ? "scale(0.91)"
+                      : "scale(0.82)",
+                    filter: isC
+                      ? "none"
+                      : isN
+                      ? "blur(1.5px) brightness(0.6)"
+                      : "blur(3px) brightness(0.35)",
                     opacity: isC ? 1 : isN ? 0.75 : 0.45,
                     cursor: isC ? "default" : "pointer",
                   }}
@@ -149,15 +217,23 @@ export function LandingReviews() {
                   {isC && (
                     <div
                       className="absolute -inset-3 rounded-3xl pointer-events-none"
-                      style={{ background: "radial-gradient(ellipse,rgba(16,185,129,.18) 0%,transparent 70%)", filter: "blur(16px)" }}
+                      style={{
+                        background:
+                          "radial-gradient(ellipse,rgba(16,185,129,.18) 0%,transparent 70%)",
+                        filter: "blur(16px)",
+                      }}
                     />
                   )}
                   <div
                     className="relative z-10 rounded-2xl overflow-hidden"
                     style={{
-                      border: isC ? "1.5px solid rgba(16,185,129,.4)" : "1px solid rgba(255,255,255,.06)",
+                      border: isC
+                        ? "1.5px solid rgba(16,185,129,.4)"
+                        : "1px solid rgba(255,255,255,.06)",
                       backgroundColor: "#0d1117",
-                      boxShadow: isC ? "0 24px 64px rgba(0,0,0,.8),0 0 40px rgba(16,185,129,.1)" : "0 8px 24px rgba(0,0,0,.5)",
+                      boxShadow: isC
+                        ? "0 24px 64px rgba(0,0,0,.8),0 0 40px rgba(16,185,129,.1)"
+                        : "0 8px 24px rgba(0,0,0,.5)",
                     }}
                   >
                     <Image
@@ -167,8 +243,8 @@ export function LandingReviews() {
                       height={300}
                       className="w-full h-auto block"
                       sizes="(max-width: 640px) 90vw, 420px"
-                      priority={Math.abs(i - MID) <= 5}
-                      loading={Math.abs(i - MID) <= 5 ? "eager" : "lazy"}
+                      priority={Math.abs(i - MID) <= 3}
+                      loading={Math.abs(i - MID) <= 3 ? "eager" : "lazy"}
                     />
                   </div>
                 </div>
