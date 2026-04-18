@@ -1,9 +1,7 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
-
-const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://glitch-ai-studio.vercel.app'),
@@ -23,8 +21,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${outfit.className} bg-[#030712] text-slate-100 antialiased`}>
-        {children}
+      <body className="bg-[#030712] text-slate-100 antialiased">
+        <Suspense>{children}</Suspense>
         <Toaster position="bottom-right"
           toastOptions={{
             style: {

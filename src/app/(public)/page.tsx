@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { HeroSequence } from "@/components/landing/hero-sequence";
 import { LandingServices } from "@/components/landing/landing-services";
 import { LandingProcess } from "@/components/landing/landing-process";
@@ -22,9 +23,10 @@ export default function Home() {
       <LandingReviews />
       <LandingProof />
       <LandingFAQ />
-      <LandingForm />
+      <Suspense fallback={null}>
+        <LandingForm />
+      </Suspense>
       <LandingFooter />
     </>
   );
 }
-
