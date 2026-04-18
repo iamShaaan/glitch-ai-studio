@@ -6,9 +6,20 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useLoading } from "@/context/loading-context";
 
-// Static CSS-only ambient background — zero GPU-draining JS animations
 const MobileBackground = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none bg-[#030712] z-0">
+    <video
+      src="/hero.mp4"
+      poster="/hero-poster.jpg"
+      muted
+      playsInline
+      loop
+      autoPlay
+      preload="auto"
+      className="absolute inset-0 w-full h-full object-cover opacity-60"
+      style={{ pointerEvents: "none" }}
+    />
+    <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#030712]/80 to-[#030712] pointer-events-none" />
     <div className="absolute top-[-10%] left-[-20%] w-[80vw] h-[80vw] bg-emerald-500/15 rounded-full blur-[100px]" />
     <div className="absolute bottom-[-10%] right-[-20%] w-[70vw] h-[70vw] bg-violet-500/10 rounded-full blur-[90px]" />
   </div>

@@ -11,9 +11,7 @@ const reviews = Array.from({ length: TOTAL_REVIEWS }, (_, i) => ({
   alt: `Fiverr Review ${i + 1}`,
 }));
 
-const CARD_W = 400;
 const GAP = 24;
-const STRIDE = CARD_W + GAP;
 const MID = Math.floor(TOTAL_REVIEWS / 2); // 31
 
 export function LandingReviews() {
@@ -23,8 +21,21 @@ export function LandingReviews() {
   const dragRef = useRef({ dragging: false, startX: 0, startScroll: 0 });
   const initializedRef = useRef(false);
 
+  const [cardW, setCardW] = useState(400);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setCardW(window.innerWidth < 640 ? 260 : 400);
+    };
+    handleResize(); // Initial
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const stride = cardW + GAP;
+
   /* ── Centering helpers ─────────────────────────────────────────── */
-  const scrollForIndex = (i: number) => i * STRIDE;
+  const scrollForIndex = useCallback((i: number) => i * stride, [stride]);
 
   const centerMid = useCallback(() => {
     const t = trackRef.current;
@@ -34,7 +45,7 @@ export function LandingReviews() {
     t.scrollLeft = scrollForIndex(MID);
     setActive(MID);
     return true;
-  }, []);
+  }, [scrollForIndex]);
 
   /* Center on mount — retry until layout is ready (handles visibility:hidden
      parent: the track has no layout until the parent is visible). */
@@ -82,9 +93,9 @@ export function LandingReviews() {
   const onScroll = useCallback(() => {
     const t = trackRef.current;
     if (!t) return;
-    const idx = Math.round(t.scrollLeft / STRIDE);
+    const idx = Math.round(t.scrollLeft / stride);
     setActive(Math.max(0, Math.min(idx, reviews.length - 1)));
-  }, []);
+  }, [stride]);
 
   useEffect(() => {
     const t = trackRef.current;
@@ -161,8 +172,8 @@ export function LandingReviews() {
 
         <div className="relative w-full">
           {/* Edge fades */}
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-40 md:w-64 z-10 bg-gradient-to-r from-[#030712] via-[#030712]/80 to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-40 md:w-64 z-10 bg-gradient-to-l from-[#030712] via-[#030712]/80 to-transparent" />
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 sm:w-24 md:w-64 z-10 bg-gradient-to-r from-[#030712] via-[#030712]/80 to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 sm:w-24 md:w-64 z-10 bg-gradient-to-l from-[#030712] via-[#030712]/80 to-transparent" />
 
           <div
             ref={trackRef}
@@ -173,8 +184,8 @@ export function LandingReviews() {
               gap: `${GAP}px`,
               paddingTop: 24,
               paddingBottom: 8,
-              paddingLeft: `calc(50vw - ${CARD_W / 2}px)`,
-              paddingRight: `calc(50vw - ${CARD_W / 2}px)`,
+              paddingLeft: `calc(50vw - ${cardW / 2}px)`,
+              paddingRight: `calc(50vw - ${cardW / 2}px)`,
             }}
             onMouseDown={mDown}
             onMouseMove={mMove}
@@ -193,8 +204,8 @@ export function LandingReviews() {
                     if (!dragRef.current.dragging) goTo(i);
                   }}
                   style={{
-                    minWidth: CARD_W,
-                    width: CARD_W,
+                    minWidth: cardW,
+                    width: cardW,
                     flexShrink: 0,
                     position: "relative",
                     zIndex: isC ? 20 : isN ? 10 : 1,
@@ -239,7 +250,7 @@ export function LandingReviews() {
                     <Image
                       src={rev.src}
                       alt={rev.alt}
-                      width={CARD_W}
+                      width={cardW}
                       height={300}
                       className="w-full h-auto block"
                       sizes="(max-width: 640px) 90vw, 420px"
