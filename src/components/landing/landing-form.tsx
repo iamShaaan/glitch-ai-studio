@@ -1,202 +1,37 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
-import { ExternalLink, Loader2, Sparkles } from "lucide-react";
+import { Sparkles, Loader2 } from "lucide-react";
+import Cal, { getCalApi } from "@calcom/embed-react";
 
-type CalEmbedStatus = "idle" | "loading" | "ready" | "error";
-
-declare global {
-  interface Window {
-    Cal?: ((...args: unknown[]) => void) & {
-      loaded?: boolean;
-      ns?: Record<string, (...args: unknown[]) => void>;
-      q?: unknown[][];
-    };
-  }
-}
-
-const CAL_SCRIPT_ID = "cal-embed-script";
-const CAL_NAMESPACE = "glitchAiStudioConsultation";
 const DEFAULT_CAL_LINK = "soumitro-halder-shan-ltvmbb/consultation-about-ai-avatar-creation";
 
-let calScriptPromise: Promise<void> | null = null;
-
-function loadCalEmbedScript() {
-  if (typeof window === "undefined") {
-    return Promise.resolve();
-  }
-
-  if (calScriptPromise) {
-    return calScriptPromise;
-  }
-
-  calScriptPromise = new Promise((resolve, reject) => {
-    const existingScript = document.getElementById(CAL_SCRIPT_ID) as HTMLScriptElement | null;
-    const finalize = () => resolve();
-    const fail = () => reject(new Error("Failed to load Cal.com embed script."));
-
-    if (!window.Cal) {
-      ((C, A, L) => {
-        const push = (api: { q?: unknown[][] }, args: unknown[]) => {
-          api.q = api.q || [];
-          api.q.push(args);
-        };
-
-        const d = C.document;
-
-        C.Cal =
-          C.Cal ||
-          function (...args: unknown[]) {
-            const cal = C.Cal;
-            if (!cal) return;
-
-            if (!cal.loaded) {
-              cal.ns = cal.ns || {};
-              cal.q = cal.q || [];
-
-              const script = d.createElement("script");
-              script.src = A;
-              script.async = true;
-              script.id = CAL_SCRIPT_ID;
-              script.addEventListener("load", finalize, { once: true });
-              script.addEventListener("error", fail, { once: true });
-              d.head.appendChild(script);
-              cal.loaded = true;
-            }
-
-            if (args[0] === L) {
-              const api = function (...apiArgs: unknown[]) {
-                push(api as { q?: unknown[][] }, apiArgs);
-              };
-
-              const namespace = args[1];
-              (api as { q?: unknown[][] }).q = (api as { q?: unknown[][] }).q || [];
-
-              if (typeof namespace === "string") {
-                cal.ns![namespace] = cal.ns![namespace] || api;
-                push(cal.ns![namespace] as { q?: unknown[][] }, args);
-                push(cal, ["initNamespace", namespace]);
-              } else {
-                push(cal, args);
-              }
-
-              return;
-            }
-
-            push(cal, args);
-          };
-      })(window, "https://app.cal.com/embed/embed.js", "init");
-    }
-
-    if (existingScript) {
-      if (existingScript.dataset.loaded === "true") {
-        finalize();
-        return;
-      }
-
-      existingScript.addEventListener(
-        "load",
-        () => {
-          existingScript.dataset.loaded = "true";
-          finalize();
-        },
-        { once: true }
-      );
-      existingScript.addEventListener("error", fail, { once: true });
-      return;
-    }
-
-    const script = document.getElementById(CAL_SCRIPT_ID) as HTMLScriptElement | null;
-    if (script) {
-      script.addEventListener(
-        "load",
-        () => {
-          script.dataset.loaded = "true";
-          finalize();
-        },
-        { once: true }
-      );
-      script.addEventListener("error", fail, { once: true });
-    } else if (window.Cal?.loaded) {
-      finalize();
-    }
-  });
-
-  return calScriptPromise;
-}
-
 export function LandingForm() {
-  const embedRef = useRef<HTMLDivElement | null>(null);
-  const [embedStatus, setEmbedStatus] = useState<CalEmbedStatus>("idle");
-
+  const [isLoaded, setIsLoaded] = useState(false);
   const calLink = process.env.NEXT_PUBLIC_CAL_LINK || DEFAULT_CAL_LINK;
 
   useEffect(() => {
-    if (!calLink || !embedRef.current) {
-      return;
-    }
-
-    let cancelled = false;
-    const container = embedRef.current;
-
-    const renderEmbed = async () => {
-      setEmbedStatus("loading");
-
-      try {
-        await loadCalEmbedScript();
-        if (cancelled || !window.Cal?.ns) return;
-
-        container.innerHTML = "";
-
-        const config = {
-          layout: "month_view",
-          ...(typeof window !== "undefined"
-            ? {
-                "metadata[sourcePage]": window.location.href,
-                "metadata[sourceSection]": "contact",
-              }
-            : {}),
-        };
-
-        window.Cal("init", CAL_NAMESPACE, { origin: "https://app.cal.com" });
-        window.Cal.ns[CAL_NAMESPACE]?.("inline", {
-          elementOrSelector: container,
-          calLink,
-          config,
-        });
-        window.Cal.ns[CAL_NAMESPACE]?.("ui", {
-          layout: "month_view",
-          theme: "dark",
-          hideEventTypeDetails: false,
-          cssVarsPerTheme: {
-            dark: {
-              "cal-brand": "#34d399",
-              "cal-bg": "#07111f",
-              "cal-text": "#f8fafc",
-              "cal-border": "#1f3a4d",
-            },
+    (async function () {
+      const cal = await getCalApi();
+      cal("ui", {
+        theme: "dark",
+        hideEventTypeDetails: false,
+        layout: "month_view",
+        cssVarsPerTheme: {
+          dark: {
+            "cal-brand": "#34d399",
+            "cal-bg": "#07111f",
+            "cal-text": "#f8fafc",
+            "cal-border": "#1f3a4d",
           },
-        });
-
-        if (!cancelled) {
-          setEmbedStatus("ready");
-        }
-      } catch (error) {
-        console.error("[LandingForm] Failed to initialize Cal.com embed:", error);
-        if (!cancelled) {
-          setEmbedStatus("error");
-        }
-      }
-    };
-
-    renderEmbed();
-
-    return () => {
-      cancelled = true;
-      container.innerHTML = "";
-    };
-  }, [calLink]);
+        },
+      });
+      // The Cal component handles loading states, but we can set our own state to
+      // trigger after initialization if needed. For now, the embed handles its own spinner.
+      setIsLoaded(true);
+    })();
+  }, []);
 
   return (
     <section id="contact" className="relative overflow-hidden py-16 md:py-32">
@@ -242,7 +77,7 @@ export function LandingForm() {
             <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
 
             <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[#07111f]">
-              {(embedStatus === "loading" || embedStatus === "idle") && (
+              {!isLoaded && (
                 <div className="absolute inset-0 z-10 flex min-h-[760px] items-center justify-center bg-[#07111f]/90">
                   <div className="flex flex-col items-center gap-3 text-center">
                     <Loader2 className="h-6 w-6 animate-spin text-emerald-400" />
@@ -253,27 +88,13 @@ export function LandingForm() {
                 </div>
               )}
 
-              {embedStatus === "error" ? (
-                <div className="flex min-h-[760px] flex-col items-center justify-center px-6 text-center">
-                  <h3 className="mb-3 text-xl font-semibold text-white">
-                    Calendar unavailable right now
-                  </h3>
-                  <p className="mb-6 max-w-md text-sm leading-relaxed text-slate-400">
-                    We could not load the inline scheduler. Please try booking directly.
-                  </p>
-                  <a
-                    href={`https://cal.com/${calLink}`}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="inline-flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-5 py-3 text-sm font-semibold text-emerald-300 transition hover:border-emerald-400/50 hover:bg-emerald-500/15"
-                  >
-                    Open Cal.com Booking Page
-                    <ExternalLink className="h-4 w-4" />
-                  </a>
-                </div>
-              ) : (
-                <div ref={embedRef} className="min-h-[760px] w-full" />
-              )}
+              <div className="min-h-[760px] w-full">
+                <Cal
+                  calLink={calLink}
+                  style={{ width: "100%", height: "100%", overflow: "scroll" }}
+                  config={{ layout: "month_view" }}
+                />
+              </div>
             </div>
           </div>
         </motion.div>
