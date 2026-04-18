@@ -17,6 +17,7 @@ export function LandingForm() {
       cal("ui", {
         theme: "dark",
         hideEventTypeDetails: false,
+        hideBranding: true,
         layout: "month_view",
         cssVarsPerTheme: {
           dark: {
@@ -32,7 +33,7 @@ export function LandingForm() {
             "cal-border": "#e2e8f0",
           },
         },
-      });
+      } as any);
       // The Cal component handles loading states, but we can set our own state to
       // trigger after initialization if needed. For now, the embed handles its own spinner.
       setIsLoaded(true);
@@ -97,16 +98,10 @@ export function LandingForm() {
               <div className="w-full">
                 <Cal
                   calLink={calLink}
-                  style={{ width: "100%", height: "100%", overflow: "scroll" }}
+                  style={{ width: "100%", height: "100%", overflow: "hidden" }}
                   config={{ layout: "month_view" }}
                 />
               </div>
-              
-              {isLoaded && (
-                <div className="pb-4 pt-2 text-center text-sm font-medium text-slate-400">
-                  Schedule a call with Cal.com
-                </div>
-              )}
             </div>
           </div>
         </motion.div>
