@@ -25,6 +25,12 @@ export function LandingForm() {
             "cal-text": "#f8fafc",
             "cal-border": "#1f3a4d",
           },
+          light: {
+            "cal-brand": "#34d399",
+            "cal-bg": "#ffffff",
+            "cal-text": "#0f172a",
+            "cal-border": "#e2e8f0",
+          },
         },
       });
       // The Cal component handles loading states, but we can set our own state to
