@@ -83,7 +83,7 @@ export function LandingForm() {
           <div className="animate-border-glow glass relative overflow-hidden rounded-3xl p-5 sm:p-6 md:p-8">
             <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-emerald-500/40 to-transparent" />
 
-            <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[#07111f] pb-4">
+            <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[#07111f]">
               {!isLoaded && (
                 <div className="absolute inset-0 z-10 flex min-h-[400px] items-center justify-center bg-[#07111f]/90">
                   <div className="flex flex-col items-center gap-3 text-center">
