@@ -163,13 +163,13 @@ export function LandingNav() {
                     ))}
                   </nav>
 
-                  {/* Book a Call Button — static on mobile, animated on desktop */}
+                  {/* Booking button — static on mobile, animated on desktop */}
                   {isMobile ? (
                     <button
                       onClick={() => scrollToSection("#contact")}
                       className="px-4 py-1.5 border border-emerald-500/40 bg-emerald-500/15 text-emerald-300 text-xs font-semibold rounded-full whitespace-nowrap"
                     >
-                      Book a Call
+                      Book 15-Min Call
                     </button>
                   ) : (
                     <motion.button
@@ -182,7 +182,7 @@ export function LandingNav() {
                       }}
                       className="px-4 py-1.5 md:px-5 md:py-2 border text-xs md:text-sm font-semibold rounded-full hover:brightness-125 transition-all cursor-pointer whitespace-nowrap"
                     >
-                      Book a Call
+                      Book 15-Min Call
                     </motion.button>
                   )}
                 </div>

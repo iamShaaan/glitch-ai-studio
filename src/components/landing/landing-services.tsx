@@ -135,7 +135,7 @@ export function LandingServices() {
                     }}
                     className={`inline-flex items-center gap-2 text-sm font-semibold ${service.iconColor} group-hover:gap-3 transition-all cursor-pointer`}
                   >
-                    Get Started <ArrowRight className="w-4 h-4" />
+                    Book 15-Min Call <ArrowRight className="w-4 h-4" />
                   </button>
                 </div>
               </>

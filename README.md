@@ -20,6 +20,13 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
+## Environment
+
+Copy `.env.example` to your local env file and set:
+
+- `NEXT_PUBLIC_CAL_LINK` for the inline Cal.com booking embed
+- `NEXT_PUBLIC_N8N_WEBHOOK_URL` for the backup manual inquiry form
+
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
 ## Learn More

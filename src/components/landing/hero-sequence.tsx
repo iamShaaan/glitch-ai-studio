@@ -58,7 +58,7 @@ const MobileHero = () => (
           Ready to <span className="text-emerald-400">Grow?</span>
         </h2>
         <p className="text-[14px] sm:text-[15px] text-slate-400 leading-relaxed text-balance mb-4">
-          Whether you want to build an AI avatar to showcase your brand online, automate repetitive backend tasks with efficiency, or create a custom app to manage your workforce—we have the solution. Let&apos;s have a call.
+          Whether you want to build an AI avatar to showcase your brand online, automate repetitive backend tasks with efficiency, or create a custom app to manage your workforce, we have the solution. Book a quick consultation.
         </p>
         <button
           onClick={() => {
@@ -67,7 +67,7 @@ const MobileHero = () => (
           }}
           className="w-full py-4 bg-emerald-500 text-slate-950 text-[15px] font-bold rounded-full active:scale-95 transition-transform shadow-[0_0_20px_rgba(16,185,129,0.25)] flex items-center justify-center gap-2"
         >
-          Book an AI Audit
+          Book a 15-Min Call
           <ArrowRight className="w-4 h-4" />
         </button>
         <button
@@ -247,14 +247,14 @@ export function HeroSequence() {
                       Ready to <span className="text-emerald-400 drop-shadow-md">Grow?</span>
                     </h2>
                     <p className="text-[13px] sm:text-sm md:text-[15px] text-slate-300 font-light max-w-xl leading-relaxed text-balance drop-shadow-md mb-6 md:mb-8">
-                      Whether you want to build an AI avatar to showcase your brand online, automate repetitive backend tasks with efficiency, or create a custom app to manage your workforce—we have the solution. Let&apos;s have a call.
+                      Whether you want to build an AI avatar to showcase your brand online, automate repetitive backend tasks with efficiency, or create a custom app to manage your workforce, we have the solution. Book a quick consultation.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 md:gap-5 pb-8 md:pb-0 w-full sm:w-auto items-start">
                       <button
                         onClick={scrollToContact}
                         className="group px-6 py-2.5 sm:px-8 sm:py-4 bg-emerald-500 text-slate-950 text-sm sm:text-base md:text-lg font-bold rounded-full hover:bg-emerald-400 transition-all shadow-[0_0_15px_rgba(16,185,129,0.3)] flex items-center justify-center gap-2 transform hover:scale-105 active:scale-95 w-fit"
                       >
-                        Book an AI Audit
+                        Book a 15-Min Call
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                       </button>
                       <button
