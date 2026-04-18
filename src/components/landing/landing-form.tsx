@@ -17,6 +17,7 @@ export function LandingForm() {
       cal("ui", {
         theme: "dark",
         hideEventTypeDetails: false,
+        hideBranding: true,
         layout: "month_view",
         cssVarsPerTheme: {
           dark: {
@@ -84,7 +85,7 @@ export function LandingForm() {
 
             <div className="relative overflow-hidden rounded-2xl border border-white/[0.06] bg-[#07111f]">
               {!isLoaded && (
-                <div className="absolute inset-0 z-10 flex min-h-[760px] items-center justify-center bg-[#07111f]/90">
+                <div className="absolute inset-0 z-10 flex min-h-[400px] items-center justify-center bg-[#07111f]/90">
                   <div className="flex flex-col items-center gap-3 text-center">
                     <Loader2 className="h-6 w-6 animate-spin text-emerald-400" />
                     <p className="text-sm text-slate-400">
@@ -94,13 +95,19 @@ export function LandingForm() {
                 </div>
               )}
 
-              <div className="min-h-[760px] w-full">
+              <div className="w-full">
                 <Cal
                   calLink={calLink}
                   style={{ width: "100%", height: "100%", overflow: "scroll" }}
                   config={{ layout: "month_view" }}
                 />
               </div>
+              
+              {isLoaded && (
+                <div className="pb-4 pt-2 text-center text-sm font-medium text-slate-400">
+                  Schedule a call with Cal.com
+                </div>
+              )}
             </div>
           </div>
         </motion.div>
