@@ -17,7 +17,6 @@ export function LandingForm() {
       cal("ui", {
         theme: "dark",
         hideEventTypeDetails: false,
-        hideBranding: true,
         layout: "month_view",
         cssVarsPerTheme: {
           dark: {
