@@ -10,10 +10,10 @@ const steps = [
     description:
       "We analyze your brand, operational bottlenecks, and identify the highest-ROI opportunities for AI avatars or workflow automation.",
     icon: Search,
-    color: "text-emerald-400",
-    borderColor: "border-emerald-500/30",
-    glowColor: "bg-emerald-500/10",
-    lineColor: "from-emerald-500",
+    color: "text-[#26f7b2]",
+    borderColor: "border-[#26f7b2]/30",
+    glowColor: "bg-[#26f7b2]/10",
+    lineColor: "from-[#26f7b2]",
   },
   {
     number: "02",
@@ -21,10 +21,10 @@ const steps = [
     description:
       "We architect the exact technical blueprint—whether it's a custom AI character design, an automation workflow, or a custom app architecture.",
     icon: Palette,
-    color: "text-violet-400",
-    borderColor: "border-violet-500/30",
-    glowColor: "bg-violet-500/10",
-    lineColor: "from-violet-500",
+    color: "text-[#009d9a]",
+    borderColor: "border-[#009d9a]/30",
+    glowColor: "bg-[#009d9a]/10",
+    lineColor: "from-[#009d9a]",
   },
   {
     number: "03",
@@ -32,10 +32,10 @@ const steps = [
     description:
       "Our engineers bring the vision to life: training realistic AI voice/video models, writing custom app code, and configuring seamless API integrations.",
     icon: Rocket,
-    color: "text-emerald-400",
-    borderColor: "border-emerald-500/30",
-    glowColor: "bg-emerald-500/10",
-    lineColor: "from-emerald-500",
+    color: "text-[#26f7b2]",
+    borderColor: "border-[#26f7b2]/30",
+    glowColor: "bg-[#26f7b2]/10",
+    lineColor: "from-[#26f7b2]",
   },
   {
     number: "04",
@@ -43,10 +43,10 @@ const steps = [
     description:
       "We deploy the final AI systems into your business. We then monitor, optimize, and help you scale your new capabilities for maximum growth.",
     icon: BarChart3,
-    color: "text-violet-400",
-    borderColor: "border-violet-600/30",
-    glowColor: "bg-violet-600/10",
-    lineColor: "from-violet-600",
+    color: "text-[#009d9a]",
+    borderColor: "border-[#009d9a]/30",
+    glowColor: "bg-[#009d9a]/10",
+    lineColor: "from-[#009d9a]",
   },
 ];
 
@@ -61,12 +61,12 @@ export function LandingProcess() {
   return (
     <section id="process" className="relative py-16 md:py-32 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-[#030712]" />
+      <div className="absolute inset-0 bg-[#060d11]" />
       <div className="absolute inset-0 grid-bg opacity-15" />
 
       {/* Decorative glows */}
-      <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-emerald-500/[0.02] blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-1/4 left-0 w-[300px] h-[300px] bg-violet-500/[0.02] blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/4 right-0 w-[400px] h-[400px] bg-[#26f7b2]/[0.02] blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-1/4 left-0 w-[300px] h-[300px] bg-[#009d9a]/[0.02] blur-[120px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 max-w-5xl mx-auto px-4">
         {/* Section Header */}
@@ -74,7 +74,7 @@ export function LandingProcess() {
           <div className="text-center mb-12 md:mb-20">
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-4">
               How We{" "}
-              <span className="text-violet-400">Work</span>
+              <span className="text-[#009d9a]">Work</span>
             </h2>
             <p className="text-slate-400 max-w-lg mx-auto text-[13px] md:text-lg leading-relaxed px-2">
               A proven 4-step deployment process — designed for speed, precision, and business scale.
@@ -90,7 +90,7 @@ export function LandingProcess() {
           >
             <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-4">
               How We{" "}
-              <span className="text-violet-400">Work</span>
+              <span className="text-[#009d9a]">Work</span>
             </h2>
             <p className="text-slate-400 max-w-lg mx-auto text-base md:text-lg leading-relaxed">
               A proven 4-step deployment process — designed for speed, precision, and business scale.
@@ -101,7 +101,7 @@ export function LandingProcess() {
         {/* Steps */}
         <div className="relative">
           {/* Connecting line (Now universal) */}
-          <div className="absolute left-1/2 -translate-x-px top-0 bottom-0 w-px bg-gradient-to-b from-emerald-500/30 via-violet-500/20 to-amber-500/10" />
+          <div className="absolute left-1/2 -translate-x-px top-0 bottom-0 w-px bg-gradient-to-b from-[#26f7b2]/30 via-[#009d9a]/20 to-[#d3edea]/10" />
 
           <div className="space-y-8 md:space-y-0 relative z-10">
             {steps.map((step, index) => {

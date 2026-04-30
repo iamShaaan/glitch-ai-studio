@@ -75,10 +75,10 @@ export function InfinityBackground() {
 
             {/* Animated gradient stroke */}
             <linearGradient id="infinity-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stopColor="#34d399" stopOpacity="1" />
-              <stop offset="40%" stopColor="#22d3ee" stopOpacity="1" />
-              <stop offset="70%" stopColor="#a78bfa" stopOpacity="1" />
-              <stop offset="100%" stopColor="#34d399" stopOpacity="1" />
+              <stop offset="0%" stopColor="#26f7b2" stopOpacity="1" />
+              <stop offset="40%" stopColor="#009d9a" stopOpacity="1" />
+              <stop offset="70%" stopColor="#d3edea" stopOpacity="1" />
+              <stop offset="100%" stopColor="#26f7b2" stopOpacity="1" />
             </linearGradient>
           </defs>
 
@@ -98,7 +98,7 @@ export function InfinityBackground() {
               Z
             "
             fill="none"
-            stroke="#34d399"
+            stroke="#26f7b2"
             strokeWidth="3"
             opacity="0.06"
             filter="url(#infinity-halo)"

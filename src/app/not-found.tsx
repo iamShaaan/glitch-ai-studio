@@ -2,12 +2,12 @@ import Link from "next/link";
 
 export default function NotFound() {
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-[#030712] text-center px-4 relative overflow-hidden">
+    <div className="min-h-screen flex flex-col items-center justify-center bg-[#060d11] text-center px-4 relative overflow-hidden">
       {/* Background grid */}
       <div className="absolute inset-0 grid-bg opacity-20 pointer-events-none" />
 
       {/* Glow effects */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-emerald-500/[0.04] blur-[200px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-[#26f7b2]/[0.04] blur-[200px] rounded-full pointer-events-none" />
 
       <div className="relative z-10 flex flex-col items-center">
         <h1 className="text-8xl md:text-[12rem] font-black text-gradient-emerald tracking-tighter leading-none mb-4">
@@ -23,7 +23,7 @@ export default function NotFound() {
 
         <Link
           href="/"
-          className="px-8 py-4 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold rounded-full transition-all glow-emerald hover:scale-105 active:scale-95"
+          className="px-8 py-4 bg-[#26f7b2] hover:bg-[#26f7b2]/90 text-[#09333f] font-bold rounded-full transition-all glow-emerald hover:scale-105 active:scale-95"
         >
           Return to Base
         </Link>

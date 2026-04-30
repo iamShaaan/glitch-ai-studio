@@ -9,37 +9,37 @@ const useCases = [
     title: "Founders & Personal Brands",
     description: "Clone yourself to scale your content presence without burning out.",
     icon: Users,
-    color: "text-amber-400",
-    bg: "bg-amber-400/10",
-    border: "border-amber-400/20",
-    glow: "group-hover:shadow-[0_0_30px_rgba(251,191,36,0.15)]"
+    color: "text-[#d3edea]",
+    bg: "bg-[#d3edea]/10",
+    border: "border-[#d3edea]/20",
+    glow: "group-hover:shadow-[0_0_30px_rgba(211,237,234,0.15)]"
   },
   {
     title: "Marketing Agencies",
     description: "Automate reporting and produce video ad creatives at 100x speed.",
     icon: Briefcase,
-    color: "text-emerald-400",
-    bg: "bg-emerald-400/10",
-    border: "border-emerald-400/20",
-    glow: "group-hover:shadow-[0_0_30px_rgba(16,185,129,0.15)]"
+    color: "text-[#26f7b2]",
+    bg: "bg-[#26f7b2]/10",
+    border: "border-[#26f7b2]/20",
+    glow: "group-hover:shadow-[0_0_30px_rgba(38,247,178,0.15)]"
   },
   {
     title: "Consultants & Coaches",
     description: "Build AI bots that onboard clients and avatars that teach your courses.",
     icon: Target,
-    color: "text-violet-400",
-    bg: "bg-violet-400/10",
-    border: "border-violet-400/20",
-    glow: "group-hover:shadow-[0_0_30px_rgba(139,92,246,0.15)]"
+    color: "text-[#009d9a]",
+    bg: "bg-[#009d9a]/10",
+    border: "border-[#009d9a]/20",
+    glow: "group-hover:shadow-[0_0_30px_rgba(0,157,154,0.15)]"
   },
   {
     title: "E-Commerce Brands",
     description: "Deploy AI influencers to showcase products across social channels 24/7.",
     icon: ShoppingBag,
-    color: "text-blue-400",
-    bg: "bg-blue-400/10",
-    border: "border-blue-400/20",
-    glow: "group-hover:shadow-[0_0_30px_rgba(96,165,250,0.15)]"
+    color: "text-[#009d9a]",
+    bg: "bg-[#009d9a]/10",
+    border: "border-[#009d9a]/20",
+    glow: "group-hover:shadow-[0_0_30px_rgba(0,157,154,0.15)]"
   }
 ];
 
@@ -52,7 +52,7 @@ export function LandingUseCases() {
 
   return (
     <section className="relative py-16 md:py-24 overflow-hidden">
-      <div className="absolute inset-0 bg-[#030712]" />
+      <div className="absolute inset-0 bg-[#060d11]" />
       <div className="absolute inset-0 grid-bg opacity-10" />
 
       {/* Decorative Line */}
@@ -62,7 +62,7 @@ export function LandingUseCases() {
         {isMobile ? (
           <div className="text-center mb-12">
             <h2 className="text-3xl font-black tracking-tight text-white mb-4">
-              Who We <span className="text-emerald-400">Build For</span>
+              Who We <span className="text-[#26f7b2]">Build For</span>
             </h2>
           </div>
         ) : (
@@ -73,7 +73,7 @@ export function LandingUseCases() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
-              Who We <span className="text-emerald-400">Build For</span>
+              Who We <span className="text-[#26f7b2]">Build For</span>
             </h2>
           </motion.div>
         )}

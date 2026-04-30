@@ -24,7 +24,7 @@ function FloatingIcosahedron({ position }: { position: [number, number, number] 
       <mesh ref={ref} position={position} scale={1.8}>
         <icosahedronGeometry args={[1, 1]} />
         <meshBasicMaterial
-          color="#34d399"
+          color="#26f7b2"
           wireframe
           transparent
           opacity={0.25}
@@ -49,7 +49,7 @@ function FloatingTorusKnot({ position }: { position: [number, number, number] })
       <mesh ref={ref} position={position} scale={0.6}>
         <torusKnotGeometry args={[1, 0.3, 128, 16]} />
         <meshBasicMaterial
-          color="#22d3ee"
+          color="#009d9a"
           wireframe
           transparent
           opacity={0.18}
@@ -77,7 +77,7 @@ function FloatingOctahedron({ position }: { position: [number, number, number] }
       <mesh ref={ref} position={position} scale={1.2}>
         <octahedronGeometry args={[1, 0]} />
         <meshBasicMaterial
-          color="#a78bfa"
+          color="#009d9a"
           wireframe
           transparent
           opacity={0.2}
@@ -102,7 +102,7 @@ function FloatingRing({ position }: { position: [number, number, number] }) {
       <mesh ref={ref} position={position} scale={1}>
         <torusGeometry args={[1, 0.02, 16, 100]} />
         <meshBasicMaterial
-          color="#34d399"
+          color="#26f7b2"
           transparent
           opacity={0.15}
         />
@@ -144,7 +144,7 @@ function OrbitalParticles() {
         />
       </bufferGeometry>
       <pointsMaterial
-        color="#34d399"
+        color="#26f7b2"
         size={0.03}
         transparent
         opacity={0.6}
@@ -159,9 +159,9 @@ function Scene() {
   return (
     <>
       {/* Ambient lighting */}
-      <ambientLight intensity={0.15} color="#34d399" />
-      <directionalLight position={[5, 5, 5]} intensity={0.1} color="#22d3ee" />
-      <pointLight position={[-3, 2, -3]} intensity={0.3} color="#a78bfa" distance={15} />
+      <ambientLight intensity={0.15} color="#26f7b2" />
+      <directionalLight position={[5, 5, 5]} intensity={0.1} color="#009d9a" />
+      <pointLight position={[-3, 2, -3]} intensity={0.3} color="#009d9a" distance={15} />
 
       {/* Floating geometry */}
       <FloatingIcosahedron position={[2.5, 0.5, -2]} />
@@ -177,7 +177,7 @@ function Scene() {
         size={1.5}
         speed={0.3}
         opacity={0.4}
-        color="#34d399"
+        color="#26f7b2"
       />
 
       {/* Orbital particle field */}

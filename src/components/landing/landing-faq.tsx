@@ -33,20 +33,20 @@ export function LandingFAQ() {
 
   return (
     <section className="relative py-16 md:py-24 overflow-hidden">
-      <div className="absolute inset-0 bg-[#030712]" />
+      <div className="absolute inset-0 bg-[#060d11]" />
       <div className="absolute inset-0 grid-bg opacity-15" />
 
       {/* Decorative Line */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
       
       {/* Decorative glows */}
-      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-emerald-500/[0.02] blur-[150px] rounded-full pointer-events-none -translate-y-1/2" />
+      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-[#26f7b2]/[0.02] blur-[150px] rounded-full pointer-events-none -translate-y-1/2" />
 
       <div className="relative z-10 max-w-4xl mx-auto px-4">
         {isMobile ? (
           <div className="text-center mb-10">
             <h2 className="text-3xl font-black tracking-tight text-white mb-4">
-              Frequently Asked <span className="text-emerald-400">Questions</span>
+              Frequently Asked <span className="text-[#26f7b2]">Questions</span>
             </h2>
           </div>
         ) : (
@@ -57,7 +57,7 @@ export function LandingFAQ() {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
-              Frequently Asked <span className="text-emerald-400">Questions</span>
+              Frequently Asked <span className="text-[#26f7b2]">Questions</span>
             </h2>
           </motion.div>
         )}
@@ -78,7 +78,7 @@ export function LandingFAQ() {
                   <span className="text-base md:text-lg font-bold text-white pr-4">
                     {faq.question}
                   </span>
-                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${isOpen ? 'bg-emerald-500/20 text-emerald-400' : 'bg-white/5 text-slate-400'}`}>
+                  <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${isOpen ? 'bg-[#26f7b2]/20 text-[#26f7b2]' : 'bg-white/5 text-slate-400'}`}>
                     {isOpen ? <Minus className="w-4 h-4" /> : <Plus className="w-4 h-4" />}
                   </div>
                 </button>

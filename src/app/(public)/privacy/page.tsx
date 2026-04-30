@@ -4,13 +4,13 @@ import { GlitchText } from "@/components/ui/glitch-text";
 
 export default function PrivacyPage() {
     return (
-        <div className="min-h-screen bg-slate-950 pt-24 pb-12">
+        <div className="min-h-screen bg-[#060d11] pt-24 pb-12">
             <div className="container mx-auto px-4 max-w-4xl">
                 <h1 className="text-4xl md:text-5xl font-bold text-white mb-8">
                     <GlitchText text="PRIVACY_PROTOCOL" />
                 </h1>
 
-                <div className="prose prose-invert prose-emerald max-w-none space-y-8 text-slate-300">
+                <div className="prose prose-invert prose-teal max-w-none space-y-8 text-slate-300">
                     <section>
                         <h2 className="text-2xl font-bold text-white mb-4">1. Data Initialization</h2>
                         <p>

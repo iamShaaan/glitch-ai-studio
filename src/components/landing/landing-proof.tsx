@@ -42,7 +42,7 @@ const stats = [
     suffix: "+",
     label: "AI Systems Deployed",
     icon: TrendingUp,
-    color: "text-emerald-400",
+    color: "text-[#26f7b2]",
   },
   {
     value: 5.0,
@@ -56,14 +56,14 @@ const stats = [
     suffix: "%",
     label: "Delivery Success",
     icon: CheckCircle,
-    color: "text-emerald-400",
+    color: "text-[#26f7b2]",
   },
   {
     value: 15,
     suffix: "+",
     label: "Countries Served",
     icon: Users,
-    color: "text-violet-400",
+    color: "text-[#009d9a]",
   },
 ];
 
@@ -83,7 +83,7 @@ export function LandingProof() {
   return (
     <section className="relative py-24 md:py-32 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_100%,#0a1628_0%,#030712_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_100%,#0b2430_0%,#060d11_60%)]" />
 
       {/* Decorative line */}
       <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
@@ -137,7 +137,7 @@ export function LandingProof() {
             <div>
               <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white mb-6">
                 Results That{" "}
-                <span className="text-emerald-400">Speak</span>
+                <span className="text-[#26f7b2]">Speak</span>
               </h2>
               <div className="space-y-4">
                 {outcomes.map((outcome, index) => (
@@ -145,7 +145,7 @@ export function LandingProof() {
                     key={index}
                     className="flex items-start gap-3"
                   >
-                    <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-[#26f7b2] flex-shrink-0 mt-0.5" />
                     <p className="text-slate-300 text-[13px] md:text-base leading-relaxed">
                       {outcome}
                     </p>
@@ -162,7 +162,7 @@ export function LandingProof() {
             >
               <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white mb-6">
                 Results That{" "}
-                <span className="text-emerald-400">Speak</span>
+                <span className="text-[#26f7b2]">Speak</span>
               </h2>
               <div className="space-y-4">
                 {outcomes.map((outcome, index) => (
@@ -174,7 +174,7 @@ export function LandingProof() {
                     transition={{ delay: index * 0.1, duration: 0.8, ease: "easeOut" }}
                     className="flex items-start gap-3"
                   >
-                    <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
+                    <CheckCircle className="w-5 h-5 text-[#26f7b2] flex-shrink-0 mt-0.5" />
                     <p className="text-slate-300 text-sm md:text-base leading-relaxed">
                       {outcome}
                     </p>
@@ -190,7 +190,7 @@ export function LandingProof() {
             <div>
               <div className="glass rounded-3xl p-6 md:p-10 relative overflow-hidden group">
                 {/* Accent line */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-emerald-400" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-[#26f7b2]" />
 
                 <div className="flex items-center gap-3 mb-6">
                   <div className="flex gap-1.5">
@@ -232,7 +232,7 @@ export function LandingProof() {
             >
               <div className="glass rounded-3xl p-8 md:p-10 relative overflow-hidden group">
                 {/* Accent line */}
-                <div className="absolute top-0 left-0 right-0 h-1 bg-emerald-400" />
+                <div className="absolute top-0 left-0 right-0 h-1 bg-[#26f7b2]" />
 
                 <div className="flex items-center gap-3 mb-6">
                   <div className="flex gap-1.5">

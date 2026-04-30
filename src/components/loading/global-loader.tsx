@@ -117,16 +117,16 @@ export function GlobalLoader() {
             opacity: 0,
             transition: { duration: 0.65, ease: [0.43, 0.13, 0.23, 0.96] },
           }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#030712]"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#060d11]"
         >
           {/* Ambient glows */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
             <motion.div
               animate={{ opacity: [0.06, 0.14, 0.06], scale: [1, 1.08, 1] }}
               transition={{ duration: 7, repeat: Infinity, ease: "linear" }}
-              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-emerald-500/10 rounded-full blur-[120px]"
+              className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#26f7b2]/10 rounded-full blur-[120px]"
             />
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-violet-500/10 rounded-full blur-[80px]" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] h-[300px] bg-[#009d9a]/10 rounded-full blur-[80px]" />
             <div className="absolute inset-0 opacity-[0.015] bg-[linear-gradient(to_right,#80808010_1px,transparent_1px),linear-gradient(to_bottom,#80808010_1px,transparent_1px)] bg-[size:40px_40px]" />
           </div>
 
@@ -155,7 +155,7 @@ export function GlobalLoader() {
               className="flex flex-col items-center gap-2"
             >
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[#26f7b2] animate-pulse" />
                 <p className="text-white/40 text-[10px] tracking-[0.4em] uppercase font-mono">
                   Loading Experience
                 </p>
@@ -173,7 +173,7 @@ export function GlobalLoader() {
             <div className="w-full space-y-3">
               <div className="relative w-full h-[2px] bg-white/5 rounded-full overflow-hidden">
                 <div
-                  className="absolute top-0 left-0 h-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.5)] transition-all duration-200 ease-out"
+                  className="absolute top-0 left-0 h-full bg-[#26f7b2] shadow-[0_0_10px_rgba(38,247,178,0.5)] transition-all duration-200 ease-out"
                   style={{ width: `${displayProgress}%` }}
                 />
                 <motion.div
@@ -189,11 +189,11 @@ export function GlobalLoader() {
                       key={i}
                       animate={{ opacity: [0.2, 1, 0.2] }}
                       transition={{ duration: 1, repeat: Infinity, delay: i * 0.12 }}
-                      className="w-1 h-1 bg-emerald-500/40 rounded-full"
+                      className="w-1 h-1 bg-[#26f7b2]/40 rounded-full"
                     />
                   ))}
                 </div>
-                <span className="text-emerald-400/80 text-[11px] font-mono tabular-nums tracking-widest">
+                <span className="text-[#26f7b2]/80 text-[11px] font-mono tabular-nums tracking-widest">
                   {Math.round(displayProgress)}%
                 </span>
               </div>

@@ -17,13 +17,13 @@ const services = [
       { icon: Sparkles, text: "Custom AI voice cloning" },
       { icon: Users, text: "Digital brand ambassadors" },
     ],
-    gradient: "from-violet-500/20 via-violet-500/5 to-transparent",
-    borderColor: "hover:border-violet-500/40",
-    glowColor: "group-hover:shadow-[0_0_60px_rgba(139,92,246,0.12)]",
-    iconBg: "bg-violet-500/10",
-    iconColor: "text-violet-400",
-    featureIconColor: "text-violet-500/70",
-    dotColor: "bg-violet-500",
+    gradient: "from-[#009d9a]/20 via-[#009d9a]/5 to-transparent",
+    borderColor: "hover:border-[#009d9a]/40",
+    glowColor: "group-hover:shadow-[0_0_60px_rgba(0,157,154,0.12)]",
+    iconBg: "bg-[#009d9a]/10",
+    iconColor: "text-[#009d9a]",
+    featureIconColor: "text-[#009d9a]/70",
+    dotColor: "bg-[#009d9a]",
   },
   {
     title: "AI Automation & Custom App Development",
@@ -38,13 +38,13 @@ const services = [
       { icon: Zap, text: "CRM & API integrations" },
       { icon: Sparkles, text: "AI agents & intelligent chatbots" },
     ],
-    gradient: "from-emerald-500/20 via-emerald-500/5 to-transparent",
-    borderColor: "hover:border-emerald-500/40",
-    glowColor: "group-hover:shadow-[0_0_60px_rgba(16,185,129,0.12)]",
-    iconBg: "bg-emerald-500/10",
-    iconColor: "text-emerald-400",
-    featureIconColor: "text-emerald-500/70",
-    dotColor: "bg-emerald-500",
+    gradient: "from-[#26f7b2]/20 via-[#26f7b2]/5 to-transparent",
+    borderColor: "hover:border-[#26f7b2]/40",
+    glowColor: "group-hover:shadow-[0_0_60px_rgba(38,247,178,0.12)]",
+    iconBg: "bg-[#26f7b2]/10",
+    iconColor: "text-[#26f7b2]",
+    featureIconColor: "text-[#26f7b2]/70",
+    dotColor: "bg-[#26f7b2]",
   },
 ];
 
@@ -59,24 +59,24 @@ export function LandingServices() {
   return (
     <section id="services" className="relative py-16 md:py-32 overflow-hidden">
       {/* Background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,#0a1628_0%,#030712_60%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,#0b2430_0%,#060d11_60%)]" />
       <div className="absolute inset-0 grid-bg opacity-20" />
 
       {/* Decorative glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-violet-500/20 to-transparent" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-[#009d9a]/20 to-transparent" />
 
       <div className="relative z-10 max-w-6xl mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-12 md:mb-20">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-white/5 mb-6">
-            <Zap className="w-3.5 h-3.5 text-emerald-400" />
+            <Zap className="w-3.5 h-3.5 text-[#26f7b2]" />
             <span className="text-xs font-medium tracking-widest text-slate-400 uppercase">
               What We Do
             </span>
           </div>
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight text-white mb-4">
             Two Specialized AI Solutions.{" "}
-            <span className="text-emerald-400">Infinite Business Scale.</span>
+            <span className="text-[#26f7b2]">Infinite Business Scale.</span>
           </h2>
           <p className="text-slate-400 max-w-xl mx-auto text-sm md:text-lg leading-relaxed px-4">
             We engineer AI systems that solve your two biggest bottlenecks: content creation at scale and operational efficiency.
@@ -93,7 +93,7 @@ export function LandingServices() {
                 <div className={`absolute inset-0 bg-gradient-to-br ${service.gradient} opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none`} />
 
                 {/* Top accent line */}
-                <div className={`absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent ${service.accentColor === 'violet' ? 'via-violet-500/30' : 'via-emerald-500/30'} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
+                <div className={`absolute top-0 left-8 right-8 h-px bg-gradient-to-r from-transparent ${service.accentColor === 'violet' ? 'via-[#009d9a]/30' : 'via-[#26f7b2]/30'} to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500`} />
 
                 <div className="relative z-10">
                   {/* Icon */}

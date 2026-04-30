@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #030712;
+  --background: #060d11;
   --foreground: #f8fafc;
-  --accent-emerald: #34d399;
-  --accent-cyan: #22d3ee;
-  --accent-violet: #a78bfa;
+  --accent-emerald: #26f7b2;
+  --accent-cyan: #009d9a;
+  --accent-violet: #009d9a;
   --glass-bg: rgba(255, 255, 255, 0.04);
   --glass-border: rgba(255, 255, 255, 0.08);
-  --glow-emerald: rgba(52, 211, 153, 0.3);
-  --glow-cyan: rgba(34, 211, 238, 0.3);
+  --glow-emerald: rgba(38, 247, 178, 0.3);
+  --glow-cyan: rgba(0, 157, 154, 0.3);
 }
 
 html {
@@ -26,7 +26,7 @@ body {
 
 /* === Selection === */
 ::selection {
-  background: rgba(52, 211, 153, 0.3);
+  background: rgba(38, 247, 178, 0.3);
   color: #fff;
 }
 
@@ -36,16 +36,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-  background: #030712;
+  background: #060d11;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(52, 211, 153, 0.2);
+  background: rgba(38, 247, 178, 0.2);
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(52, 211, 153, 0.4);
+  background: rgba(38, 247, 178, 0.4);
 }
 
 /* === Utility Classes === */
@@ -70,22 +70,22 @@ body {
   }
 
   .glow-emerald {
-    box-shadow: 0 0 30px var(--glow-emerald), 0 0 60px rgba(52, 211, 153, 0.1);
+    box-shadow: 0 0 30px var(--glow-emerald), 0 0 60px rgba(38, 247, 178, 0.1);
   }
 
   .glow-cyan {
-    box-shadow: 0 0 30px var(--glow-cyan), 0 0 60px rgba(34, 211, 238, 0.1);
+    box-shadow: 0 0 30px var(--glow-cyan), 0 0 60px rgba(0, 157, 154, 0.1);
   }
 
   .text-gradient-emerald {
-    background: linear-gradient(135deg, #34d399, #22d3ee);
+    background: linear-gradient(135deg, #26f7b2, #009d9a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
 
   .text-gradient-vivid {
-    background: linear-gradient(135deg, #34d399, #22d3ee, #a78bfa);
+    background: linear-gradient(135deg, #26f7b2, #009d9a, #009d9a);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -106,19 +106,19 @@ body {
 
 @keyframes glow-pulse {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(52, 211, 153, 0.15), 0 0 40px rgba(52, 211, 153, 0.05);
+    box-shadow: 0 0 20px rgba(38, 247, 178, 0.15), 0 0 40px rgba(38, 247, 178, 0.05);
   }
   50% {
-    box-shadow: 0 0 40px rgba(52, 211, 153, 0.3), 0 0 80px rgba(52, 211, 153, 0.1);
+    box-shadow: 0 0 40px rgba(38, 247, 178, 0.3), 0 0 80px rgba(38, 247, 178, 0.1);
   }
 }
 
 @keyframes border-glow {
   0%, 100% {
-    border-color: rgba(52, 211, 153, 0.15);
+    border-color: rgba(38, 247, 178, 0.15);
   }
   50% {
-    border-color: rgba(52, 211, 153, 0.4);
+    border-color: rgba(38, 247, 178, 0.4);
   }
 }
 

@@ -22,12 +22,12 @@ export function LandingFooter() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-8">
           {/* Logo & Tagline */}
           <div className="flex flex-col items-center md:items-start gap-2">
-            <div className="relative w-40 h-12">
+            <div className="relative w-72 h-20 md:w-[28rem] md:h-28">
               <Image
                 src="/logo.png"
                 alt="Glitch AI Studio"
                 fill
-                className="object-contain"
+                className="object-contain object-left"
               />
             </div>
             <p className="text-slate-600 text-xs">
@@ -45,7 +45,7 @@ export function LandingFooter() {
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-emerald-500 hover:text-emerald-400 transition-colors text-xs font-medium"
+                    className="text-[#26f7b2] hover:text-[#26f7b2]/80 transition-colors text-xs font-medium"
                   >
                     {link.name}
                   </a>

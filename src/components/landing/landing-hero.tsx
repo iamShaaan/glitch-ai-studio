@@ -13,16 +13,16 @@ export function LandingHero() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Deep dark gradient background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,#0a1628_0%,#030712_60%,#000000_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,#0b2430_0%,#060d11_60%,#020608_100%)]" />
 
       {/* Grid overlay */}
       <div className="absolute inset-0 grid-bg opacity-40" />
 
 
       {/* Spotlight glow effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-emerald-500/[0.04] blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-cyan-500/[0.03] blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute top-1/3 left-0 w-[300px] h-[300px] bg-violet-500/[0.03] blur-[100px] rounded-full pointer-events-none" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#26f7b2]/[0.04] blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#009d9a]/[0.03] blur-[120px] rounded-full pointer-events-none" />
+      <div className="absolute top-1/3 left-0 w-[300px] h-[300px] bg-[#009d9a]/[0.03] blur-[100px] rounded-full pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10 px-4 text-center max-w-6xl mx-auto">
@@ -33,7 +33,7 @@ export function LandingHero() {
           transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
           className="mb-8"
         >
-          <div className="relative w-56 h-16 md:w-72 md:h-20 mx-auto">
+          <div className="relative w-72 h-20 md:w-96 md:h-24 mx-auto">
             <Image
               src="/logo.png"
               alt="Glitch AI Studio"
@@ -49,10 +49,10 @@ export function LandingHero() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.8 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-emerald-500/20 mb-8"
+          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#26f7b2]/20 mb-8"
         >
-          <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-          <span className="text-xs font-medium tracking-widest text-emerald-300 uppercase">
+          <Sparkles className="w-3.5 h-3.5 text-[#26f7b2]" />
+          <span className="text-xs font-medium tracking-widest text-[#d3edea] uppercase">
             AI Avatar & Automation Studio
           </span>
         </motion.div>
@@ -93,7 +93,7 @@ export function LandingHero() {
         >
           <button
             onClick={scrollToContact}
-            className="group px-8 py-4 sm:px-10 sm:py-5 bg-emerald-500 text-slate-950 text-lg font-bold rounded-full hover:bg-emerald-400 transition-all glow-emerald flex items-center gap-3 transform hover:scale-105 active:scale-95 cursor-pointer"
+            className="group px-8 py-4 sm:px-10 sm:py-5 bg-[#26f7b2] text-[#09333f] text-lg font-bold rounded-full hover:bg-[#26f7b2]/90 transition-all glow-emerald flex items-center gap-3 transform hover:scale-105 active:scale-95 cursor-pointer"
           >
             Book a Consultation
             <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -125,7 +125,7 @@ export function LandingHero() {
             <motion.div
               animate={{ opacity: [0.3, 1, 0.3], height: [4, 8, 4] }}
               transition={{ duration: 2, repeat: Infinity }}
-              className="w-1 bg-emerald-400 rounded-full"
+              className="w-1 bg-[#26f7b2] rounded-full"
             />
           </motion.div>
         </motion.div>

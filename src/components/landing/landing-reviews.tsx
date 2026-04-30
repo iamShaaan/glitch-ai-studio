@@ -140,7 +140,7 @@ export function LandingReviews() {
 
   return (
     <section className="relative pt-12 pb-0 md:pt-16 overflow-hidden">
-      <div className="absolute inset-0 bg-[#030712]" />
+      <div className="absolute inset-0 bg-[#060d11]" />
       <div className="absolute inset-0 grid-bg opacity-10" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
 
@@ -151,14 +151,14 @@ export function LandingReviews() {
           viewport={{ once: true }}
           className="text-center mb-14 px-4"
         >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-            <span className="text-[10px] font-semibold tracking-widest text-emerald-300 uppercase">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#26f7b2]/30 bg-[#26f7b2]/10 mb-5">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#26f7b2] animate-pulse" />
+            <span className="text-[10px] font-semibold tracking-widest text-[#d3edea] uppercase">
               Real Client Reviews · 100% Unfiltered
             </span>
           </div>
           <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
-            What Clients Say <span className="text-emerald-400">About Us</span>
+            What Clients Say <span className="text-[#26f7b2]">About Us</span>
           </h2>
           <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
             Real screenshots from Fiverr — no edits, no cherry-picking. Good
@@ -172,8 +172,8 @@ export function LandingReviews() {
 
         <div className="relative w-full">
           {/* Edge fades */}
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 sm:w-24 md:w-64 z-10 bg-gradient-to-r from-[#030712] via-[#030712]/80 to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 sm:w-24 md:w-64 z-10 bg-gradient-to-l from-[#030712] via-[#030712]/80 to-transparent" />
+          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 sm:w-24 md:w-64 z-10 bg-gradient-to-r from-[#09333f] via-[#09333f]/80 to-transparent" />
+          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 sm:w-24 md:w-64 z-10 bg-gradient-to-l from-[#09333f] via-[#09333f]/80 to-transparent" />
 
           <div
             ref={trackRef}

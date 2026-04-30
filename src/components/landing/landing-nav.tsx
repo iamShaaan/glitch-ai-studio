@@ -32,12 +32,12 @@ export function LandingNav() {
     scrollYProgress,
     thresholds,
     [
-      "rgba(245, 158, 11, 0.4)", "rgba(245, 158, 11, 0.4)", // Y
-      "rgba(245, 158, 11, 0.4)", "rgba(245, 158, 11, 0.4)", // Y
-      "rgba(16, 185, 129, 0.4)", "rgba(16, 185, 129, 0.4)", // G
-      "rgba(139, 92, 246, 0.4)", "rgba(139, 92, 246, 0.4)", // P
-      "rgba(245, 158, 11, 0.4)", "rgba(245, 158, 11, 0.4)", // Y
-      "rgba(16, 185, 129, 0.4)", "rgba(16, 185, 129, 0.4)", // G
+      "rgba(211, 237, 234, 0.4)", "rgba(211, 237, 234, 0.4)", // Y
+      "rgba(211, 237, 234, 0.4)", "rgba(211, 237, 234, 0.4)", // Y
+      "rgba(38, 247, 178, 0.4)", "rgba(38, 247, 178, 0.4)", // G
+      "rgba(0, 157, 154, 0.4)", "rgba(0, 157, 154, 0.4)", // P
+      "rgba(211, 237, 234, 0.4)", "rgba(211, 237, 234, 0.4)", // Y
+      "rgba(38, 247, 178, 0.4)", "rgba(38, 247, 178, 0.4)", // G
     ]
   );
   
@@ -45,12 +45,12 @@ export function LandingNav() {
     scrollYProgress,
     thresholds,
     [
-      "rgba(245, 158, 11, 0.15)", "rgba(245, 158, 11, 0.15)", // Y
-      "rgba(245, 158, 11, 0.15)", "rgba(245, 158, 11, 0.15)", // Y
-      "rgba(16, 185, 129, 0.15)", "rgba(16, 185, 129, 0.15)", // G
-      "rgba(139, 92, 246, 0.15)", "rgba(139, 92, 246, 0.15)", // P
-      "rgba(245, 158, 11, 0.15)", "rgba(245, 158, 11, 0.15)", // Y
-      "rgba(16, 185, 129, 0.15)", "rgba(16, 185, 129, 0.15)", // G
+      "rgba(211, 237, 234, 0.15)", "rgba(211, 237, 234, 0.15)", // Y
+      "rgba(211, 237, 234, 0.15)", "rgba(211, 237, 234, 0.15)", // Y
+      "rgba(38, 247, 178, 0.15)", "rgba(38, 247, 178, 0.15)", // G
+      "rgba(0, 157, 154, 0.15)", "rgba(0, 157, 154, 0.15)", // P
+      "rgba(211, 237, 234, 0.15)", "rgba(211, 237, 234, 0.15)", // Y
+      "rgba(38, 247, 178, 0.15)", "rgba(38, 247, 178, 0.15)", // G
     ]
   );
   
@@ -58,12 +58,12 @@ export function LandingNav() {
     scrollYProgress,
     thresholds,
     [
-      "rgb(251, 191, 36)", "rgb(251, 191, 36)", // Y
-      "rgb(251, 191, 36)", "rgb(251, 191, 36)", // Y
-      "rgb(52, 211, 153)", "rgb(52, 211, 153)", // G
-      "rgb(167, 139, 250)", "rgb(167, 139, 250)", // P
-      "rgb(251, 191, 36)", "rgb(251, 191, 36)", // Y
-      "rgb(52, 211, 153)", "rgb(52, 211, 153)", // G
+      "rgb(211, 237, 234)", "rgb(211, 237, 234)", // Y
+      "rgb(211, 237, 234)", "rgb(211, 237, 234)", // Y
+      "rgb(38, 247, 178)", "rgb(38, 247, 178)", // G
+      "rgb(0, 157, 154)", "rgb(0, 157, 154)", // P
+      "rgb(211, 237, 234)", "rgb(211, 237, 234)", // Y
+      "rgb(38, 247, 178)", "rgb(38, 247, 178)", // G
     ]
   );
   
@@ -71,12 +71,12 @@ export function LandingNav() {
     scrollYProgress,
     thresholds,
     [
-      "0 0 15px rgba(245,158,11,0.1)", "0 0 15px rgba(245,158,11,0.1)", // Y
-      "0 0 15px rgba(245,158,11,0.1)", "0 0 15px rgba(245,158,11,0.1)", // Y
-      "0 0 15px rgba(16,185,129,0.1)", "0 0 15px rgba(16,185,129,0.1)", // G
-      "0 0 15px rgba(139,92,246,0.1)", "0 0 15px rgba(139,92,246,0.1)", // P
-      "0 0 15px rgba(245,158,11,0.1)", "0 0 15px rgba(245,158,11,0.1)", // Y
-      "0 0 15px rgba(16,185,129,0.1)", "0 0 15px rgba(16,185,129,0.1)", // G
+      "0 0 15px rgba(211,237,234,0.1)", "0 0 15px rgba(211,237,234,0.1)", // Y
+      "0 0 15px rgba(211,237,234,0.1)", "0 0 15px rgba(211,237,234,0.1)", // Y
+      "0 0 15px rgba(38,247,178,0.1)", "0 0 15px rgba(38,247,178,0.1)", // G
+      "0 0 15px rgba(0,157,154,0.1)", "0 0 15px rgba(0,157,154,0.1)", // P
+      "0 0 15px rgba(211,237,234,0.1)", "0 0 15px rgba(211,237,234,0.1)", // Y
+      "0 0 15px rgba(38,247,178,0.1)", "0 0 15px rgba(38,247,178,0.1)", // G
     ]
   );
 
@@ -85,9 +85,9 @@ export function LandingNav() {
     scrollYProgress,
     [0, 0.5, 1],
     [
-      "rgb(52, 211, 153)", // emerald-400
-      "rgb(167, 139, 250)", // violet-400
-      "rgb(251, 191, 36)", // amber-400
+      "rgb(38, 247, 178)", // mint
+      "rgb(0, 157, 154)", // teal
+      "rgb(211, 237, 234)", // light mint
     ]
   );
 
@@ -138,12 +138,12 @@ export function LandingNav() {
               <div className="flex items-center justify-between">
                 {/* Logo */}
                 <Link href="/" className="flex items-center gap-2 group">
-                  <div className="relative w-36 h-10 md:w-48 md:h-12">
+                  <div className="relative w-44 h-12 md:w-64 md:h-16">
                     <Image
                       src="/logo.png"
                       alt="Glitch AI Studio"
                       fill
-                      className="object-contain"
+                      className="object-contain object-left"
                       priority
                     />
                   </div>
@@ -167,7 +167,7 @@ export function LandingNav() {
                   {isMobile ? (
                     <button
                       onClick={() => scrollToSection("#contact")}
-                      className="px-4 py-1.5 border border-emerald-500/40 bg-emerald-500/15 text-emerald-300 text-xs font-semibold rounded-full whitespace-nowrap"
+                      className="px-4 py-1.5 border border-[#26f7b2]/40 bg-[#26f7b2]/15 text-[#d3edea] text-xs font-semibold rounded-full whitespace-nowrap"
                     >
                       Book 15-Min Call
                     </button>

@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#030712] text-slate-100 antialiased">
+      <body className="bg-[#060d11] text-slate-100 antialiased">
         <Suspense>{children}</Suspense>
         <Toaster position="bottom-right"
           toastOptions={{
