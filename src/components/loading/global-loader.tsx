@@ -5,19 +5,57 @@ import Image from "next/image";
 import { useLoading } from "@/context/loading-context";
 import { useEffect, useRef, useState } from "react";
 
-// ── MINIMAL CRITICAL ASSET LIST ──────────────────────────────────────────────
-// Only the assets the user will SEE first when the page loads.
-// All other images load lazily after the site is revealed.
-const CRITICAL_IMAGES: string[] = [
+// ── CRITICAL ASSET LIST ──────────────────────────────────────────────────────
+// Desktop: minimal set — the heavy hero.mp4 carries most of the wait.
+// Mobile: comprehensive set. Per project constitution the site stays
+// hidden until critical assets are cached, and the user explicitly chose
+// "load it once, scroll silky after." So on mobile we pre-warm:
+//   - logo
+//   - hero poster (mobile hero background)
+//   - the 7 visible reviews at first paint (MID-3..MID+3, indices 28..34)
+//   - all 7 YouTube embed thumbnails used in Phase 2 + Case Studies
+const CRITICAL_IMAGES_DESKTOP: string[] = [
   "/logo.png",
   "/reviews/review-30.png", // center review (MID = 31, 0-indexed = 30)
   "/reviews/review-29.png",
   "/reviews/review-31.png",
 ];
 
+const CRITICAL_IMAGES_MOBILE: string[] = [
+  "/logo.png",
+  "/hero-poster.jpg",
+  "/reviews/review-28.png",
+  "/reviews/review-29.png",
+  "/reviews/review-30.png",
+  "/reviews/review-31.png", // center review (MID = 31, 0-indexed = 30)
+  "/reviews/review-32.png",
+  "/reviews/review-33.png",
+  "/reviews/review-34.png",
+];
+
+// YouTube thumbnails for every embed on the homepage. Pre-warm so the
+// case-studies + workflow sections feel instant once the user scrolls.
+// Falls back gracefully if maxresdefault returns 404 (onerror still
+// counts the asset as done so the loader never stalls).
+const YT_VIDEO_IDS: string[] = [
+  // real-results.tsx
+  "FCN6QAJWlIU",
+  "A4nzbanvmY4",
+  "5oW9WtKKYc4",
+  "X7laoXeOnxc",
+  // phase-2-content-machine.tsx
+  "aXbgpnhTfgg",
+  "KnoybkyEQ2U",
+  "v5JXYqrnvH0",
+];
+const YT_THUMBS_MOBILE: string[] = YT_VIDEO_IDS.map(
+  (id) => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`
+);
+
 const VIDEO_URL = "/hero.mp4";
 const MIN_DISPLAY_MS = 1200; // minimum time to show loader (brandingpurpose)
-const HARD_TIMEOUT_MS = 7000; // always open, even on terrible connections
+const HARD_TIMEOUT_MS_DESKTOP = 7000;
+const HARD_TIMEOUT_MS_MOBILE = 6000; // headroom for ~16 parallel image fetches on 4G
 
 export function GlobalLoader() {
   const { isReady, setReady } = useLoading();
@@ -31,8 +69,12 @@ export function GlobalLoader() {
       /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
       window.innerWidth < 768;
 
-    const totalAssets = CRITICAL_IMAGES.length + (isMobile ? 0 : 1); // +1 for video on desktop
-    const hardTimeoutMs = isMobile ? 3500 : HARD_TIMEOUT_MS;
+    // Mobile preloads images + YT thumbnails. Desktop preloads images + hero video.
+    const imagesToPreload = isMobile
+      ? [...CRITICAL_IMAGES_MOBILE, ...YT_THUMBS_MOBILE]
+      : CRITICAL_IMAGES_DESKTOP;
+    const totalAssets = imagesToPreload.length + (isMobile ? 0 : 1); // +1 for video on desktop
+    const hardTimeoutMs = isMobile ? HARD_TIMEOUT_MS_MOBILE : HARD_TIMEOUT_MS_DESKTOP;
     let loadedCount = 0;
 
     const onAssetLoaded = () => {
@@ -57,7 +99,7 @@ export function GlobalLoader() {
 
     // ── Preload images ────────────────────────────────────────────────────────
     const imageEls: HTMLImageElement[] = [];
-    CRITICAL_IMAGES.forEach((src) => {
+    imagesToPreload.forEach((src) => {
       const img = new window.Image();
       imageEls.push(img); // keep reference to prevent GC
       img.onload = onAssetLoaded;

@@ -1,15 +1,24 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export function InfinityBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isDesktop, setIsDesktop] = useState(false);
 
   useEffect(() => {
-    // Skip the parallax rAF loop on mobile — it's a fixed-pos decorative SVG
-    // that costs scroll-event work on every frame. Desktop only.
-    const desktop = window.matchMedia("(min-width: 768px)");
-    if (!desktop.matches) return;
+    // Decorative SVG with a continuous 8s stroke-dashoffset animation +
+    // a scroll-rAF parallax handler. Both are persistent GPU/CPU work
+    // that we don't want on mobile. Render nothing below 768px.
+    const mq = window.matchMedia("(min-width: 768px)");
+    const apply = () => setIsDesktop(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  useEffect(() => {
+    if (!isDesktop) return;
 
     let rafId: number;
 
@@ -26,7 +35,11 @@ export function InfinityBackground() {
       window.removeEventListener("scroll", onScroll);
       cancelAnimationFrame(rafId);
     };
-  }, []);
+  }, [isDesktop]);
+
+  // Mobile: render nothing. SSR also returns null on first paint —
+  // the bg is purely decorative so there's no layout impact.
+  if (!isDesktop) return null;
 
   return (
     <div
