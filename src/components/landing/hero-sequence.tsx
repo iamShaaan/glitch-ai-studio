@@ -98,6 +98,20 @@ const MobileHero = () => {
           Trusted by Karl, Tyfany, Kristina + 60 Fiverr reviews →
         </button>
       </div>
+
+      {/* Scroll indicator — anchors the empty bottom space */}
+      <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 pointer-events-none">
+        <div className="w-5 h-8 rounded-full border-2 border-[#26f7b2]/30 flex items-start justify-center p-1 shadow-[0_0_12px_rgba(38,247,178,0.2)]">
+          <motion.div
+            animate={{ y: [0, 6, 0] }}
+            transition={{ repeat: Infinity, duration: 1.5, ease: "easeInOut" }}
+            className="w-1 h-2 bg-[#26f7b2] rounded-full"
+          />
+        </div>
+        <span className="uppercase tracking-[0.2em] text-[9px] font-bold font-mono text-[#26f7b2]/80">
+          Scroll
+        </span>
+      </div>
     </section>
   );
 };
