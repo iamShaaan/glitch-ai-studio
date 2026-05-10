@@ -22,15 +22,39 @@ export function LandingReviews() {
   const initializedRef = useRef(false);
 
   const [cardW, setCardW] = useState(400);
+  const [isMobile, setIsMobile] = useState(false);
+  const [showAllOnMobile, setShowAllOnMobile] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
       setCardW(window.innerWidth < 640 ? 260 : 400);
+      setIsMobile(window.innerWidth < 768);
     };
     handleResize(); // Initial
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  /* Mobile: defer mounting the off-window 56 cards until the user has
+     scrolled past #system-overview. Cuts initial DOM weight by ~85%. */
+  useEffect(() => {
+    if (!isMobile || showAllOnMobile) return;
+
+    const target = document.querySelector("#system-overview");
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.boundingClientRect.top < 0 && !entry.isIntersecting) {
+          setShowAllOnMobile(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(target);
+    return () => observer.disconnect();
+  }, [isMobile, showAllOnMobile]);
 
   const stride = cardW + GAP;
 
@@ -139,7 +163,7 @@ export function LandingReviews() {
     trackRef.current?.scrollTo({ left: scrollForIndex(i), behavior: "smooth" });
 
   return (
-    <section className="relative pt-12 pb-0 md:pt-16 overflow-hidden">
+    <section className="relative pt-8 pb-0 md:pt-16 overflow-hidden">
       <div className="absolute inset-0 bg-[#060d11]" />
       <div className="absolute inset-0 grid-bg opacity-10" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
@@ -149,7 +173,7 @@ export function LandingReviews() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-14 px-4"
+          className="text-center mb-8 md:mb-14 px-4"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#26f7b2]/30 bg-[#26f7b2]/10 mb-5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#26f7b2] animate-pulse" />
@@ -196,6 +220,24 @@ export function LandingReviews() {
               const dist = Math.abs(i - active);
               const isC = dist === 0;
               const isN = dist === 1;
+              const inWindow = Math.abs(i - MID) <= 3;
+              const windowed = isMobile && !showAllOnMobile;
+
+              // Mobile: render a lightweight placeholder for off-window cards
+              // so scroll positions / centerMid math stay valid. Mounts the
+              // real card once the user scrolls past #system-overview.
+              if (windowed && !inWindow) {
+                return (
+                  <div
+                    key={i}
+                    style={{
+                      minWidth: cardW,
+                      width: cardW,
+                      flexShrink: 0,
+                    }}
+                  />
+                );
+              }
 
               return (
                 <div
@@ -252,7 +294,7 @@ export function LandingReviews() {
                       alt={rev.alt}
                       width={cardW}
                       height={300}
-                      className="w-full h-auto block"
+                      className="w-full h-auto block max-h-[340px] sm:max-h-[420px] object-cover object-top"
                       sizes="(max-width: 640px) 90vw, 420px"
                       priority={Math.abs(i - MID) <= 3}
                       loading={Math.abs(i - MID) <= 3 ? "eager" : "lazy"}
