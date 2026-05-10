@@ -9,12 +9,28 @@ interface LoadingContextType {
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 
+function detectMobile(): boolean {
+  if (typeof window === "undefined") return false;
+  return (
+    window.innerWidth < 768 ||
+    /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+  );
+}
+
 export function LoadingProvider({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false);
 
-  // Lock body scroll + reset scroll position while loading
   useEffect(() => {
-    // Force top before anything renders
+    // Mobile: skip the loader entirely. The page renders immediately —
+    // hero is `priority` so it paints fast, below-fold sections lazy-
+    // mount via <LazySection>. The "cinematic loading screen" was just a
+    // delay; visibility:hidden never actually held back image fetches.
+    if (detectMobile()) {
+      setIsReady(true);
+      return;
+    }
+
+    // Desktop: lock scroll + force top while loader does its preload.
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     document.body.style.overflow = "hidden";
 
@@ -24,7 +40,6 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const setReady = () => {
-    // Unlock scroll, reset position, then reveal
     document.body.style.overflow = "";
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     setIsReady(true);

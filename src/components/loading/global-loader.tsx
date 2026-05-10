@@ -5,10 +5,10 @@ import Image from "next/image";
 import { useLoading } from "@/context/loading-context";
 import { useEffect, useRef, useState } from "react";
 
-// ── CRITICAL ASSET LIST ──────────────────────────────────────────────────────
-// Keep it minimal. The loader's job is to feel fast, not to pre-warm the
-// whole page. Everything else gets a brand-colored placeholder backdrop
-// so the page never looks like a black void while images stream in.
+// ── CRITICAL ASSET LIST (desktop only) ──────────────────────────────────────
+// The loader runs on desktop only. Mobile bypasses entirely via
+// LoadingProvider — see comment there. Desktop preloads the assets that
+// support the scroll-driven hero cinematic.
 const CRITICAL_IMAGES_DESKTOP: string[] = [
   "/logo.png",
   "/reviews/review-30.png", // center review (MID = 31, 0-indexed = 30)
@@ -16,16 +16,9 @@ const CRITICAL_IMAGES_DESKTOP: string[] = [
   "/reviews/review-31.png",
 ];
 
-const CRITICAL_IMAGES_MOBILE: string[] = [
-  "/logo.png",
-  "/hero-poster.jpg",
-  "/reviews/review-31.png", // center review (visible at first paint)
-];
-
 const VIDEO_URL = "/hero.mp4";
-const MIN_DISPLAY_MS = 1200; // minimum time to show loader (brandingpurpose)
+const MIN_DISPLAY_MS = 1200; // minimum time to show loader (branding purpose)
 const HARD_TIMEOUT_MS_DESKTOP = 7000;
-const HARD_TIMEOUT_MS_MOBILE = 3500; // tight, since payload is small + local
 
 export function GlobalLoader() {
   const { isReady, setReady } = useLoading();
@@ -39,9 +32,14 @@ export function GlobalLoader() {
       /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
       window.innerWidth < 768;
 
-    const imagesToPreload = isMobile ? CRITICAL_IMAGES_MOBILE : CRITICAL_IMAGES_DESKTOP;
-    const totalAssets = imagesToPreload.length + (isMobile ? 0 : 1); // +1 for video on desktop
-    const hardTimeoutMs = isMobile ? HARD_TIMEOUT_MS_MOBILE : HARD_TIMEOUT_MS_DESKTOP;
+    // Mobile bypasses the loader entirely — LoadingProvider already
+    // flipped isReady=true on mount. Skip the preload work and the
+    // overlay render.
+    if (isMobile) return;
+
+    const imagesToPreload = CRITICAL_IMAGES_DESKTOP;
+    const totalAssets = imagesToPreload.length + 1; // +1 for hero.mp4 on desktop
+    const hardTimeoutMs = HARD_TIMEOUT_MS_DESKTOP;
     let loadedCount = 0;
 
     const onAssetLoaded = () => {
@@ -74,34 +72,27 @@ export function GlobalLoader() {
       img.src = src;
     });
 
-    // ── Preload video (desktop only) ─────────────────────────────────────────
-    if (!isMobile) {
-      const video = document.createElement("video");
-      video.muted = true;
-      video.preload = "auto";
-      video.playsInline = true;
+    // ── Preload hero video ───────────────────────────────────────────────────
+    const video = document.createElement("video");
+    video.muted = true;
+    video.preload = "auto";
+    video.playsInline = true;
 
-      const onCanPlay = () => {
-        onAssetLoaded();
-        video.removeEventListener("canplaythrough", onCanPlay);
-        video.removeEventListener("error", onCanPlay);
-      };
+    const onCanPlay = () => {
+      onAssetLoaded();
+      video.removeEventListener("canplaythrough", onCanPlay);
+      video.removeEventListener("error", onCanPlay);
+    };
 
-      video.addEventListener("canplaythrough", onCanPlay);
-      video.addEventListener("error", onCanPlay);
-      video.src = VIDEO_URL;
-      video.load();
-
-      return () => {
-        clearTimeout(hardTimeout);
-        video.removeEventListener("canplaythrough", onCanPlay);
-        video.removeEventListener("error", onCanPlay);
-        imageEls.length = 0;
-      };
-    }
+    video.addEventListener("canplaythrough", onCanPlay);
+    video.addEventListener("error", onCanPlay);
+    video.src = VIDEO_URL;
+    video.load();
 
     return () => {
       clearTimeout(hardTimeout);
+      video.removeEventListener("canplaythrough", onCanPlay);
+      video.removeEventListener("error", onCanPlay);
       imageEls.length = 0;
     };
   }, [setReady]);
