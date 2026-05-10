@@ -32,6 +32,7 @@ export function GlobalLoader() {
       window.innerWidth < 768;
 
     const totalAssets = CRITICAL_IMAGES.length + (isMobile ? 0 : 1); // +1 for video on desktop
+    const hardTimeoutMs = isMobile ? 3500 : HARD_TIMEOUT_MS;
     let loadedCount = 0;
 
     const onAssetLoaded = () => {
@@ -51,8 +52,8 @@ export function GlobalLoader() {
       setTimeout(() => setReady(), remaining + 300);
     };
 
-    // Hard timeout — site always opens within HARD_TIMEOUT_MS
-    const hardTimeout = setTimeout(finalize, HARD_TIMEOUT_MS);
+    // Hard timeout — site always opens within the device-appropriate budget
+    const hardTimeout = setTimeout(finalize, hardTimeoutMs);
 
     // ── Preload images ────────────────────────────────────────────────────────
     const imageEls: HTMLImageElement[] = [];

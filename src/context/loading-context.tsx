@@ -17,24 +17,15 @@ export function LoadingProvider({ children }: { children: React.ReactNode }) {
     // Force top before anything renders
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     document.body.style.overflow = "hidden";
-    document.body.style.position = "fixed";
-    document.body.style.width = "100%";
-    document.body.style.top = "0";
 
     return () => {
       document.body.style.overflow = "";
-      document.body.style.position = "";
-      document.body.style.width = "";
-      document.body.style.top = "";
     };
   }, []);
 
   const setReady = () => {
     // Unlock scroll, reset position, then reveal
     document.body.style.overflow = "";
-    document.body.style.position = "";
-    document.body.style.width = "";
-    document.body.style.top = "";
     window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     setIsReady(true);
   };

@@ -6,6 +6,11 @@ export function InfinityBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Skip the parallax rAF loop on mobile — it's a fixed-pos decorative SVG
+    // that costs scroll-event work on every frame. Desktop only.
+    const desktop = window.matchMedia("(min-width: 768px)");
+    if (!desktop.matches) return;
+
     let rafId: number;
 
     const onScroll = () => {

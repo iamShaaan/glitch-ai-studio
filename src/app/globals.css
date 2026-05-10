@@ -214,3 +214,27 @@ body {
     linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
   background-size: 60px 60px;
 }
+
+/* === Reduced Motion === */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-glow-pulse,
+  .animate-border-glow,
+  .animate-float-gentle,
+  .animate-shimmer,
+  .animate-spin-slow,
+  .animate-pulse-ring,
+  .text-gradient-vivid {
+    animation: none !important;
+  }
+}

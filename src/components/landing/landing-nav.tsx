@@ -194,13 +194,6 @@ export function LandingNav() {
                   )}
                 </div>
               </div>
-
-              {/* Mobile disclaimer — inline inside the card, not a separate strip */}
-              <div className="md:hidden mt-2 border-t border-white/5 pt-2">
-                <p className="text-center text-[9px] text-slate-500 tracking-wide">
-                  ✦ Visit from desktop for a complete visual experience ✦
-                </p>
-              </div>
             </div>
           </div>
         </motion.header>

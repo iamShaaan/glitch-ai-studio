@@ -10,16 +10,13 @@ const CAL_LINK = "https://cal.com/soumitro-halder-shan-ltvmbb/ai-consultation-wi
 
 const MobileBackground = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none bg-[#060d11] z-0">
-    <video
-      src="/hero.mp4"
-      poster="/hero-poster.jpg"
-      muted
-      playsInline
-      loop
-      autoPlay
-      preload="auto"
-      className="absolute inset-0 w-full h-full object-cover opacity-60"
-      style={{ pointerEvents: "none" }}
+    <Image
+      src="/hero-poster.jpg"
+      alt=""
+      fill
+      priority
+      sizes="100vw"
+      className="object-cover opacity-60"
     />
     <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-[#060d11]/80 to-[#060d11] pointer-events-none" />
     <div className="absolute top-[-10%] left-[-20%] w-[80vw] h-[80vw] bg-[#26f7b2]/15 rounded-full blur-[100px]" />
