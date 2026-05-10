@@ -276,7 +276,7 @@ export function LandingReviews() {
                     />
                   )}
                   <div
-                    className="relative z-10 rounded-2xl overflow-hidden h-[260px] sm:h-auto"
+                    className="relative z-10 rounded-2xl overflow-hidden"
                     style={{
                       border: isC
                         ? "1.5px solid rgba(16,185,129,.4)"
@@ -292,7 +292,7 @@ export function LandingReviews() {
                       alt={rev.alt}
                       width={cardW}
                       height={300}
-                      className="w-full h-full sm:h-auto block sm:max-h-[420px] object-cover object-top"
+                      className="w-full h-auto block"
                       sizes="(max-width: 640px) 90vw, 420px"
                       priority={Math.abs(i - MID) <= 3}
                       loading={Math.abs(i - MID) <= 3 ? "eager" : "lazy"}
