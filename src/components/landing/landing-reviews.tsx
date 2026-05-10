@@ -6,55 +6,64 @@ import { motion } from "framer-motion";
 import { useLoading } from "@/context/loading-context";
 
 const TOTAL_REVIEWS = 63;
-const reviews = Array.from({ length: TOTAL_REVIEWS }, (_, i) => ({
+const allReviews = Array.from({ length: TOTAL_REVIEWS }, (_, i) => ({
   src: `/reviews/review-${String(i + 1).padStart(2, "0")}.png`,
   alt: `Fiverr Review ${i + 1}`,
 }));
 
+// Mobile shows a curated 10-review slice centered on MID. Cuts the
+// rendered DOM from 63 cards (incl. placeholders) to 10. Desktop keeps
+// the full set — there's no perf issue there.
+const MOBILE_SLICE_START = 26;
+const MOBILE_SLICE_END = 36; // exclusive
+const mobileReviews = allReviews.slice(MOBILE_SLICE_START, MOBILE_SLICE_END);
+
 const GAP = 24;
-const MID = Math.floor(TOTAL_REVIEWS / 2); // 31
+const DESKTOP_MID = Math.floor(TOTAL_REVIEWS / 2); // 31
+const MOBILE_MID = Math.floor(mobileReviews.length / 2); // 5
 
 export function LandingReviews() {
   const { isReady } = useLoading();
   const trackRef = useRef<HTMLDivElement>(null);
-  const [active, setActive] = useState(MID);
   const dragRef = useRef({ dragging: false, startX: 0, startScroll: 0 });
   const initializedRef = useRef(false);
 
-  const [cardW, setCardW] = useState(400);
-  const [isMobile, setIsMobile] = useState(false);
-  const [showAllOnMobile, setShowAllOnMobile] = useState(false);
+  // Lazy initializers so the first client render has the correct values
+  // for the viewport — avoids briefly mounting all 63 cards on mobile
+  // before a resize effect corrects to 10. The component is gated behind
+  // a LazySection wrapper so it only runs client-side, making the
+  // typeof window check a no-op in practice.
+  const [cardW, setCardW] = useState(() => {
+    if (typeof window === "undefined") return 400;
+    return window.innerWidth < 640 ? 260 : 400;
+  });
+  const [isMobile, setIsMobile] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return (
+      window.innerWidth < 768 ||
+      /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    );
+  });
 
   useEffect(() => {
     const handleResize = () => {
       setCardW(window.innerWidth < 640 ? 260 : 400);
       setIsMobile(window.innerWidth < 768);
     };
-    handleResize(); // Initial
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  /* Mobile: defer mounting the off-window 56 cards until the user has
-     scrolled past #system-overview. Cuts initial DOM weight by ~85%. */
+  const reviews = isMobile ? mobileReviews : allReviews;
+  const MID = isMobile ? MOBILE_MID : DESKTOP_MID;
+  const [active, setActive] = useState(MID);
+
+  // Keep `active` in sync when the source array swaps (e.g. resize across
+  // the 768px boundary). Without this, `active` could exceed the new
+  // reviews length on a desktop→mobile shrink.
   useEffect(() => {
-    if (!isMobile || showAllOnMobile) return;
-
-    const target = document.querySelector("#system-overview");
-    if (!target) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.boundingClientRect.top < 0 && !entry.isIntersecting) {
-          setShowAllOnMobile(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0 }
-    );
-    observer.observe(target);
-    return () => observer.disconnect();
-  }, [isMobile, showAllOnMobile]);
+    setActive(MID);
+  }, [MID]);
 
   const stride = cardW + GAP;
 
@@ -69,7 +78,7 @@ export function LandingReviews() {
     t.scrollLeft = scrollForIndex(MID);
     setActive(MID);
     return true;
-  }, [scrollForIndex]);
+  }, [scrollForIndex, MID]);
 
   /* Center on mount — retry until layout is ready (handles visibility:hidden
      parent: the track has no layout until the parent is visible). */
@@ -119,7 +128,7 @@ export function LandingReviews() {
     if (!t) return;
     const idx = Math.round(t.scrollLeft / stride);
     setActive(Math.max(0, Math.min(idx, reviews.length - 1)));
-  }, [stride]);
+  }, [stride, reviews.length]);
 
   useEffect(() => {
     const t = trackRef.current;
@@ -218,24 +227,6 @@ export function LandingReviews() {
               const dist = Math.abs(i - active);
               const isC = dist === 0;
               const isN = dist === 1;
-              const inWindow = Math.abs(i - MID) <= 3;
-              const windowed = isMobile && !showAllOnMobile;
-
-              // Mobile: render a lightweight placeholder for off-window cards
-              // so scroll positions / centerMid math stay valid. Mounts the
-              // real card once the user scrolls past #system-overview.
-              if (windowed && !inWindow) {
-                return (
-                  <div
-                    key={i}
-                    style={{
-                      minWidth: cardW,
-                      width: cardW,
-                      flexShrink: 0,
-                    }}
-                  />
-                );
-              }
 
               return (
                 <div
