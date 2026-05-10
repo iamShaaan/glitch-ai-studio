@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { Play } from "lucide-react";
 
 interface YouTubeEmbedProps {
@@ -16,31 +16,8 @@ export function YouTubeEmbed({
   aspectRatio = "9/16",
   className = "",
 }: YouTubeEmbedProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
   const [isMounted, setIsMounted] = useState(false);
   const [shouldAutoplay, setShouldAutoplay] = useState(false);
-
-  useEffect(() => {
-    if (isMounted) return;
-    const node = containerRef.current;
-    if (!node) return;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            setIsMounted(true);
-            observer.disconnect();
-            break;
-          }
-        }
-      },
-      { rootMargin: "200px 0px", threshold: 0.01 }
-    );
-
-    observer.observe(node);
-    return () => observer.disconnect();
-  }, [isMounted]);
 
   const handlePlay = () => {
     setShouldAutoplay(true);
@@ -54,7 +31,6 @@ export function YouTubeEmbed({
 
   return (
     <div
-      ref={containerRef}
       className={`relative w-full overflow-hidden rounded-2xl bg-black ${className}`}
       style={{ aspectRatio }}
     >
@@ -85,10 +61,15 @@ export function YouTubeEmbed({
             }}
             className="absolute inset-0 h-full w-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10 transition-opacity group-hover:opacity-80" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10 backdrop-blur-[1px] transition-all group-hover:backdrop-blur-[3px] group-hover:from-black/70" />
           <div className="absolute inset-0 flex items-center justify-center">
-            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#26f7b2] text-[#09333f] shadow-[0_0_30px_rgba(38,247,178,0.4)] transition-transform group-hover:scale-110">
-              <Play className="h-7 w-7 fill-current ml-0.5" />
+            <div className="flex flex-col items-center">
+              <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#26f7b2] text-[#09333f] shadow-[0_0_30px_rgba(38,247,178,0.4)] transition-transform group-hover:scale-110">
+                <Play className="h-7 w-7 fill-current ml-0.5" />
+              </div>
+              <span className="mt-3 text-xs font-medium uppercase tracking-[0.2em] text-white/80">
+                Click to play
+              </span>
             </div>
           </div>
         </button>
