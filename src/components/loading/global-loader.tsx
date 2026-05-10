@@ -6,14 +6,9 @@ import { useLoading } from "@/context/loading-context";
 import { useEffect, useRef, useState } from "react";
 
 // ── CRITICAL ASSET LIST ──────────────────────────────────────────────────────
-// Desktop: minimal set — the heavy hero.mp4 carries most of the wait.
-// Mobile: comprehensive set. Per project constitution the site stays
-// hidden until critical assets are cached, and the user explicitly chose
-// "load it once, scroll silky after." So on mobile we pre-warm:
-//   - logo
-//   - hero poster (mobile hero background)
-//   - the 7 visible reviews at first paint (MID-3..MID+3, indices 28..34)
-//   - all 7 YouTube embed thumbnails used in Phase 2 + Case Studies
+// Keep it minimal. The loader's job is to feel fast, not to pre-warm the
+// whole page. Everything else gets a brand-colored placeholder backdrop
+// so the page never looks like a black void while images stream in.
 const CRITICAL_IMAGES_DESKTOP: string[] = [
   "/logo.png",
   "/reviews/review-30.png", // center review (MID = 31, 0-indexed = 30)
@@ -24,38 +19,13 @@ const CRITICAL_IMAGES_DESKTOP: string[] = [
 const CRITICAL_IMAGES_MOBILE: string[] = [
   "/logo.png",
   "/hero-poster.jpg",
-  "/reviews/review-28.png",
-  "/reviews/review-29.png",
-  "/reviews/review-30.png",
-  "/reviews/review-31.png", // center review (MID = 31, 0-indexed = 30)
-  "/reviews/review-32.png",
-  "/reviews/review-33.png",
-  "/reviews/review-34.png",
+  "/reviews/review-31.png", // center review (visible at first paint)
 ];
-
-// YouTube thumbnails for every embed on the homepage. Pre-warm so the
-// case-studies + workflow sections feel instant once the user scrolls.
-// Falls back gracefully if maxresdefault returns 404 (onerror still
-// counts the asset as done so the loader never stalls).
-const YT_VIDEO_IDS: string[] = [
-  // real-results.tsx
-  "FCN6QAJWlIU",
-  "A4nzbanvmY4",
-  "5oW9WtKKYc4",
-  "X7laoXeOnxc",
-  // phase-2-content-machine.tsx
-  "aXbgpnhTfgg",
-  "KnoybkyEQ2U",
-  "v5JXYqrnvH0",
-];
-const YT_THUMBS_MOBILE: string[] = YT_VIDEO_IDS.map(
-  (id) => `https://i.ytimg.com/vi/${id}/maxresdefault.jpg`
-);
 
 const VIDEO_URL = "/hero.mp4";
 const MIN_DISPLAY_MS = 1200; // minimum time to show loader (brandingpurpose)
 const HARD_TIMEOUT_MS_DESKTOP = 7000;
-const HARD_TIMEOUT_MS_MOBILE = 6000; // headroom for ~16 parallel image fetches on 4G
+const HARD_TIMEOUT_MS_MOBILE = 3500; // tight, since payload is small + local
 
 export function GlobalLoader() {
   const { isReady, setReady } = useLoading();
@@ -69,10 +39,7 @@ export function GlobalLoader() {
       /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) ||
       window.innerWidth < 768;
 
-    // Mobile preloads images + YT thumbnails. Desktop preloads images + hero video.
-    const imagesToPreload = isMobile
-      ? [...CRITICAL_IMAGES_MOBILE, ...YT_THUMBS_MOBILE]
-      : CRITICAL_IMAGES_DESKTOP;
+    const imagesToPreload = isMobile ? CRITICAL_IMAGES_MOBILE : CRITICAL_IMAGES_DESKTOP;
     const totalAssets = imagesToPreload.length + (isMobile ? 0 : 1); // +1 for video on desktop
     const hardTimeoutMs = isMobile ? HARD_TIMEOUT_MS_MOBILE : HARD_TIMEOUT_MS_DESKTOP;
     let loadedCount = 0;

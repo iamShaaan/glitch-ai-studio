@@ -24,14 +24,17 @@ export function YouTubeEmbed({
     setIsMounted(true);
   };
 
-  const thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg`;
-  const fallbackThumb = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
+  // hqdefault is ~10x smaller than maxresdefault (~12KB vs ~120KB on
+  // Shorts) and is guaranteed to exist for every video, so we avoid the
+  // double-roundtrip you get when maxresdefault 404s and onError swaps.
+  // For 9:16 Shorts the 4:3 hqdefault crops cleanly under object-cover.
+  const thumbnailUrl = `https://i.ytimg.com/vi/${videoId}/hqdefault.jpg`;
   const iframeBase = `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&playsinline=1`;
   const iframeUrl = shouldAutoplay ? `${iframeBase}&autoplay=1` : iframeBase;
 
   return (
     <div
-      className={`relative w-full overflow-hidden rounded-2xl bg-black ${className}`}
+      className={`relative w-full overflow-hidden rounded-2xl bg-gradient-to-br from-[#0d2a2a] via-[#0a1a1f] to-[#09333f] ${className}`}
       style={{ aspectRatio }}
     >
       {isMounted ? (
@@ -55,10 +58,7 @@ export function YouTubeEmbed({
             src={thumbnailUrl}
             alt={title}
             loading="lazy"
-            onError={(e) => {
-              const img = e.currentTarget;
-              if (img.src !== fallbackThumb) img.src = fallbackThumb;
-            }}
+            decoding="async"
             className="absolute inset-0 h-full w-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/10 backdrop-blur-[1px] transition-all group-hover:backdrop-blur-[3px] group-hover:from-black/70" />

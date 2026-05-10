@@ -281,7 +281,10 @@ export function LandingReviews() {
                       border: isC
                         ? "1.5px solid rgba(16,185,129,.4)"
                         : "1px solid rgba(255,255,255,.06)",
-                      backgroundColor: "#0d1117",
+                      // Subtle brand-tinted gradient so cards that haven't
+                      // finished loading don't look like black voids.
+                      background:
+                        "linear-gradient(135deg,#0d2228 0%,#0a1a1f 50%,#0d2228 100%)",
                       boxShadow: isC
                         ? "0 24px 64px rgba(0,0,0,.8),0 0 40px rgba(16,185,129,.1)"
                         : "0 8px 24px rgba(0,0,0,.5)",
@@ -294,6 +297,7 @@ export function LandingReviews() {
                       height={300}
                       className="w-full h-auto block"
                       sizes="(max-width: 640px) 90vw, 420px"
+                      quality={isMobile ? 60 : 75}
                       priority={Math.abs(i - MID) <= 3}
                       loading={Math.abs(i - MID) <= 3 ? "eager" : "lazy"}
                     />
