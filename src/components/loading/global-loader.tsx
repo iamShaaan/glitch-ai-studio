@@ -118,7 +118,7 @@ export function GlobalLoader() {
             opacity: 0,
             transition: { duration: 0.65, ease: [0.43, 0.13, 0.23, 0.96] },
           }}
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#060d11]"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#060d11] touch-none overscroll-none"
         >
           {/* Ambient glows */}
           <div className="absolute inset-0 overflow-hidden pointer-events-none">
