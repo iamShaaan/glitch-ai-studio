@@ -163,7 +163,7 @@ export function LandingReviews() {
     trackRef.current?.scrollTo({ left: scrollForIndex(i), behavior: "smooth" });
 
   return (
-    <section className="relative pt-8 pb-0 md:pt-16 overflow-hidden">
+    <section className="relative pt-4 pb-0 md:pt-16 overflow-hidden">
       <div className="absolute inset-0 bg-[#060d11]" />
       <div className="absolute inset-0 grid-bg opacity-10" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
@@ -173,7 +173,7 @@ export function LandingReviews() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-8 md:mb-14 px-4"
+          className="text-center mb-5 md:mb-14 px-4"
         >
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#26f7b2]/30 bg-[#26f7b2]/10 mb-5">
             <span className="w-1.5 h-1.5 rounded-full bg-[#26f7b2] animate-pulse" />
@@ -201,13 +201,11 @@ export function LandingReviews() {
 
           <div
             ref={trackRef}
-            className="flex items-center overflow-x-scroll cursor-grab active:cursor-grabbing"
+            className="flex items-center overflow-x-scroll cursor-grab active:cursor-grabbing pt-2 pb-1 md:pt-6 md:pb-2"
             style={{
               scrollbarWidth: "none",
               msOverflowStyle: "none",
               gap: `${GAP}px`,
-              paddingTop: 24,
-              paddingBottom: 8,
               paddingLeft: `calc(50vw - ${cardW / 2}px)`,
               paddingRight: `calc(50vw - ${cardW / 2}px)`,
             }}
@@ -278,7 +276,7 @@ export function LandingReviews() {
                     />
                   )}
                   <div
-                    className="relative z-10 rounded-2xl overflow-hidden"
+                    className="relative z-10 rounded-2xl overflow-hidden h-[260px] sm:h-auto"
                     style={{
                       border: isC
                         ? "1.5px solid rgba(16,185,129,.4)"
@@ -294,7 +292,7 @@ export function LandingReviews() {
                       alt={rev.alt}
                       width={cardW}
                       height={300}
-                      className="w-full h-auto block max-h-[340px] sm:max-h-[420px] object-cover object-top"
+                      className="w-full h-full sm:h-auto block sm:max-h-[420px] object-cover object-top"
                       sizes="(max-width: 640px) 90vw, 420px"
                       priority={Math.abs(i - MID) <= 3}
                       loading={Math.abs(i - MID) <= 3 ? "eager" : "lazy"}
