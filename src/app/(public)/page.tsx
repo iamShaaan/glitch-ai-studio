@@ -1,12 +1,13 @@
-import { Suspense } from "react";
 import { HeroSequence } from "@/components/landing/hero-sequence";
-import { LandingServices } from "@/components/landing/landing-services";
-import { LandingProcess } from "@/components/landing/landing-process";
-import { LandingUseCases } from "@/components/landing/landing-use-cases";
+import { SystemOverview } from "@/components/landing/system-overview";
+import { Phase1Requirements } from "@/components/landing/phase-1-requirements";
+import { Phase2ContentMachine } from "@/components/landing/phase-2-content-machine";
+import { Phase3AddOns } from "@/components/landing/phase-3-add-ons";
+import { RealResults } from "@/components/landing/real-results";
+import { Pricing } from "@/components/landing/pricing";
 import { LandingReviews } from "@/components/landing/landing-reviews";
-import { LandingProof } from "@/components/landing/landing-proof";
-import { LandingFAQ } from "@/components/landing/landing-faq";
-import { LandingForm } from "@/components/landing/landing-form";
+import { NewFAQ } from "@/components/landing/new-faq";
+import { FinalCTA } from "@/components/landing/final-cta";
 import { LandingFooter } from "@/components/landing/landing-footer";
 import { LandingNav } from "@/components/landing/landing-nav";
 import { InfinityBackground } from "@/components/ui/infinity-bg";
@@ -17,15 +18,15 @@ export default function Home() {
       <InfinityBackground />
       <LandingNav />
       <HeroSequence />
-      <LandingServices />
-      <LandingProcess />
-      <LandingUseCases />
+      <SystemOverview />
+      <Phase1Requirements />
+      <Phase2ContentMachine />
+      <Phase3AddOns />
+      <RealResults />
+      <Pricing />
       <LandingReviews />
-      <LandingProof />
-      <LandingFAQ />
-      <Suspense fallback={null}>
-        <LandingForm />
-      </Suspense>
+      <NewFAQ />
+      <FinalCTA />
       <LandingFooter />
     </>
   );

@@ -6,6 +6,8 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import Image from "next/image";
 import { useLoading } from "@/context/loading-context";
 
+const CAL_LINK = "https://cal.com/soumitro-halder-shan-ltvmbb/ai-consultation-with-shan";
+
 const MobileBackground = () => (
   <div className="absolute inset-0 overflow-hidden pointer-events-none bg-[#060d11] z-0">
     <video
@@ -45,19 +47,19 @@ const MobileHero = () => (
       <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-[#26f7b2]/30 bg-[#26f7b2]/10">
         <Sparkles className="w-3 h-3 text-[#26f7b2]" />
         <span className="text-[9px] font-semibold tracking-wider text-[#d3edea] uppercase">
-          AI Avatar &amp; Automation Agency
+          AI Avatar Content System
         </span>
       </div>
 
       {/* Headline */}
-      <h1 className="text-[32px] sm:text-[36px] font-black tracking-tight leading-[1.1] text-white">
-        We Build <span className="text-[#26f7b2]">AI Avatars</span> &amp;{" "}
-        <span className="text-[#26f7b2]">Influencers</span>
+      <h1 className="text-[24px] sm:text-[28px] font-black tracking-tight leading-[1.15] text-white">
+        You don&apos;t have time to film
+        <span className="block text-[#26f7b2]">Your business still needs content</span>
       </h1>
 
       {/* Single paragraph */}
       <p className="text-[14px] sm:text-[15px] text-slate-400 leading-relaxed text-balance">
-        We create hyper-realistic AI avatars and digital influencers for any brand or niche. If you don&apos;t have time to film, your digital twin stays active online 24/7. Beyond visuals, we build the custom AI apps, intelligent agents, and automated workflows that run your operations. <span className="block mt-2">With our end-to-end automated systems, <span className="text-amber-300 font-medium">your brand scales infinitely without you doing manual work.</span></span>
+        We build hyper-realistic AI avatars that look, sound, and present like you. Type a script, get a fully edited branded video. <span className="text-amber-300 font-medium">Your brand stays active even when you don&apos;t.</span>
       </p>
 
       {/* Divider */}
@@ -66,29 +68,28 @@ const MobileHero = () => (
       {/* CTAs */}
       <div className="flex flex-col gap-3 w-full">
         <h2 className="text-2xl sm:text-3xl font-black tracking-tight text-white">
-          Ready to <span className="text-[#26f7b2]">Grow?</span>
+          Ready to build your <span className="text-[#26f7b2]">content machine?</span>
         </h2>
         <p className="text-[14px] sm:text-[15px] text-slate-400 leading-relaxed text-balance mb-4">
-          Whether you want to build an AI avatar to showcase your brand online, automate repetitive backend tasks with efficiency, or create a custom app to manage your workforce, we have the solution. Book a quick consultation.
+          One-time setup, lifetime use. Join Karl, Tyfany, Kristina, and other businesses producing daily content without filming.
         </p>
-        <button
-          onClick={() => {
-            const el = document.querySelector("#contact");
-            if (el) el.scrollIntoView({ behavior: "smooth" });
-          }}
+        <a
+          href={CAL_LINK}
+          target="_blank"
+          rel="noopener noreferrer"
           className="w-full py-4 bg-[#26f7b2] text-[#09333f] text-[15px] font-bold rounded-full active:scale-95 transition-transform shadow-[0_0_20px_rgba(38,247,178,0.25)] flex items-center justify-center gap-2"
         >
           Book a 15-Min Call
           <ArrowRight className="w-4 h-4" />
-        </button>
+        </a>
         <button
           onClick={() => {
-            const el = document.querySelector("#services");
+            const el = document.querySelector("#system-overview");
             if (el) el.scrollIntoView({ behavior: "smooth" });
           }}
           className="w-full py-4 border border-white/10 bg-white/5 text-white/80 text-[14px] font-medium rounded-full active:scale-95 transition-transform"
         >
-          Explore Our Solutions
+          See How It Works
         </button>
       </div>
     </div>
@@ -155,8 +156,8 @@ export function HeroSequence() {
 
   const scrollPromptOpacity = useTransform(smoothProgress, [0, 0.05], [1, 0]);
 
-  const scrollToContact = () => {
-    const el = document.querySelector("#contact");
+  const scrollToSystemOverview = () => {
+    const el = document.querySelector("#system-overview");
     if (el) el.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -208,43 +209,43 @@ export function HeroSequence() {
                   <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full border border-[#26f7b2]/30 bg-[#26f7b2]/10 mb-4 md:mb-6 shadow-[0_0_15px_rgba(38,247,178,0.15)] self-start">
                     <Sparkles className="w-3 h-3 text-[#26f7b2]" />
                     <span className="text-[9px] md:text-[10px] font-semibold tracking-wider text-[#d3edea] uppercase">
-                      AI Avatar &amp; Automation Agency
+                      AI Avatar Content System
                     </span>
                   </div>
-                  <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
-                    We Build <br/>
-                    <span className="text-[#26f7b2] drop-shadow-md">AI Influencers</span>
+                  <h1 className="text-2xl sm:text-3xl md:text-[30px] lg:text-[36px] font-black tracking-tight leading-[1.15] mb-3 md:mb-4 text-white drop-shadow-lg">
+                    You don&apos;t have time to film
+                    <span className="block text-[#26f7b2] drop-shadow-md">Your business still needs content</span>
                   </h1>
                   <p className="text-[13px] sm:text-sm md:text-[15px] text-slate-300 font-light max-w-2xl leading-relaxed text-balance drop-shadow-md mb-6 md:mb-8">
-                    We create hyper-realistic AI avatars and digital influencers tailored to any niche. More than just visuals, we engineer the custom AI apps, intelligent agents, and backend automations that power them. Whether you need an always-on brand ambassador or an automated workflow to eliminate manual tasks, <span className="text-amber-300 font-medium">we orchestrate the entire pipeline so you can scale endlessly.</span>
+                    We build hyper-realistic AI avatars that look, sound, and present like you. Type a script, get a fully edited branded video. <span className="text-amber-300 font-medium">Your brand stays active even when you don&apos;t.</span>
                   </p>
                 </motion.div>
 
-                {/* Beat 2: Automation */}
+                {/* Beat 2: The Avatar */}
                 <motion.div
                   style={{ opacity: beat2Opacity, y: beat2Y }}
                   className="absolute inset-0 flex flex-col justify-end pb-[10vh] md:pb-[15vh] pointer-events-none"
                 >
                   <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
-                    Avatars For <br />
-                    <span className="text-[#26f7b2] drop-shadow-md">Real Personas</span>
+                    Your AI avatar, <br />
+                    <span className="text-[#26f7b2] drop-shadow-md">trained in 7 days.</span>
                   </h2>
                   <p className="text-[13px] sm:text-sm md:text-[15px] text-slate-300 font-light max-w-2xl leading-relaxed text-balance drop-shadow-md mb-6 md:mb-8">
-                    We know founders, coaches, and creators are often too busy to film. We clone your exact look and voice into a stunning digital twin, so you can generate countless videos just by typing text. Paired with our automated pipelines, <span className="text-amber-300 font-medium">your personal brand stays aggressively active 24/7.</span>
+                    Send us a 2-minute video, 40 minutes of voice, and 20 photos. We train your digital twin. Different looks, different outfits, different angles. <span className="text-amber-300 font-medium">Your trained voice. Ready to speak any script you give it.</span>
                   </p>
                 </motion.div>
 
-                {/* Beat 3: Value */}
+                {/* Beat 3: The Automation */}
                 <motion.div
                   style={{ opacity: beat3Opacity, y: beat3Y }}
                   className="absolute inset-0 flex flex-col justify-end pb-[10vh] md:pb-[15vh] pointer-events-none"
                 >
                   <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
-                    Full-Stack AI <br/>
-                    <span className="text-[#26f7b2] drop-shadow-md">Systems &amp; Automation</span>
+                    30 days of content, <br/>
+                    <span className="text-[#26f7b2] drop-shadow-md">delivered in 24 hours.</span>
                   </h2>
                   <p className="text-[13px] sm:text-sm md:text-[15px] text-slate-300 font-light max-w-xl leading-relaxed text-balance drop-shadow-md mb-6 md:mb-8">
-                    From designing high-converting landing pages and deploying intelligent voice agents, to engineering seamless client onboarding systems. <span className="block mt-2">We build custom web apps to connect all your tools so your team can manage workflows effortlessly—<span className="text-amber-300 font-medium">eliminating friction and driving scale.</span></span>
+                    Our system writes, generates, edits, and brands every video automatically. You only verify the script. We handle the rest. <span className="text-amber-300 font-medium">Color grading, motion design, sound effects, all matched to your brand.</span>
                   </p>
                 </motion.div>
 
@@ -255,27 +256,26 @@ export function HeroSequence() {
                 >
                   <div className="pointer-events-auto">
                     <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-[56px] font-black tracking-tight leading-[1.05] mb-3 md:mb-4 text-white drop-shadow-lg">
-                      Ready to <span className="text-[#26f7b2] drop-shadow-md">Grow?</span>
+                      Ready to build your <span className="text-[#26f7b2] drop-shadow-md">content machine?</span>
                     </h2>
                     <p className="text-[13px] sm:text-sm md:text-[15px] text-slate-300 font-light max-w-xl leading-relaxed text-balance drop-shadow-md mb-6 md:mb-8">
-                      Whether you want to build an AI avatar to showcase your brand online, automate repetitive backend tasks with efficiency, or create a custom app to manage your workforce, we have the solution. Book a quick consultation.
+                      One-time setup, lifetime use. Join Karl, Tyfany, Kristina, and other businesses producing daily content without filming.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-3 md:gap-5 pb-8 md:pb-0 w-full sm:w-auto items-start">
-                      <button
-                        onClick={scrollToContact}
+                      <a
+                        href={CAL_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
                         className="group px-6 py-2.5 sm:px-8 sm:py-4 bg-[#26f7b2] text-[#09333f] text-sm sm:text-base md:text-lg font-bold rounded-full hover:bg-[#26f7b2]/90 transition-all shadow-[0_0_15px_rgba(38,247,178,0.3)] flex items-center justify-center gap-2 transform hover:scale-105 active:scale-95 w-fit"
                       >
                         Book a 15-Min Call
                         <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                      </button>
+                      </a>
                       <button
-                        onClick={() => {
-                          const el = document.querySelector("#services");
-                          if (el) el.scrollIntoView({ behavior: "smooth" });
-                        }}
+                        onClick={scrollToSystemOverview}
                         className="px-6 py-2.5 sm:px-8 sm:py-4 border border-yellow-500/30 bg-yellow-500/10 text-yellow-300 text-sm sm:text-base md:text-lg font-semibold rounded-full hover:bg-yellow-500/20 hover:border-yellow-500/50 transition-all shadow-[0_0_20px_rgba(253,224,71,0.15)] w-fit text-center"
                       >
-                        Explore Our Solutions
+                        See How It Works
                       </button>
                     </div>
                   </div>

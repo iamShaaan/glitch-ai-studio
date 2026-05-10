@@ -5,9 +5,9 @@ import Image from "next/image";
 
 const socialLinks = [
   { name: "Fiverr", href: "https://www.fiverr.com/soumitrohalder" },
-  { name: "LinkedIn", href: "https://linkedin.com" },
-  { name: "Instagram", href: "https://instagram.com" },
-  { name: "X", href: "https://x.com" },
+  { name: "LinkedIn", href: "https://www.linkedin.com/in/soumitro-halder-404287231/" },
+  { name: "Instagram", href: "https://www.instagram.com/soumitrohaldershan/" },
+  { name: "X", href: "https://x.com/iam_shaaan_" },
 ];
 
 export function LandingFooter() {
@@ -57,16 +57,24 @@ export function LandingFooter() {
             </div>
 
             {/* Legal */}
-            <div className="flex items-center gap-4 text-xs text-slate-600">
-              <span>© {new Date().getFullYear()} Glitch AI Studio</span>
-              <span className="w-1 h-1 rounded-full bg-slate-800" />
-              <Link href="/privacy" className="hover:text-slate-400 transition-colors">
-                Privacy
-              </Link>
-              <span className="w-1 h-1 rounded-full bg-slate-800" />
-              <Link href="/terms" className="hover:text-slate-400 transition-colors">
-                Terms
-              </Link>
+            <div className="flex flex-col items-center md:items-end gap-1.5">
+              <div className="flex items-center gap-4 text-xs text-slate-600">
+                <span>© {new Date().getFullYear()} Glitch AI Studio</span>
+                <span className="w-1 h-1 rounded-full bg-slate-800" />
+                <Link href="/privacy" className="hover:text-slate-400 transition-colors">
+                  Privacy
+                </Link>
+                <span className="w-1 h-1 rounded-full bg-slate-800" />
+                <Link
+                  href="/terms"
+                  className="hover:text-[#26f7b2] transition-colors"
+                >
+                  Terms
+                </Link>
+              </div>
+              <p className="hidden md:block text-[10px] text-slate-600 italic">
+                By engaging our services, you agree to our Terms and Conditions.
+              </p>
             </div>
           </div>
         </div>

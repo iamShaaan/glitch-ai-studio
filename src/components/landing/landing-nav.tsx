@@ -8,10 +8,13 @@ import { useLoading } from "@/context/loading-context";
 import { Menu, X, ArrowRight } from "lucide-react";
 
 const navLinks = [
-  { name: "Services", href: "#services" },
-  { name: "Process", href: "#process" },
-  { name: "Contact", href: "#contact" },
+  { name: "System", href: "#system-overview" },
+  { name: "Pricing", href: "#pricing" },
+  { name: "Case Studies", href: "#case-studies" },
+  { name: "FAQ", href: "#faq" },
 ];
+
+const CAL_LINK = "https://cal.com/soumitro-halder-shan-ltvmbb/ai-consultation-with-shan";
 
 export function LandingNav() {
   const { isReady } = useLoading();
@@ -163,17 +166,21 @@ export function LandingNav() {
                     ))}
                   </nav>
 
-                  {/* Booking button — static on mobile, animated on desktop */}
+                  {/* Booking button — opens Cal.com in a new tab */}
                   {isMobile ? (
-                    <button
-                      onClick={() => scrollToSection("#contact")}
+                    <a
+                      href={CAL_LINK}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="px-4 py-1.5 border border-[#26f7b2]/40 bg-[#26f7b2]/15 text-[#d3edea] text-xs font-semibold rounded-full whitespace-nowrap"
                     >
                       Book 15-Min Call
-                    </button>
+                    </a>
                   ) : (
-                    <motion.button
-                      onClick={() => scrollToSection("#contact")}
+                    <motion.a
+                      href={CAL_LINK}
+                      target="_blank"
+                      rel="noopener noreferrer"
                       style={{
                         backgroundColor: buttonBg,
                         borderColor: buttonBorder,
@@ -183,7 +190,7 @@ export function LandingNav() {
                       className="px-4 py-1.5 md:px-5 md:py-2 border text-xs md:text-sm font-semibold rounded-full hover:brightness-125 transition-all cursor-pointer whitespace-nowrap"
                     >
                       Book 15-Min Call
-                    </motion.button>
+                    </motion.a>
                   )}
                 </div>
               </div>

@@ -5,8 +5,8 @@ import { Toaster } from "react-hot-toast";
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://glitch-ai-studio.vercel.app'),
-  title: "Glitch AI Studio | AI Avatar Creation & Business Automation Agency",
-  description: "Scale your brand with hyper-realistic AI avatars, custom AI apps, and workflow automation. Glitch AI Studio helps founders and agencies create video content 24/7 and automate operations.",
+  title: "Glitch AI Studio | The AI Avatar Content System",
+  description: "Stop filming. Start scaling. We build hyper-realistic AI avatars and the automated content systems that produce 30 days of branded video in 24 hours. Used by lawyers, brokers, and businesses worldwide.",
   icons: {
     icon: '/favicon.ico',
     shortcut: '/favicon-16x16.png',
@@ -21,7 +21,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className="bg-[#060d11] text-slate-100 antialiased">
+      <body
+        className="bg-[#060d11] text-slate-100 antialiased"
+        suppressHydrationWarning
+      >
         <Suspense>{children}</Suspense>
         <Toaster position="bottom-right"
           toastOptions={{
