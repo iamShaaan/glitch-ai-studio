@@ -177,9 +177,9 @@ export function CinemaRack() {
           <button
             onClick={goPrev}
             aria-label="Previous use case"
-            className="hidden md:flex w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#131315] dark:hover:bg-[#1c1b1d] border border-zinc-200 hover:border-emerald-600/50 dark:border-[#2a2a2c] dark:hover:border-[#c3f400] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all items-center justify-center cursor-pointer shadow-lg hover:scale-105 active:scale-95 flex-shrink-0 z-20"
+            className="flex w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#131315] dark:hover:bg-[#1c1b1d] border border-zinc-200 hover:border-emerald-600/50 dark:border-[#2a2a2c] dark:hover:border-[#c3f400] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all items-center justify-center cursor-pointer shadow-lg hover:scale-105 active:scale-95 flex-shrink-0 z-20"
           >
-            <ChevronLeft className="w-6 h-6" />
+            <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
           </button>
 
           <div
@@ -336,44 +336,26 @@ export function CinemaRack() {
           <button
             onClick={goNext}
             aria-label="Next use case"
-            className="hidden md:flex w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#131315] dark:hover:bg-[#1c1b1d] border border-zinc-200 hover:border-emerald-600/50 dark:border-[#2a2a2c] dark:hover:border-[#c3f400] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all items-center justify-center cursor-pointer shadow-lg hover:scale-105 active:scale-95 flex-shrink-0 z-20"
+            className="flex w-9 h-9 sm:w-11 sm:h-11 md:w-12 md:h-12 lg:w-14 lg:h-14 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#131315] dark:hover:bg-[#1c1b1d] border border-zinc-200 hover:border-emerald-600/50 dark:border-[#2a2a2c] dark:hover:border-[#c3f400] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all items-center justify-center cursor-pointer shadow-lg hover:scale-105 active:scale-95 flex-shrink-0 z-20"
           >
-            <ChevronRight className="w-6 h-6" />
+            <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 md:w-6 md:h-6" />
           </button>
         </div>
 
-        {/* Navigation Controls: Previous / Next Buttons + Interactive Indicator Dots */}
-        <div className="flex items-center justify-center gap-3 sm:gap-4 mt-6 sm:mt-8 max-w-sm mx-auto select-none">
-          <button
-            onClick={goPrev}
-            aria-label="Previous use case"
-            className="w-10 h-10 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#1c1b1d] dark:hover:bg-[#252427] border border-zinc-200 dark:border-[#2a2a2c] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all flex items-center justify-center cursor-pointer active:scale-95 shadow-sm hover:scale-105"
-          >
-            <ChevronLeft className="w-5 h-5" />
-          </button>
-
-          <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-zinc-100 dark:bg-[#151518] border border-zinc-200 dark:border-[#262933]">
-            {USE_CASE_CARDS.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setCurrentIndex(idx)}
-                className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                  idx === currentIndex
-                    ? "w-8 bg-emerald-600 dark:bg-[#c3f400] shadow-[0_0_10px_rgba(22,163,74,0.5)] dark:shadow-[0_0_10px_rgba(195,244,0,0.6)]"
-                    : "w-2 bg-zinc-300 hover:bg-zinc-400 dark:bg-[#2a2a2c] dark:hover:bg-[#424246]"
-                }`}
-                aria-label={`Go to use case ${idx + 1}`}
-              />
-            ))}
-          </div>
-
-          <button
-            onClick={goNext}
-            aria-label="Next use case"
-            className="w-10 h-10 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#1c1b1d] dark:hover:bg-[#252427] border border-zinc-200 dark:border-[#2a2a2c] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all flex items-center justify-center cursor-pointer active:scale-95 shadow-sm hover:scale-105"
-          >
-            <ChevronRight className="w-5 h-5" />
-          </button>
+        {/* Scrolling Pointers (Indicator Dots - Borderless) */}
+        <div className="flex items-center justify-center gap-2 mt-6 sm:mt-7 select-none">
+          {USE_CASE_CARDS.map((_, idx) => (
+            <button
+              key={idx}
+              onClick={() => setCurrentIndex(idx)}
+              className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
+                idx === currentIndex
+                  ? "w-8 bg-emerald-600 dark:bg-[#c3f400] shadow-[0_0_10px_rgba(22,163,74,0.5)] dark:shadow-[0_0_10px_rgba(195,244,0,0.6)]"
+                  : "w-2 bg-zinc-300 hover:bg-zinc-400 dark:bg-[#2a2a2c] dark:hover:bg-[#424246]"
+              }`}
+              aria-label={`Go to use case ${idx + 1}`}
+            />
+          ))}
         </div>
 
         {/* Floating Modal for 10 Travel Reels */}
