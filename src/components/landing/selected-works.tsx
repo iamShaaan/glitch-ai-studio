@@ -42,6 +42,9 @@ const COLLAGE_ITEMS: CollageItemConfig[] = PORTFOLIO_WORKS.map((work, idx) => ({
   offsetClass: OFFSET_PATTERNS[idx % OFFSET_PATTERNS.length],
 }));
 
+// TAP_THRESHOLD: max pixels of finger movement to still count as a "tap" (not a scroll)
+const TAP_THRESHOLD = 8;
+
 function FloatingCollageCard({
   item,
   onSelect,
@@ -50,8 +53,12 @@ function FloatingCollageCard({
   onSelect: (url: string) => void;
 }) {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
   const [isHovered, setIsHovered] = useState(false);
   const [aspectRatio, setAspectRatio] = useState<number | null>(null);
+  // Track touch start position to distinguish tap vs. scroll
+  const touchStartPos = useRef<{ x: number; y: number } | null>(null);
+  const didScroll = useRef(false);
 
   // Global Audio synchronization: if another video claims audio, silence this one
   useEffect(() => {
@@ -67,17 +74,40 @@ function FloatingCollageCard({
     return unsubscribe;
   }, []);
 
+  // IntersectionObserver: mute + pause the moment the video scrolls off screen
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) {
+            // Video has left the viewport — silence and stop it immediately
+            if (videoRef.current) {
+              videoRef.current.pause();
+              videoRef.current.muted = true;
+            }
+            setIsHovered(false);
+          }
+        });
+      },
+      { threshold: 0 } // fires as soon as even 1px leaves the screen
+    );
+
+    observer.observe(container);
+    return () => observer.disconnect();
+  }, []);
+
   const handleMouseEnter = () => {
     setIsHovered(true);
     if (!videoRef.current) return;
     const video = videoRef.current;
-    // Play with sound/music on hover
     video.muted = false;
     video.volume = 1.0;
     claimAudioFocus(5000 + item.id, video);
 
     video.play().catch(() => {
-      // Fallback: If browser requires user interaction before unmuted audio, play muted initially
       if (video) {
         video.muted = true;
         video.play().catch(() => {});
@@ -103,7 +133,31 @@ function FloatingCollageCard({
     onSelect(item.videoUrl);
   };
 
-  const handleTouchStart = () => {
+  // On mobile: record finger position at touch start
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartPos.current = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+    didScroll.current = false;
+  };
+
+  // If finger moves more than TAP_THRESHOLD pixels it's a scroll — mark it
+  const handleTouchMove = (e: React.TouchEvent) => {
+    if (!touchStartPos.current) return;
+    const dx = Math.abs(e.touches[0].clientX - touchStartPos.current.x);
+    const dy = Math.abs(e.touches[0].clientY - touchStartPos.current.y);
+    if (dx > TAP_THRESHOLD || dy > TAP_THRESHOLD) {
+      didScroll.current = true;
+    }
+  };
+
+  // Only toggle play/pause if it was a genuine tap (finger barely moved)
+  const handleTouchEnd = () => {
+    if (didScroll.current) {
+      // User was scrolling — do nothing, leave video untouched
+      touchStartPos.current = null;
+      return;
+    }
+    touchStartPos.current = null;
+
     if (!videoRef.current) return;
     const video = videoRef.current;
     if (video.paused) {
@@ -124,10 +178,13 @@ function FloatingCollageCard({
 
   return (
     <div
+      ref={containerRef}
       onClick={handleClick}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
+      onTouchEnd={handleTouchEnd}
       style={{
         transform: isHovered
           ? "scale(1.05) translateY(-8px) rotate(0deg)"
