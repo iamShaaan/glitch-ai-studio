@@ -5,8 +5,6 @@ import { PORTFOLIO_WORKS } from "@/lib/video-config";
 import { claimAudioFocus, subscribeToAudioClaims } from "@/lib/video-sync";
 import { PortfolioVideoModal } from "@/components/ui/portfolio-video-modal";
 
-import { Play } from "lucide-react";
-
 interface CollageItemConfig {
   id: number;
   videoUrl: string;
@@ -280,28 +278,6 @@ function FloatingCollageCard({
             }`}
           />
         )}
-
-
-        {/* Center Play Glyph: Frosted glass badge, lights up on hover, fades when video is playing */}
-        <div
-          className={`absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-opacity duration-300 ${
-            isVideoActivelyPlaying ? "opacity-0" : "opacity-100"
-          }`}
-        >
-          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-white/20 bg-black/40 backdrop-blur-md flex items-center justify-center text-white group-hover:text-[#161e00] group-hover:bg-[#c3f400] group-hover:border-[#c3f400] transition-all duration-300 shadow-xl group-hover:scale-110">
-            <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current ml-0.5" />
-          </div>
-        </div>
-
-        {/* Bottom Title Snippet: High-legibility glassmorphic label */}
-        <div className="absolute bottom-2 left-2 right-2 z-20 pointer-events-none">
-          <div className="px-2.5 py-1 rounded-lg bg-black/65 backdrop-blur-md border border-white/10">
-            <span className="font-mono-tech text-[10px] text-white/95 uppercase tracking-wider truncate block font-medium">
-              {item.title}
-            </span>
-          </div>
-        </div>
-
         {/* Subtle inner dark vignette for clean borders */}
         <div className="pointer-events-none absolute inset-0 rounded-xl sm:rounded-2xl shadow-[inset_0_0_20px_rgba(0,0,0,0.25)] z-20" />
 
