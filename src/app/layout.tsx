@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Anton, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "react-hot-toast";
+import { ScrollToTop } from "@/components/ui/scroll-to-top";
 
 const anton = Anton({
   weight: "400",
@@ -51,6 +52,7 @@ export default function RootLayout({
         className={`${anton.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} bg-[#0a0a0c] text-[#e5e1e4] font-sans antialiased selection:bg-[#c3f400] selection:text-[#161e00]`}
         suppressHydrationWarning
       >
+        <ScrollToTop />
         <Suspense>{children}</Suspense>
         <Toaster position="bottom-right"
           toastOptions={{
