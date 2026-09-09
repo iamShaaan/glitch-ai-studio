@@ -113,6 +113,75 @@ export function VideoSlotPlayer({
     };
   }, [slot?.videoUrl, slotId]);
 
+  // Imperative Autoplay & Continuous Looping Engine
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !autoPlay) return;
+
+    // Strict attributes required for iOS Safari, WebKit, and Chrome automated autoplay
+    video.muted = true;
+    video.defaultMuted = true;
+    video.playsInline = true;
+    video.loop = loop;
+    video.setAttribute("muted", "");
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "true");
+
+    const startPlayback = () => {
+      if (!video) return;
+      video.muted = true;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+            setHasStartedPlaying(true);
+            setIsVideoLoaded(true);
+          })
+          .catch(() => {
+            // Retry with muted flag if browser hesitated
+            if (video) {
+              video.muted = true;
+              video.play().catch(() => {});
+            }
+          });
+      }
+    };
+
+    // Attempt immediately on mount
+    startPlayback();
+
+    // Event listeners to guarantee playback and continuous looping
+    const onLoadedMetadata = () => startPlayback();
+    const onLoadedData = () => startPlayback();
+    const onCanPlay = () => startPlayback();
+    const onEnded = () => {
+      if (loop && video) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+      }
+    };
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible" && video && video.paused) {
+        startPlayback();
+      }
+    };
+
+    video.addEventListener("loadedmetadata", onLoadedMetadata);
+    video.addEventListener("loadeddata", onLoadedData);
+    video.addEventListener("canplay", onCanPlay);
+    video.addEventListener("ended", onEnded);
+    document.addEventListener("visibilitychange", onVisibilityChange);
+
+    return () => {
+      video.removeEventListener("loadedmetadata", onLoadedMetadata);
+      video.removeEventListener("loadeddata", onLoadedData);
+      video.removeEventListener("canplay", onCanPlay);
+      video.removeEventListener("ended", onEnded);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+    };
+  }, [autoPlay, loop, slot?.videoUrl]);
+
   if (!slot) {
     return (
       <div className="p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-400 font-mono text-xs">
@@ -194,11 +263,11 @@ export function VideoSlotPlayer({
           poster={slot.posterUrl}
           autoPlay={autoPlay}
           loop={loop}
-          muted={isMuted}
+          muted={autoPlay ? true : isMuted}
           playsInline
           preload={autoPlay ? "auto" : "metadata"}
           className={`w-full h-full object-cover group-hover:scale-[1.01] transition-all duration-700 ${
-            (autoPlay ? isVideoLoaded : (hasStartedPlaying && isVideoLoaded)) ? "opacity-100" : "opacity-0"
+            (autoPlay ? (isVideoLoaded || isPlaying || hasStartedPlaying) : (hasStartedPlaying && isVideoLoaded)) ? "opacity-100" : "opacity-0"
           }`}
         />
 
@@ -210,7 +279,7 @@ export function VideoSlotPlayer({
             loading="eager"
             decoding="async"
             className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-700 z-10 ${
-              (autoPlay ? isVideoLoaded : (hasStartedPlaying && isVideoLoaded)) ? "opacity-0 pointer-events-none" : "opacity-100"
+              (autoPlay ? (isVideoLoaded || isPlaying || hasStartedPlaying) : (hasStartedPlaying && isVideoLoaded)) ? "opacity-0 pointer-events-none" : "opacity-100"
             }`}
           />
         )}
