@@ -36,20 +36,6 @@ const USE_CASE_CARDS: UseCaseCard[] = [
     },
   },
   {
-    slotId: 3,
-    badge: "Real Human Clone",
-    title: "Promote Your Service Using\nYour AI Clone",
-    description:
-      "Promote your service using your AI clone. A real human clone that represents your business, pitches your offers, and connects with clients effortlessly.",
-    secondaryDesc:
-      "Scale client acquisition and service delivery without filming burnout. Your AI clone delivers your authentic likeness, voice, and personal charisma on demand.",
-    takeaway: "1:1 Human Likeness • Scalable Client Outreach • Zero Filming Burnout",
-    ctaButton: {
-      label: "See how others are using it",
-      action: "open-clone-modal",
-    },
-  },
-  {
     slotId: 4,
     badge: "Niche AI Persona",
     title: "Dominate Your Niche With A\nUnique AI Persona",
@@ -61,6 +47,20 @@ const USE_CASE_CARDS: UseCaseCard[] = [
     ctaButton: {
       label: "See more niche personas",
       action: "open-niche-modal",
+    },
+  },
+  {
+    slotId: 3,
+    badge: "Real Human Clone",
+    title: "Promote Your Service Using\nYour AI Clone",
+    description:
+      "Promote your service using your AI clone. A real human clone that represents your business, pitches your offers, and connects with clients effortlessly.",
+    secondaryDesc:
+      "Scale client acquisition and service delivery without filming burnout. Your AI clone delivers your authentic likeness, voice, and personal charisma on demand.",
+    takeaway: "1:1 Human Likeness • Scalable Client Outreach • Zero Filming Burnout",
+    ctaButton: {
+      label: "See how others are using it",
+      action: "open-clone-modal",
     },
   },
   {
@@ -87,13 +87,9 @@ export function CinemaRack() {
   const [cloneModalOpen, setCloneModalOpen] = useState(false);
   const [nicheModalOpen, setNicheModalOpen] = useState(false);
 
-  const scrollCooldownRef = useRef(false);
   const touchStartX = useRef<number | null>(null);
   const touchStartY = useRef<number | null>(null);
   const isSwipingHorizontally = useRef<boolean | null>(null);
-
-  const mouseStartX = useRef<number | null>(null);
-  const isMouseDown = useRef(false);
 
   const goNext = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % USE_CASE_CARDS.length);
@@ -121,6 +117,7 @@ export function CinemaRack() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [goNext, goPrev]);
 
+  // Touch swipe support for mobile
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
     touchStartY.current = e.touches[0].clientY;
@@ -159,72 +156,6 @@ export function CinemaRack() {
     isSwipingHorizontally.current = null;
   };
 
-  const handleMouseDown = (e: React.MouseEvent) => {
-    if ((e.target as HTMLElement).closest("button")) return;
-    mouseStartX.current = e.clientX;
-    isMouseDown.current = true;
-    setIsDragging(true);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (!isMouseDown.current || mouseStartX.current === null) return;
-    const deltaX = e.clientX - mouseStartX.current;
-    setDragOffset(deltaX * 0.7);
-  };
-
-  const handleMouseUp = (e: React.MouseEvent) => {
-    if (!isMouseDown.current || mouseStartX.current === null) return;
-    const deltaX = e.clientX - mouseStartX.current;
-    setIsDragging(false);
-    if (Math.abs(deltaX) > 45) {
-      if (deltaX < 0) goNext();
-      else goPrev();
-    }
-    setDragOffset(0);
-    mouseStartX.current = null;
-    isMouseDown.current = false;
-  };
-
-  const handleMouseLeave = () => {
-    if (isMouseDown.current) {
-      setIsDragging(false);
-      setDragOffset(0);
-      mouseStartX.current = null;
-      isMouseDown.current = false;
-    }
-  };
-
-  const handleDoubleClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if ((e.target as HTMLElement).closest("button")) return;
-    const rect = e.currentTarget.getBoundingClientRect();
-    const clickX = e.clientX - rect.left;
-    if (clickX > rect.width / 2) {
-      goNext();
-    } else {
-      goPrev();
-    }
-  };
-
-  const handleWheel = (e: React.WheelEvent) => {
-    if (scrollCooldownRef.current) return;
-    const isHorizontal = Math.abs(e.deltaX) > Math.abs(e.deltaY);
-
-    if (isHorizontal && Math.abs(e.deltaX) > 20) {
-      scrollCooldownRef.current = true;
-      if (e.deltaX > 0) goNext();
-      else goPrev();
-      setTimeout(() => { scrollCooldownRef.current = false; }, 500);
-      return;
-    }
-
-    if (Math.abs(e.deltaY) > 30) {
-      scrollCooldownRef.current = true;
-      if (e.deltaY > 0) goNext();
-      else goPrev();
-      setTimeout(() => { scrollCooldownRef.current = false; }, 500);
-    }
-  };
-
   const currentCard = USE_CASE_CARDS[currentIndex];
 
   return (
@@ -252,20 +183,14 @@ export function CinemaRack() {
           </button>
 
           <div
-            onWheel={handleWheel}
             onTouchStart={handleTouchStart}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
-            onMouseDown={handleMouseDown}
-            onMouseMove={handleMouseMove}
-            onMouseUp={handleMouseUp}
-            onMouseLeave={handleMouseLeave}
-            onDoubleClick={handleDoubleClick}
             style={{
               transform: `translateX(${dragOffset}px)`,
               transition: isDragging ? "none" : "transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)",
             }}
-            className="flex-1 min-w-0 max-w-5xl xl:max-w-6xl w-full rounded-2xl sm:rounded-3xl bg-white dark:bg-[#131315] border border-zinc-200 dark:border-[#262933] p-4 sm:p-6 md:p-7 lg:p-8 shadow-xl dark:shadow-2xl relative overflow-hidden cursor-grab active:cursor-grabbing transition-colors duration-200"
+            className="flex-1 min-w-0 max-w-5xl xl:max-w-6xl w-full rounded-2xl sm:rounded-3xl bg-white dark:bg-[#131315] border border-zinc-200 dark:border-[#262933] p-4 sm:p-6 md:p-7 lg:p-8 shadow-xl dark:shadow-2xl relative overflow-hidden transition-colors duration-200"
           >
             <div className="flex flex-col lg:grid lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 lg:items-center">
               <div className="block lg:hidden flex flex-col gap-1.5">
@@ -417,25 +342,25 @@ export function CinemaRack() {
           </button>
         </div>
 
-        {/* Mobile Navigation Controls (md:hidden) with Left Arrow, Dots, Right Arrow */}
-        <div className="flex md:hidden items-center justify-between gap-4 mt-5 max-w-xs mx-auto">
+        {/* Navigation Controls: Previous / Next Buttons + Interactive Indicator Dots */}
+        <div className="flex items-center justify-center gap-3 sm:gap-4 mt-6 sm:mt-8 max-w-sm mx-auto select-none">
           <button
             onClick={goPrev}
             aria-label="Previous use case"
-            className="w-10 h-10 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#1c1b1d] dark:hover:bg-[#252427] border border-zinc-200 dark:border-[#2a2a2c] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all flex items-center justify-center cursor-pointer active:scale-95 shadow-sm"
+            className="w-10 h-10 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#1c1b1d] dark:hover:bg-[#252427] border border-zinc-200 dark:border-[#2a2a2c] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all flex items-center justify-center cursor-pointer active:scale-95 shadow-sm hover:scale-105"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-zinc-100 dark:bg-[#151518] border border-zinc-200 dark:border-[#262933]">
             {USE_CASE_CARDS.map((_, idx) => (
               <button
                 key={idx}
                 onClick={() => setCurrentIndex(idx)}
                 className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                   idx === currentIndex
-                    ? "w-7 bg-emerald-600 dark:bg-[#c3f400] shadow-[0_0_10px_rgba(22,163,74,0.5)] dark:shadow-[0_0_10px_rgba(195,244,0,0.6)]"
-                    : "w-2 bg-zinc-300 dark:bg-[#2a2a2c]"
+                    ? "w-8 bg-emerald-600 dark:bg-[#c3f400] shadow-[0_0_10px_rgba(22,163,74,0.5)] dark:shadow-[0_0_10px_rgba(195,244,0,0.6)]"
+                    : "w-2 bg-zinc-300 hover:bg-zinc-400 dark:bg-[#2a2a2c] dark:hover:bg-[#424246]"
                 }`}
                 aria-label={`Go to use case ${idx + 1}`}
               />
@@ -445,26 +370,10 @@ export function CinemaRack() {
           <button
             onClick={goNext}
             aria-label="Next use case"
-            className="w-10 h-10 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#1c1b1d] dark:hover:bg-[#252427] border border-zinc-200 dark:border-[#2a2a2c] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all flex items-center justify-center cursor-pointer active:scale-95 shadow-sm"
+            className="w-10 h-10 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#1c1b1d] dark:hover:bg-[#252427] border border-zinc-200 dark:border-[#2a2a2c] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all flex items-center justify-center cursor-pointer active:scale-95 shadow-sm hover:scale-105"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
-        </div>
-
-        {/* Desktop Visual Scroll Selection Dots (md and up, NO text below) */}
-        <div className="hidden md:flex items-center justify-center gap-2 mt-6">
-          {USE_CASE_CARDS.map((_, idx) => (
-            <button
-              key={idx}
-              onClick={() => setCurrentIndex(idx)}
-              className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
-                idx === currentIndex
-                  ? "w-8 bg-emerald-600 dark:bg-[#c3f400] shadow-[0_0_12px_rgba(22,163,74,0.5)] dark:shadow-[0_0_12px_rgba(195,244,0,0.6)]"
-                  : "w-2 bg-zinc-300 hover:bg-zinc-400 dark:bg-[#2a2a2c] dark:hover:bg-[#424246]"
-              }`}
-              aria-label={`Go to use case ${idx + 1}`}
-            />
-          ))}
         </div>
 
         {/* Floating Modal for 10 Travel Reels */}
