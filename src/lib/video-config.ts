@@ -423,27 +423,31 @@ export const PORTFOLIO_WORKS: PortfolioWork[] = [
     aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Vox-style%20content%20creation%20with%20AI.mp4",
+    posterUrl: "/portfolio/work-1.jpg",
   },
   {
     id: 2,
     title: "Cinematic Narrative",
-    aspectRatio: "16/9",
+    aspectRatio: "4/3",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Once%20Upon%20a%20Time%20in%20China.mp4",
+    posterUrl: "/portfolio/work-2.jpg",
   },
   {
     id: 3,
-    title: "Social Vertical Reel",
-    aspectRatio: "9/16",
+    title: "Papercraft Diorama Animation",
+    aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/a56501e1-3dc2-4768-8f68-3850c2eb09e6.mp4",
+    posterUrl: "/portfolio/work-3.jpg",
   },
   {
     id: 4,
-    title: "Seedance 2.5",
-    aspectRatio: "9/16",
+    title: "Seedance 2.5 Cutout Art",
+    aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Seedance%202.5.mp4",
+    posterUrl: "/portfolio/work-4.jpg",
   },
   {
     id: 5,
@@ -451,48 +455,55 @@ export const PORTFOLIO_WORKS: PortfolioWork[] = [
     aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Sacred%20six%203.mp4",
+    posterUrl: "/portfolio/work-5.jpg",
   },
   {
     id: 6,
-    title: "Fashion Model Synth",
-    aspectRatio: "9/16",
+    title: "Podcast & Digital Twin Setup",
+    aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/hf_20260518_113720_2588f020-2ac2-4bfb-90d8-4fa0c8031adc.mp4",
+    posterUrl: "/portfolio/work-6.jpg",
   },
   {
     id: 7,
     title: "Bali Travel Vlog",
-    aspectRatio: "9/16",
+    aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/male_vlogger_bali_vlogmp_.mp4",
+    posterUrl: "/portfolio/work-7.jpg",
   },
   {
     id: 8,
     title: "Van Gogh Reimagined",
-    aspectRatio: "16/9",
+    aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Van%20Gough.mp4",
+    posterUrl: "/portfolio/work-8.jpg",
   },
   {
     id: 9,
-    title: "Quench Commercial",
-    aspectRatio: "9/16",
+    title: "Quench IV Commercial",
+    aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Quench%20IV%205.mp4",
+    posterUrl: "/portfolio/work-9.jpg",
   },
   {
     id: 10,
-    title: "Meshy AI Promotion",
-    aspectRatio: "16/9",
+    title: "Meshy AI 3D Animation",
+    aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Promotion%20-%20Meshy%20AI.mp4",
+    posterUrl: "/portfolio/work-10.jpg",
   },
   {
     id: 11,
-    title: "Dynamic Product Ad",
-    aspectRatio: "9/16",
+    title: "Travel Food Vlog",
+    aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/mp_.mp4",
+    posterUrl: "/portfolio/work-11.jpg",
   },
   {
     id: 12,
@@ -500,13 +511,15 @@ export const PORTFOLIO_WORKS: PortfolioWork[] = [
     aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Fitness%20influencer%20.mp4",
+    posterUrl: "/portfolio/work-12.jpg",
   },
   {
     id: 13,
-    title: "Unique Conversion Ad",
-    aspectRatio: "16/9",
+    title: "Shark Mindset Ad Reel",
+    aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Unique%20AI%20ads.mp4",
+    posterUrl: "/portfolio/work-13.jpg",
   },
   {
     id: 14,
@@ -514,13 +527,15 @@ export const PORTFOLIO_WORKS: PortfolioWork[] = [
     aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Flux%203.mp4",
+    posterUrl: "/portfolio/work-14.jpg",
   },
   {
     id: 15,
-    title: "Lifestyle AI Hook",
+    title: "Big Ben London Vlog",
     aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/mp_%20(1).mp4",
+    posterUrl: "/portfolio/work-15.jpg",
   },
 ];
 

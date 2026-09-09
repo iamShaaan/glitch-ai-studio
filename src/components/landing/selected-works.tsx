@@ -154,6 +154,7 @@ function FloatingCollageCard({
     setIsHovered(false);
     if (videoRef.current) {
       videoRef.current.pause();
+      videoRef.current.currentTime = 0;
       videoRef.current.muted = true;
     }
   };
@@ -162,6 +163,7 @@ function FloatingCollageCard({
     e.stopPropagation();
     if (videoRef.current) {
       videoRef.current.pause();
+      videoRef.current.currentTime = 0;
       videoRef.current.muted = true;
     }
     setIsHovered(false);
@@ -219,6 +221,8 @@ function FloatingCollageCard({
       ? "aspect-[4/3]"
       : "aspect-[9/16]";
 
+  const isVideoActivelyPlaying = isHovered && isVideoLoaded;
+
   return (
     <div
       ref={containerRef}
@@ -230,7 +234,7 @@ function FloatingCollageCard({
       onTouchEnd={handleTouchEnd}
       style={{
         transform: isHovered
-          ? "scale(1.05) translateY(-8px) rotate(0deg)"
+          ? "scale(1.04) translateY(-6px) rotate(0deg)"
           : `rotate(${item.restingRotate}deg)`,
         zIndex: isHovered ? 40 : 10,
       }}
@@ -240,59 +244,27 @@ function FloatingCollageCard({
           : "border-zinc-200 hover:border-zinc-300 dark:border-[#22242c] dark:hover:border-[#383a45] shadow-md dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)]"
       } ${item.offsetClass}`}
     >
-      {/* Fixed Stable Frame Container (Zero Layout Shift) */}
+      {/* Fixed Stable Frame Container with Exact Original Aspect Ratio */}
       <div
         className={`relative w-full ${aspectClass} overflow-hidden rounded-xl sm:rounded-2xl bg-zinc-200 dark:bg-[#141418]`}
       >
-        {/* Instant Cyber Skeleton Placeholder (Never renders a blank black box) */}
-        <div
-          className={`absolute inset-0 z-10 flex flex-col justify-between p-3.5 transition-opacity duration-700 pointer-events-none bg-gradient-to-br from-zinc-100 via-zinc-200 to-zinc-300 dark:from-[#1a1a1f] dark:via-[#131316] dark:to-[#0c0c0e] ${
-            isVideoLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
-          }`}
-        >
-          {/* Subtle pulsating shimmer band */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.2] dark:via-white/[0.03] to-transparent animate-pulse" />
+        {/* Shimmer Placeholder while thumbnail is loading */}
+        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.05] to-transparent animate-pulse pointer-events-none" />
 
-          {/* Top meta pill */}
-          <div className="relative z-10 flex items-center justify-between">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/80 dark:bg-black/50 border border-zinc-300 dark:border-white/10 font-mono-tech text-[9px] text-emerald-800 dark:text-[#c3f400] tracking-wider">
-              <span className="w-1 h-1 rounded-full bg-emerald-600 dark:bg-[#c3f400] animate-pulse" />
-              SPECIMEN 0{item.id}
-            </span>
-            <span className="px-1.5 py-0.5 rounded bg-white/70 dark:bg-black/40 text-[9px] font-mono-tech text-zinc-600 dark:text-white/50 border border-zinc-200 dark:border-white/5">
-              {item.aspectRatio}
-            </span>
-          </div>
-
-          {/* Center ambient play glyph */}
-          <div className="relative z-10 my-auto self-center flex items-center justify-center">
-            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-zinc-300 dark:border-white/15 bg-white/80 dark:bg-black/40 backdrop-blur-sm flex items-center justify-center text-zinc-700 dark:text-white/60 group-hover:text-emerald-700 dark:group-hover:text-[#c3f400] group-hover:border-emerald-600/50 dark:group-hover:border-[#c3f400]/50 transition-all duration-300 shadow-lg">
-              <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current ml-0.5" />
-            </div>
-          </div>
-
-          {/* Bottom Title Snippet */}
-          <div className="relative z-10 px-2 py-1 rounded-lg bg-white/85 dark:bg-black/55 backdrop-blur-md border border-zinc-200 dark:border-white/5">
-            <span className="font-mono-tech text-[10px] text-zinc-800 dark:text-white/80 uppercase tracking-wider truncate block font-medium">
-              {item.title}
-            </span>
-          </div>
-        </div>
-
-        {/* Optional Poster Image if available */}
+        {/* Video Thumbnail Screenshot (Always displayed by default) */}
         {item.posterUrl && (
           <img
             src={item.posterUrl}
             alt={item.title || "Portfolio preview"}
             loading="lazy"
             decoding="async"
-            className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-700 z-10 ${
-              isVideoLoaded ? "opacity-0" : "opacity-100"
+            className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-500 z-10 ${
+              isVideoActivelyPlaying ? "opacity-0" : "opacity-100"
             }`}
           />
         )}
 
-        {/* Virtualized Video Tag: Mounted only when near viewport */}
+        {/* Virtualized Video Tag: Mounted only when near viewport, plays on hover */}
         {isNearViewport && (
           <video
             ref={videoRef}
@@ -300,19 +272,50 @@ function FloatingCollageCard({
             muted
             loop
             playsInline
-            preload={isHovered ? "auto" : "none"}
+            preload={isHovered ? "auto" : "metadata"}
             onLoadedData={() => setIsVideoLoaded(true)}
             onCanPlay={() => setIsVideoLoaded(true)}
-            className={`w-full h-full object-cover block transition-all duration-700 ease-out group-hover:scale-105 ${
-              isVideoLoaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.01]"
+            className={`w-full h-full object-cover block transition-all duration-500 ease-out ${
+              isVideoActivelyPlaying ? "opacity-100 scale-100" : "opacity-0 scale-[1.01]"
             }`}
           />
         )}
 
-        {/* Subtle inner dark vignette */}
-        <div className="pointer-events-none absolute inset-0 rounded-xl sm:rounded-2xl shadow-[inset_0_0_25px_rgba(0,0,0,0.15)] dark:shadow-[inset_0_0_25px_rgba(10,10,12,0.6)] z-20" />
+        {/* Top Meta Pill: Specimen ID & Aspect Ratio */}
+        <div className="absolute top-2.5 left-2.5 right-2.5 z-20 flex items-center justify-between pointer-events-none">
+          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 font-mono-tech text-[9px] text-[#c3f400] tracking-wider">
+            <span className="w-1 h-1 rounded-full bg-[#c3f400] animate-pulse" />
+            SPECIMEN 0{item.id}
+          </span>
+          <span className="px-1.5 py-0.5 rounded bg-black/50 backdrop-blur-md text-[9px] font-mono-tech text-white/70 border border-white/10">
+            {item.aspectRatio}
+          </span>
+        </div>
 
-        {/* Ambient green hover sheen */}
+        {/* Center Play Glyph: Frosted glass badge, lights up on hover, fades when video is playing */}
+        <div
+          className={`absolute inset-0 z-20 flex items-center justify-center pointer-events-none transition-opacity duration-300 ${
+            isVideoActivelyPlaying ? "opacity-0" : "opacity-100"
+          }`}
+        >
+          <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-white/20 bg-black/40 backdrop-blur-md flex items-center justify-center text-white group-hover:text-[#161e00] group-hover:bg-[#c3f400] group-hover:border-[#c3f400] transition-all duration-300 shadow-xl group-hover:scale-110">
+            <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current ml-0.5" />
+          </div>
+        </div>
+
+        {/* Bottom Title Snippet: High-legibility glassmorphic label */}
+        <div className="absolute bottom-2 left-2 right-2 z-20 pointer-events-none">
+          <div className="px-2.5 py-1 rounded-lg bg-black/65 backdrop-blur-md border border-white/10">
+            <span className="font-mono-tech text-[10px] text-white/95 uppercase tracking-wider truncate block font-medium">
+              {item.title}
+            </span>
+          </div>
+        </div>
+
+        {/* Subtle inner dark vignette for clean borders */}
+        <div className="pointer-events-none absolute inset-0 rounded-xl sm:rounded-2xl shadow-[inset_0_0_20px_rgba(0,0,0,0.25)] z-20" />
+
+        {/* Ambient emerald hover sheen */}
         {isHovered && (
           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-emerald-600/10 dark:from-[#c3f400]/10 via-transparent to-transparent opacity-70 transition-opacity duration-300 z-20" />
         )}
