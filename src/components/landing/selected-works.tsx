@@ -281,16 +281,6 @@ function FloatingCollageCard({
           />
         )}
 
-        {/* Top Meta Pill: Specimen ID & Aspect Ratio */}
-        <div className="absolute top-2.5 left-2.5 right-2.5 z-20 flex items-center justify-between pointer-events-none">
-          <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/60 backdrop-blur-md border border-white/15 font-mono-tech text-[9px] text-[#c3f400] tracking-wider">
-            <span className="w-1 h-1 rounded-full bg-[#c3f400] animate-pulse" />
-            SPECIMEN 0{item.id}
-          </span>
-          <span className="px-1.5 py-0.5 rounded bg-black/50 backdrop-blur-md text-[9px] font-mono-tech text-white/70 border border-white/10">
-            {item.aspectRatio}
-          </span>
-        </div>
 
         {/* Center Play Glyph: Frosted glass badge, lights up on hover, fades when video is playing */}
         <div

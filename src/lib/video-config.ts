@@ -50,7 +50,7 @@ export const VIDEO_SLOTS: Record<number, VideoSlot> = {
     ],
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Visiting%20India.mp4",
-    posterUrl: "",
+    posterUrl: "/use-cases/use-case-2.jpg",
     aspectRatio: "16/9",
     category: "Travel & Tourism",
     details: "SPECIMEN: VISITING INDIA • TRAVEL AI INFLUENCER • 16:9",
@@ -76,7 +76,7 @@ export const VIDEO_SLOTS: Record<number, VideoSlot> = {
     ],
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Fiverr%20GIG%20Update%20Video.mp4",
-    posterUrl: "",
+    posterUrl: "/use-cases/use-case-3.jpg",
     aspectRatio: "16/9",
     category: "Real Human Clone",
     details: "SPECIMEN: PROMOTING SERVICES • REAL HUMAN CLONE • 16:9",
@@ -102,7 +102,7 @@ export const VIDEO_SLOTS: Record<number, VideoSlot> = {
     ],
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Promote%20your%20product%20with%20your%20AI%20influencer.mp4",
-    posterUrl: "",
+    posterUrl: "/use-cases/use-case-4.jpg",
     aspectRatio: "16/9",
     category: "Product Promotion",
     details: "SPECIMEN: PROMOTE YOUR PRODUCT WITH AI INFLUENCER • 16:9",
@@ -128,7 +128,7 @@ export const VIDEO_SLOTS: Record<number, VideoSlot> = {
     ],
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/OKC%20Roofers%20Avatar.mp4",
-    posterUrl: "",
+    posterUrl: "/use-cases/use-case-5.jpg",
     aspectRatio: "16/9",
     category: "Brand Representation",
     details: "SPECIMEN: OKC ROOFERS COMMERCIAL • 16:9 LANDSCAPE",

@@ -42,12 +42,14 @@ export function VideoSlotPlayer({
   const [progress, setProgress] = useState(0);
   const [hasError, setHasError] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [hasStartedPlaying, setHasStartedPlaying] = useState(autoPlay);
 
   // Reset error & loaded status when URL changes
   useEffect(() => {
     setHasError(false);
     setIsVideoLoaded(false);
-  }, [slot?.videoUrl]);
+    setHasStartedPlaying(autoPlay);
+  }, [slot?.videoUrl, autoPlay]);
 
   // Global Audio Synchronization Listener
   // Invariant: If any other video on the website unmutes, this video will mute immediately
@@ -74,6 +76,7 @@ export function VideoSlotPlayer({
     };
     const handlePlay = () => {
       setIsPlaying(true);
+      setHasStartedPlaying(true);
       setHasError(false);
       if (video && !video.muted && video.volume > 0) {
         claimAudioFocus(slotId, video);
@@ -195,7 +198,7 @@ export function VideoSlotPlayer({
           playsInline
           preload={autoPlay ? "auto" : "metadata"}
           className={`w-full h-full object-cover group-hover:scale-[1.01] transition-all duration-700 ${
-            isVideoLoaded ? "opacity-100" : "opacity-0"
+            (autoPlay ? isVideoLoaded : (hasStartedPlaying && isVideoLoaded)) ? "opacity-100" : "opacity-0"
           }`}
         />
 
@@ -204,10 +207,10 @@ export function VideoSlotPlayer({
           <img
             src={slot.posterUrl}
             alt={slot.title || "Video preview"}
-            loading={autoPlay ? "eager" : "lazy"}
+            loading="eager"
             decoding="async"
             className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-700 z-10 ${
-              isVideoLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
+              (autoPlay ? isVideoLoaded : (hasStartedPlaying && isVideoLoaded)) ? "opacity-0 pointer-events-none" : "opacity-100"
             }`}
           />
         )}
