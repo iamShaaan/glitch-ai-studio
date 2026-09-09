@@ -204,7 +204,7 @@ export function VideoSlotPlayer({
           <img
             src={slot.posterUrl}
             alt={slot.title || "Video preview"}
-            loading="lazy"
+            loading={autoPlay ? "eager" : "lazy"}
             decoding="async"
             className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-700 z-10 ${
               isVideoLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
