@@ -352,18 +352,26 @@ export function NicheReelsModal({ isOpen, onClose }: NicheReelsModalProps) {
                       : "border-[#202025] hover:border-[#383842] cursor-pointer"
                   }`}
                 >
-                  {/* 9:16 Video Player */}
-                  <video
-                    ref={(el) => {
-                      videoRefs.current[idx] = el;
-                    }}
-                    src={reel.videoUrl}
-                    loop
-                    playsInline
-                    preload="auto"
-                    muted={isMuted || !isMiddle}
-                    className="w-full h-full object-cover pointer-events-none"
-                  />
+                  {/* 9:16 Video Player: Only mounted for current & adjacent slides (max 3 decoders) */}
+                  {absDiff <= 1 ? (
+                    <video
+                      ref={(el) => {
+                        videoRefs.current[idx] = el;
+                      }}
+                      src={reel.videoUrl}
+                      loop
+                      playsInline
+                      preload={isMiddle ? "auto" : "metadata"}
+                      muted={isMuted || !isMiddle}
+                      className="w-full h-full object-cover pointer-events-none"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-[#121216] flex items-center justify-center p-4">
+                      <div className="w-10 h-10 rounded-full bg-white/5 border border-white/10 flex items-center justify-center text-white/30">
+                        <Play className="w-4 h-4 fill-current ml-0.5" />
+                      </div>
+                    </div>
+                  )}
 
                   {/* Delicate Transparent Audio Toggle on Active Middle Video */}
                   {isMiddle && (

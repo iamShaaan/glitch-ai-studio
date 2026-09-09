@@ -34,10 +34,12 @@ export function PortfolioVideoModal({
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isBuffering, setIsBuffering] = useState(true);
 
   // Claim audio focus and start playing when opened
   useEffect(() => {
     if (!isOpen || !videoUrl) return;
+    setIsBuffering(true);
 
     // Lock background scrolling
     const originalOverflow = document.body.style.overflow;
@@ -237,10 +239,20 @@ export function PortfolioVideoModal({
             src={videoUrl}
             playsInline
             loop
+            onWaiting={() => setIsBuffering(true)}
+            onCanPlay={() => setIsBuffering(false)}
+            onPlaying={() => setIsBuffering(false)}
             onTimeUpdate={handleTimeUpdate}
             onLoadedMetadata={handleLoadedMetadata}
             className="w-full h-full max-h-[66vh] sm:max-h-[72vh] object-contain"
           />
+
+          {/* Buffering Loading Spinner */}
+          {isBuffering && (
+            <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px] pointer-events-none z-10">
+              <div className="w-10 h-10 rounded-full border-2 border-[#c3f400]/20 border-t-[#c3f400] animate-spin" />
+            </div>
+          )}
 
           {/* Center Subtle Play/Pause Overlay Indicator */}
           <div

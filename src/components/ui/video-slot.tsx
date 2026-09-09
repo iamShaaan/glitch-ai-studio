@@ -41,10 +41,12 @@ export function VideoSlotPlayer({
   const [isMuted, setIsMuted] = useState(muted);
   const [progress, setProgress] = useState(0);
   const [hasError, setHasError] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
 
-  // Reset error when URL changes
+  // Reset error & loaded status when URL changes
   useEffect(() => {
     setHasError(false);
+    setIsVideoLoaded(false);
   }, [slot?.videoUrl]);
 
   // Global Audio Synchronization Listener
@@ -84,6 +86,11 @@ export function VideoSlotPlayer({
     };
     const handleLoadedData = () => {
       setHasError(false);
+      setIsVideoLoaded(true);
+    };
+    const handleCanPlay = () => {
+      setHasError(false);
+      setIsVideoLoaded(true);
     };
 
     video.addEventListener("timeupdate", handleTimeUpdate);
@@ -91,6 +98,7 @@ export function VideoSlotPlayer({
     video.addEventListener("pause", handlePause);
     video.addEventListener("error", handleError);
     video.addEventListener("loadeddata", handleLoadedData);
+    video.addEventListener("canplay", handleCanPlay);
 
     return () => {
       video.removeEventListener("timeupdate", handleTimeUpdate);
@@ -98,6 +106,7 @@ export function VideoSlotPlayer({
       video.removeEventListener("pause", handlePause);
       video.removeEventListener("error", handleError);
       video.removeEventListener("loadeddata", handleLoadedData);
+      video.removeEventListener("canplay", handleCanPlay);
     };
   }, [slot?.videoUrl, slotId]);
 
@@ -184,9 +193,35 @@ export function VideoSlotPlayer({
           loop={loop}
           muted={isMuted}
           playsInline
-          preload="auto"
-          className="w-full h-full object-cover group-hover:scale-[1.01] transition-transform duration-500"
+          preload={autoPlay ? "auto" : "metadata"}
+          className={`w-full h-full object-cover group-hover:scale-[1.01] transition-all duration-700 ${
+            isVideoLoaded ? "opacity-100" : "opacity-0"
+          }`}
         />
+
+        {/* Poster Image Layer with Smooth Cross-fade */}
+        {slot.posterUrl && (
+          <img
+            src={slot.posterUrl}
+            alt={slot.title || "Video preview"}
+            loading="lazy"
+            decoding="async"
+            className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-700 z-10 ${
+              isVideoLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
+            }`}
+          />
+        )}
+
+        {/* Shimmer skeleton before video or poster loads */}
+        {!isVideoLoaded && (
+          <div
+            className={`absolute inset-0 z-[5] bg-[#121215] flex items-center justify-center transition-opacity duration-700 ${
+              slot.posterUrl ? "opacity-40" : "opacity-100"
+            }`}
+          >
+            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.04] to-transparent animate-pulse" />
+          </div>
+        )}
 
         {/* Error Fallback State - Never leaves an empty or black void */}
         {hasError && (

@@ -5,11 +5,16 @@ import { PORTFOLIO_WORKS } from "@/lib/video-config";
 import { claimAudioFocus, subscribeToAudioClaims } from "@/lib/video-sync";
 import { PortfolioVideoModal } from "@/components/ui/portfolio-video-modal";
 
+import { Play } from "lucide-react";
+
 interface CollageItemConfig {
   id: number;
   videoUrl: string;
   restingRotate: number;
   offsetClass: string;
+  aspectRatio: "9/16" | "16/9" | "4/5" | "4/3";
+  title?: string;
+  posterUrl?: string;
 }
 
 const ROTATION_PATTERNS = [
@@ -40,6 +45,9 @@ const COLLAGE_ITEMS: CollageItemConfig[] = PORTFOLIO_WORKS.map((work, idx) => ({
   videoUrl: work.videoUrl,
   restingRotate: ROTATION_PATTERNS[idx % ROTATION_PATTERNS.length],
   offsetClass: OFFSET_PATTERNS[idx % OFFSET_PATTERNS.length],
+  aspectRatio: work.aspectRatio || (idx % 3 === 0 ? "16/9" : "9/16"),
+  title: work.title || `PORTFOLIO SPECIMEN 0${work.id}`,
+  posterUrl: work.posterUrl,
 }));
 
 // TAP_THRESHOLD: max pixels of finger movement to still count as a "tap" (not a scroll)
@@ -55,7 +63,9 @@ function FloatingCollageCard({
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [isHovered, setIsHovered] = useState(false);
-  const [aspectRatio, setAspectRatio] = useState<number | null>(null);
+  const [isNearViewport, setIsNearViewport] = useState(false);
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+
   // Track touch start position to distinguish tap vs. scroll
   const touchStartPos = useRef<{ x: number; y: number } | null>(null);
   const didScroll = useRef(false);
@@ -74,16 +84,36 @@ function FloatingCollageCard({
     return unsubscribe;
   }, []);
 
-  // IntersectionObserver: mute + pause the moment the video scrolls off screen
+  // Viewport & Proximity Observers
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
 
-    const observer = new IntersectionObserver(
+    // 1. Proximity observer: Mounts video tag when within 350px of viewport
+    const proximityObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsNearViewport(true);
+          } else {
+            // Unmount video when scrolled far off-screen to free hardware decoders on mobile
+            setIsNearViewport(false);
+            setIsVideoLoaded(false);
+            if (videoRef.current) {
+              videoRef.current.pause();
+              videoRef.current.muted = true;
+            }
+          }
+        });
+      },
+      { rootMargin: "350px 0px" }
+    );
+
+    // 2. Strict visibility observer: Pause immediately when scrolled off-screen
+    const visibilityObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (!entry.isIntersecting) {
-            // Video has left the viewport — silence and stop it immediately
             if (videoRef.current) {
               videoRef.current.pause();
               videoRef.current.muted = true;
@@ -92,11 +122,16 @@ function FloatingCollageCard({
           }
         });
       },
-      { threshold: 0 } // fires as soon as even 1px leaves the screen
+      { threshold: 0 }
     );
 
-    observer.observe(container);
-    return () => observer.disconnect();
+    proximityObserver.observe(container);
+    visibilityObserver.observe(container);
+
+    return () => {
+      proximityObserver.disconnect();
+      visibilityObserver.disconnect();
+    };
   }, []);
 
   const handleMouseEnter = () => {
@@ -152,7 +187,6 @@ function FloatingCollageCard({
   // Only toggle play/pause if it was a genuine tap (finger barely moved)
   const handleTouchEnd = () => {
     if (didScroll.current) {
-      // User was scrolling — do nothing, leave video untouched
       touchStartPos.current = null;
       return;
     }
@@ -176,6 +210,15 @@ function FloatingCollageCard({
     }
   };
 
+  const aspectClass =
+    item.aspectRatio === "16/9"
+      ? "aspect-video"
+      : item.aspectRatio === "4/5"
+      ? "aspect-[4/5]"
+      : item.aspectRatio === "4/3"
+      ? "aspect-[4/3]"
+      : "aspect-[9/16]";
+
   return (
     <div
       ref={containerRef}
@@ -197,33 +240,81 @@ function FloatingCollageCard({
           : "border-[#22242c] hover:border-[#383a45] shadow-[0_12px_36px_rgba(0,0,0,0.65)]"
       } ${item.offsetClass}`}
     >
-      {/* Frame Container */}
-      <div className="relative w-full overflow-hidden rounded-xl sm:rounded-2xl bg-black/50">
-        <video
-          ref={videoRef}
-          src={item.videoUrl}
-          muted
-          loop
-          playsInline
-          preload="metadata"
-          onLoadedMetadata={(e) => {
-            const { videoWidth, videoHeight } = e.currentTarget;
-            if (videoWidth && videoHeight) {
-              setAspectRatio(videoWidth / videoHeight);
-            }
-          }}
-          style={{
-            aspectRatio: aspectRatio ? `${aspectRatio}` : undefined,
-          }}
-          className="w-full h-auto object-cover block transition-transform duration-700 ease-out group-hover:scale-105"
-        />
+      {/* Fixed Stable Frame Container (Zero Layout Shift) */}
+      <div
+        className={`relative w-full ${aspectClass} overflow-hidden rounded-xl sm:rounded-2xl bg-[#141418]`}
+      >
+        {/* Instant Cyber Skeleton Placeholder (Never renders a blank black box) */}
+        <div
+          className={`absolute inset-0 z-10 flex flex-col justify-between p-3.5 transition-opacity duration-700 pointer-events-none bg-gradient-to-br from-[#1a1a1f] via-[#131316] to-[#0c0c0e] ${
+            isVideoLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
+          }`}
+        >
+          {/* Subtle pulsating shimmer band */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent animate-pulse" />
+
+          {/* Top meta pill */}
+          <div className="relative z-10 flex items-center justify-between">
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/50 border border-white/10 font-mono-tech text-[9px] text-[#c3f400] tracking-wider">
+              <span className="w-1 h-1 rounded-full bg-[#c3f400] animate-pulse" />
+              SPECIMEN 0{item.id}
+            </span>
+            <span className="px-1.5 py-0.5 rounded bg-black/40 text-[9px] font-mono-tech text-white/50 border border-white/5">
+              {item.aspectRatio}
+            </span>
+          </div>
+
+          {/* Center ambient play glyph */}
+          <div className="relative z-10 my-auto self-center flex items-center justify-center">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-white/15 bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/60 group-hover:text-[#c3f400] group-hover:border-[#c3f400]/50 transition-all duration-300 shadow-xl">
+              <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current ml-0.5" />
+            </div>
+          </div>
+
+          {/* Bottom Title Snippet */}
+          <div className="relative z-10 px-2 py-1 rounded-lg bg-black/55 backdrop-blur-md border border-white/5">
+            <span className="font-mono-tech text-[10px] text-white/80 uppercase tracking-wider truncate block">
+              {item.title}
+            </span>
+          </div>
+        </div>
+
+        {/* Optional Poster Image if available */}
+        {item.posterUrl && (
+          <img
+            src={item.posterUrl}
+            alt={item.title || "Portfolio preview"}
+            loading="lazy"
+            decoding="async"
+            className={`absolute inset-0 w-full h-full object-cover pointer-events-none transition-opacity duration-700 z-10 ${
+              isVideoLoaded ? "opacity-0" : "opacity-100"
+            }`}
+          />
+        )}
+
+        {/* Virtualized Video Tag: Mounted only when near viewport */}
+        {isNearViewport && (
+          <video
+            ref={videoRef}
+            src={item.videoUrl}
+            muted
+            loop
+            playsInline
+            preload={isHovered ? "auto" : "none"}
+            onLoadedData={() => setIsVideoLoaded(true)}
+            onCanPlay={() => setIsVideoLoaded(true)}
+            className={`w-full h-full object-cover block transition-all duration-700 ease-out group-hover:scale-105 ${
+              isVideoLoaded ? "opacity-100 scale-100" : "opacity-0 scale-[1.01]"
+            }`}
+          />
+        )}
 
         {/* Subtle inner dark vignette */}
-        <div className="pointer-events-none absolute inset-0 rounded-xl sm:rounded-2xl shadow-[inset_0_0_25px_rgba(10,10,12,0.6)]" />
+        <div className="pointer-events-none absolute inset-0 rounded-xl sm:rounded-2xl shadow-[inset_0_0_25px_rgba(10,10,12,0.6)] z-20" />
 
         {/* Ambient lime hover sheen */}
         {isHovered && (
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#c3f400]/10 via-transparent to-transparent opacity-70 transition-opacity duration-300" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#c3f400]/10 via-transparent to-transparent opacity-70 transition-opacity duration-300 z-20" />
         )}
       </div>
     </div>

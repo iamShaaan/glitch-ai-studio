@@ -25,7 +25,7 @@ export const VIDEO_SLOTS: Record<number, VideoSlot> = {
     title: "Use Your AI Avatar",
     subtitle: "16:9 • 4K 60FPS • Ultra-Realistic Cloned Lip-Sync & Motion",
     videoUrl: "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Use%20your%20Ai%20Avatar.mp4",
-    posterUrl: "",
+    posterUrl: "/hero-poster.jpg",
     aspectRatio: "16/9",
     details: "Voice Match: 99.8% • 100% Cloned Lip-Sync • 16:9 Widescreen",
   },
@@ -411,81 +411,114 @@ export const NICHE_PERSONA_REELS: NichePersonaReel[] = [
 export interface PortfolioWork {
   id: number;
   videoUrl: string;
+  posterUrl?: string;
+  aspectRatio?: "9/16" | "16/9" | "4/5" | "4/3";
+  title?: string;
 }
 
 export const PORTFOLIO_WORKS: PortfolioWork[] = [
   {
     id: 1,
+    title: "Vox-Style AI Breakdown",
+    aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Vox-style%20content%20creation%20with%20AI.mp4",
   },
   {
     id: 2,
+    title: "Cinematic Narrative",
+    aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Once%20Upon%20a%20Time%20in%20China.mp4",
   },
   {
     id: 3,
+    title: "Social Vertical Reel",
+    aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/a56501e1-3dc2-4768-8f68-3850c2eb09e6.mp4",
   },
   {
     id: 4,
+    title: "Seedance 2.5",
+    aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Seedance%202.5.mp4",
   },
   {
     id: 5,
+    title: "Sacred Six Brand Story",
+    aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Sacred%20six%203.mp4",
   },
   {
     id: 6,
+    title: "Fashion Model Synth",
+    aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/hf_20260518_113720_2588f020-2ac2-4bfb-90d8-4fa0c8031adc.mp4",
   },
   {
     id: 7,
+    title: "Bali Travel Vlog",
+    aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/male_vlogger_bali_vlogmp_.mp4",
   },
   {
     id: 8,
+    title: "Van Gogh Reimagined",
+    aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Van%20Gough.mp4",
   },
   {
     id: 9,
+    title: "Quench Commercial",
+    aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Quench%20IV%205.mp4",
   },
   {
     id: 10,
+    title: "Meshy AI Promotion",
+    aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Promotion%20-%20Meshy%20AI.mp4",
   },
   {
     id: 11,
+    title: "Dynamic Product Ad",
+    aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/mp_.mp4",
   },
   {
     id: 12,
+    title: "Fitness AI Creator",
+    aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Fitness%20influencer%20.mp4",
   },
   {
     id: 13,
+    title: "Unique Conversion Ad",
+    aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Unique%20AI%20ads.mp4",
   },
   {
     id: 14,
+    title: "Flux Generative Engine",
+    aspectRatio: "16/9",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Flux%203.mp4",
   },
   {
     id: 15,
+    title: "Lifestyle AI Hook",
+    aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/mp_%20(1).mp4",
   },
