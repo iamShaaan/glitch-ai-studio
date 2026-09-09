@@ -2,41 +2,54 @@
 
 import { useRef, useEffect, useState, useCallback } from "react";
 import Image from "next/image";
-import { motion } from "framer-motion";
-import { useLoading } from "@/context/loading-context";
+import { TrendingUp, Clock, CheckCircle2 } from "lucide-react";
 
 const TOTAL_REVIEWS = 63;
 const allReviews = Array.from({ length: TOTAL_REVIEWS }, (_, i) => ({
   src: `/reviews/review-${String(i + 1).padStart(2, "0")}.png`,
-  alt: `Fiverr Review ${i + 1}`,
+  alt: `Client Review ${i + 1}`,
 }));
 
-// Mobile shows a curated 10-review slice centered on MID. Cuts the
-// rendered DOM from 63 cards (incl. placeholders) to 10. Desktop keeps
-// the full set — there's no perf issue there.
-const MOBILE_SLICE_START = 26;
-const MOBILE_SLICE_END = 36; // exclusive
+// Mobile shows a curated slice centered on middle to keep mobile DOM light & butter-smooth
+const MOBILE_SLICE_START = 22;
+const MOBILE_SLICE_END = 38;
 const mobileReviews = allReviews.slice(MOBILE_SLICE_START, MOBILE_SLICE_END);
 
-const GAP = 24;
-const DESKTOP_MID = Math.floor(TOTAL_REVIEWS / 2); // 31
-const MOBILE_MID = Math.floor(mobileReviews.length / 2); // 5
+const GAP = 20;
+const DESKTOP_MID = Math.floor(TOTAL_REVIEWS / 2);
+const MOBILE_MID = Math.floor(mobileReviews.length / 2);
+
+const metrics = [
+  {
+    icon: TrendingUp,
+    value: "500K+",
+    label: "ORGANIC EXECUTIVE VIEWS",
+    highlight: false,
+  },
+  {
+    icon: Clock,
+    value: "140+ hrs",
+    label: "SAVED PER FOUNDER / MO",
+    highlight: true,
+  },
+  {
+    icon: CheckCircle2,
+    value: "99.4%",
+    label: "VOICE & FACIAL ACCURACY",
+    highlight: false,
+  },
+];
 
 export function LandingReviews() {
-  const { isReady } = useLoading();
   const trackRef = useRef<HTMLDivElement>(null);
   const dragRef = useRef({ dragging: false, startX: 0, startScroll: 0 });
   const initializedRef = useRef(false);
 
-  // Lazy initializers so the first client render has the correct values
-  // for the viewport — avoids briefly mounting all 63 cards on mobile
-  // before a resize effect corrects to 10. The component is gated behind
-  // a LazySection wrapper so it only runs client-side, making the
-  // typeof window check a no-op in practice.
   const [cardW, setCardW] = useState(() => {
-    if (typeof window === "undefined") return 400;
-    return window.innerWidth < 640 ? 260 : 400;
+    if (typeof window === "undefined") return 380;
+    return window.innerWidth < 640 ? 260 : 380;
   });
+
   const [isMobile, setIsMobile] = useState(() => {
     if (typeof window === "undefined") return false;
     return (
@@ -47,7 +60,7 @@ export function LandingReviews() {
 
   useEffect(() => {
     const handleResize = () => {
-      setCardW(window.innerWidth < 640 ? 260 : 400);
+      setCardW(window.innerWidth < 640 ? 260 : 380);
       setIsMobile(window.innerWidth < 768);
     };
     window.addEventListener("resize", handleResize);
@@ -58,40 +71,30 @@ export function LandingReviews() {
   const MID = isMobile ? MOBILE_MID : DESKTOP_MID;
   const [active, setActive] = useState(MID);
 
-  // Keep `active` in sync when the source array swaps (e.g. resize across
-  // the 768px boundary). Without this, `active` could exceed the new
-  // reviews length on a desktop→mobile shrink.
   useEffect(() => {
     setActive(MID);
   }, [MID]);
 
   const stride = cardW + GAP;
 
-  /* ── Centering helpers ─────────────────────────────────────────── */
   const scrollForIndex = useCallback((i: number) => i * stride, [stride]);
 
   const centerMid = useCallback(() => {
     const t = trackRef.current;
     if (!t) return false;
-    // Only proceed once the track has a real scrollable width
     if (t.scrollWidth <= t.clientWidth) return false;
     t.scrollLeft = scrollForIndex(MID);
     setActive(MID);
     return true;
-  }, [scrollForIndex, MID]);
+  }, [MID, scrollForIndex]);
 
-  /* Center on mount — retry until layout is ready (handles visibility:hidden
-     parent: the track has no layout until the parent is visible). */
   useEffect(() => {
     if (initializedRef.current) return;
-
-    // First attempt immediately
     if (centerMid()) {
       initializedRef.current = true;
       return;
     }
 
-    // Use ResizeObserver to catch the first time the track gets real dimensions
     const t = trackRef.current;
     if (!t) return;
 
@@ -110,19 +113,6 @@ export function LandingReviews() {
     return () => ro.disconnect();
   }, [centerMid]);
 
-  /* Also re-center when isReady flips (visibility:hidden → visible) */
-  useEffect(() => {
-    if (!isReady) return;
-    // Small delay lets the browser do the paint first
-    const id = setTimeout(() => {
-      if (!initializedRef.current) {
-        centerMid();
-        initializedRef.current = true;
-      }
-    }, 50);
-    return () => clearTimeout(id);
-  }, [isReady, centerMid]);
-
   const onScroll = useCallback(() => {
     const t = trackRef.current;
     if (!t) return;
@@ -137,14 +127,15 @@ export function LandingReviews() {
     return () => t.removeEventListener("scroll", onScroll);
   }, [onScroll]);
 
-  /* Wheel → horizontal */
+  // Horizontal wheel scroll
   useEffect(() => {
     const t = trackRef.current;
     if (!t) return;
     const onWheel = (e: WheelEvent) => {
+      if (Math.abs(e.deltaX) < Math.abs(e.deltaY) && Math.abs(e.deltaY) < 10) return;
       e.preventDefault();
       const d = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
-      t.scrollLeft += d * 1.3;
+      t.scrollLeft += d * 1.2;
     };
     t.addEventListener("wheel", onWheel, { passive: false });
     return () => t.removeEventListener("wheel", onWheel);
@@ -158,11 +149,13 @@ export function LandingReviews() {
     };
     document.body.style.userSelect = "none";
   };
+
   const mMove = (e: React.MouseEvent) => {
     const { dragging, startX, startScroll } = dragRef.current;
     if (!dragging || !trackRef.current) return;
     trackRef.current.scrollLeft = startScroll - (e.clientX - startX);
   };
+
   const mUp = () => {
     dragRef.current.dragging = false;
     document.body.style.userSelect = "";
@@ -172,131 +165,154 @@ export function LandingReviews() {
     trackRef.current?.scrollTo({ left: scrollForIndex(i), behavior: "smooth" });
 
   return (
-    <section className="relative pt-4 pb-0 md:pt-16 overflow-hidden">
-      <div className="absolute inset-0 bg-[#060d11]" />
-      <div className="absolute inset-0 grid-bg opacity-10" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
-
-      <div className="relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="text-center mb-5 md:mb-14 px-4"
-        >
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-[#26f7b2]/30 bg-[#26f7b2]/10 mb-5">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#26f7b2] animate-pulse" />
-            <span className="text-[10px] font-semibold tracking-widest text-[#d3edea] uppercase">
-              Real Client Reviews · 100% Unfiltered
+    <section className="w-full py-14 md:py-20 bg-[#0a0a0c] border-b border-[#262933] relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 mb-8 md:mb-10">
+        {/* Middle-Aligned Section Header */}
+        <div className="text-center max-w-4xl mx-auto flex flex-col items-center gap-2.5 mb-8">
+          <div className="flex items-center gap-2">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#c3f400] animate-pulse" />
+            <span className="font-mono-tech text-[10px] uppercase text-[#c3f400] tracking-widest font-bold">
+              VERIFIED CLIENT FEEDBACK
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-black tracking-tight text-white mb-4">
-            What Clients Say <span className="text-[#26f7b2]">About Us</span>
+          <h2 className="font-anton text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase text-white tracking-[0.035em] whitespace-nowrap">
+            WHAT CLIENTS SAY ABOUT US
           </h2>
-          <p className="text-slate-400 text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
-            Real screenshots from Fiverr — no edits, no cherry-picking. Good
-            reviews and the occasional critical one too.{" "}
-            <span className="text-amber-300 font-medium">
-              100% transparent
-            </span>
-            , because the results speak for themselves.
+          <p className="font-space text-xs md:text-sm text-[#8e92a4] max-w-xl mx-auto leading-relaxed">
+            Real screenshots from client reviews — 100% transparent and unedited. The quality and performance speak for themselves.
           </p>
-        </motion.div>
+        </div>
 
-        <div className="relative w-full">
-          {/* Edge fades */}
-          <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 sm:w-24 md:w-64 z-10 bg-gradient-to-r from-[#09333f] via-[#09333f]/80 to-transparent" />
-          <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 sm:w-24 md:w-64 z-10 bg-gradient-to-l from-[#09333f] via-[#09333f]/80 to-transparent" />
-
-          <div
-            ref={trackRef}
-            className="flex items-center overflow-x-scroll cursor-grab active:cursor-grabbing pt-2 pb-1 md:pt-6 md:pb-2"
-            style={{
-              scrollbarWidth: "none",
-              msOverflowStyle: "none",
-              gap: `${GAP}px`,
-              paddingLeft: `calc(50vw - ${cardW / 2}px)`,
-              paddingRight: `calc(50vw - ${cardW / 2}px)`,
-            }}
-            onMouseDown={mDown}
-            onMouseMove={mMove}
-            onMouseUp={mUp}
-            onMouseLeave={mUp}
-          >
-            {reviews.map((rev, i) => {
-              const dist = Math.abs(i - active);
-              const isC = dist === 0;
-              const isN = dist === 1;
-
-              return (
+        {/* Credibility Metrics Strip */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3.5 max-w-4xl mx-auto">
+          {metrics.map((m, i) => {
+            const Icon = m.icon;
+            return (
+              <div
+                key={i}
+                className={`p-4 rounded-xl flex items-center justify-between border transition-all ${
+                  m.highlight
+                    ? "bg-[#131315] border-[#c3f400]/40 shadow-[0_0_20px_rgba(195,244,0,0.12)]"
+                    : "bg-[#131315] border-[#262933]"
+                }`}
+              >
+                <div className="flex flex-col">
+                  <span
+                    className={`font-anton text-2xl sm:text-3xl tracking-[0.035em] leading-none ${
+                      m.highlight ? "text-[#c3f400]" : "text-white"
+                    }`}
+                  >
+                    {m.value}
+                  </span>
+                  <span className="font-mono-tech text-[9px] uppercase tracking-widest text-[#a1a1aa] pt-1.5">
+                    {m.label}
+                  </span>
+                </div>
                 <div
-                  key={i}
-                  onClick={() => {
-                    if (!dragRef.current.dragging) goTo(i);
-                  }}
+                  className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
+                    m.highlight
+                      ? "bg-[#c3f400]/15 text-[#c3f400]"
+                      : "bg-[#1c1b1d] border border-[#2a2a2c] text-[#c3f400]"
+                  }`}
+                >
+                  <Icon className="w-4 h-4" />
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Horizontal Screenshot Reviews Slider */}
+      <div className="relative w-full">
+        {/* Left & Right Edge Fades blending into #0a0a0c */}
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 sm:w-24 md:w-48 z-10 bg-gradient-to-r from-[#0a0a0c] via-[#0a0a0c]/80 to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 sm:w-24 md:w-48 z-10 bg-gradient-to-l from-[#0a0a0c] via-[#0a0a0c]/80 to-transparent" />
+
+        <div
+          ref={trackRef}
+          className="flex items-center overflow-x-scroll cursor-grab active:cursor-grabbing py-4"
+          style={{
+            scrollbarWidth: "none",
+            msOverflowStyle: "none",
+            gap: `${GAP}px`,
+            paddingLeft: `calc(50vw - ${cardW / 2}px)`,
+            paddingRight: `calc(50vw - ${cardW / 2}px)`,
+          }}
+          onMouseDown={mDown}
+          onMouseMove={mMove}
+          onMouseUp={mUp}
+          onMouseLeave={mUp}
+        >
+          {reviews.map((rev, i) => {
+            const dist = Math.abs(i - active);
+            const isC = dist === 0;
+            const isN = dist === 1;
+
+            return (
+              <div
+                key={i}
+                onClick={() => {
+                  if (!dragRef.current.dragging) goTo(i);
+                }}
+                style={{
+                  minWidth: cardW,
+                  width: cardW,
+                  flexShrink: 0,
+                  position: "relative",
+                  zIndex: isC ? 20 : isN ? 10 : 1,
+                  transition:
+                    "transform .4s cubic-bezier(.25,.46,.45,.94), filter .4s ease, opacity .4s ease",
+                  transform: isC
+                    ? "scale(1.06)"
+                    : isN
+                    ? "scale(0.92)"
+                    : "scale(0.84)",
+                  filter: isC
+                    ? "none"
+                    : isN
+                    ? "blur(1px) brightness(0.65)"
+                    : "blur(2.5px) brightness(0.4)",
+                  opacity: isC ? 1 : isN ? 0.75 : 0.45,
+                  cursor: isC ? "default" : "pointer",
+                }}
+              >
+                {isC && (
+                  <div
+                    className="absolute -inset-2 rounded-2xl pointer-events-none"
+                    style={{
+                      background:
+                        "radial-gradient(ellipse, rgba(195,244,0,0.18) 0%, transparent 70%)",
+                      filter: "blur(14px)",
+                    }}
+                  />
+                )}
+                <div
+                  className="relative z-10 rounded-xl overflow-hidden bg-[#131315] transition-all"
                   style={{
-                    minWidth: cardW,
-                    width: cardW,
-                    flexShrink: 0,
-                    position: "relative",
-                    zIndex: isC ? 20 : isN ? 10 : 1,
-                    transition:
-                      "transform .4s cubic-bezier(.25,.46,.45,.94), filter .4s ease, opacity .4s ease",
-                    transform: isC
-                      ? "scale(1.08)"
-                      : isN
-                      ? "scale(0.91)"
-                      : "scale(0.82)",
-                    filter: isC
-                      ? "none"
-                      : isN
-                      ? "blur(1.5px) brightness(0.6)"
-                      : "blur(3px) brightness(0.35)",
-                    opacity: isC ? 1 : isN ? 0.75 : 0.45,
-                    cursor: isC ? "default" : "pointer",
+                    border: isC
+                      ? "1.5px solid rgba(195,244,0,0.5)"
+                      : "1px solid rgba(255,255,255,0.08)",
+                    boxShadow: isC
+                      ? "0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(195,244,0,0.12)"
+                      : "0 6px 20px rgba(0,0,0,0.5)",
                   }}
                 >
-                  {isC && (
-                    <div
-                      className="absolute -inset-3 rounded-3xl pointer-events-none"
-                      style={{
-                        background:
-                          "radial-gradient(ellipse,rgba(16,185,129,.18) 0%,transparent 70%)",
-                        filter: "blur(16px)",
-                      }}
-                    />
-                  )}
-                  <div
-                    className="relative z-10 rounded-2xl overflow-hidden"
-                    style={{
-                      border: isC
-                        ? "1.5px solid rgba(16,185,129,.4)"
-                        : "1px solid rgba(255,255,255,.06)",
-                      // Subtle brand-tinted gradient so cards that haven't
-                      // finished loading don't look like black voids.
-                      background:
-                        "linear-gradient(135deg,#0d2228 0%,#0a1a1f 50%,#0d2228 100%)",
-                      boxShadow: isC
-                        ? "0 24px 64px rgba(0,0,0,.8),0 0 40px rgba(16,185,129,.1)"
-                        : "0 8px 24px rgba(0,0,0,.5)",
-                    }}
-                  >
-                    <Image
-                      src={rev.src}
-                      alt={rev.alt}
-                      width={cardW}
-                      height={300}
-                      className="w-full h-auto block"
-                      sizes="(max-width: 640px) 90vw, 420px"
-                      quality={isMobile ? 60 : 75}
-                      priority={Math.abs(i - MID) <= 3}
-                      loading={Math.abs(i - MID) <= 3 ? "eager" : "lazy"}
-                    />
-                  </div>
+                  <Image
+                    src={rev.src}
+                    alt={rev.alt}
+                    width={cardW}
+                    height={260}
+                    className="w-full h-auto block select-none pointer-events-none"
+                    sizes="(max-width: 640px) 90vw, 380px"
+                    quality={isMobile ? 60 : 75}
+                    priority={Math.abs(i - MID) <= 2}
+                    loading={Math.abs(i - MID) <= 2 ? "eager" : "lazy"}
+                  />
                 </div>
-              );
-            })}
-          </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

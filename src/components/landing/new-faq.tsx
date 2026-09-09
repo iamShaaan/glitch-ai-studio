@@ -1,139 +1,129 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
-import { Plus, Minus } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState } from "react";
+import { Plus, Minus, HelpCircle } from "lucide-react";
 
 const faqs = [
   {
-    question: "How long does Phase 1 take?",
+    question: "Who will I be working with?",
     answer:
-      "Avatar training takes around 7 days from the moment you send us your video, voice samples, and photos. We work fast, but training high-quality models takes time we will not cut corners on.",
+      "You work 100% directly with me, Soumitro Halder Shan. I am an independent solopreneur. There are no teammates, junior account managers, or agency middlemen. Every digital twin, autonomous video agent, and performance ad creative is personally engineered, trained, and delivered by me.",
   },
   {
-    question: "Who owns the avatar after it is built?",
+    question: "How does the pricing structure work?",
     answer:
-      "You do. Completely. The two AI tools we use are subscribed under your account, so the avatar is trained on your credentials and your data. You retain full ownership and copyright control. We have no claim to it.",
+      "Avatar training is a one-time $200 investment for your digital twin and cloned voice. If you want an ongoing autonomous self-serve video engine to generate videos with your avatar on autopilot, the agent setup is a one-time $1,000 fee. For direct done-for-you performance ad campaigns and viral UGC video production, I charge a transparent hourly rate of $15 per hour.",
   },
   {
-    question: "How many videos can I generate per month?",
+    question: "Who owns the avatar and generated videos?",
     answer:
-      "As many as you want. Each video takes around 10 minutes of automation runtime. You can queue and run continuously. Most of our clients produce 30 to 60 videos per month.",
+      "You do. 100% completely. The models, voice clones, and video assets are trained on your credentials and delivered to you with full commercial IP rights. You retain complete ownership and copyright control. I have zero claim to your likeness.",
   },
   {
-    question: "Do I need to keep filming videos after Phase 1 is complete?",
+    question: "How does the $1,000 autonomous AI video agent work?",
     answer:
-      "No. That is the entire point. After Phase 1, your avatar handles all video presentation. You only write or approve scripts.",
+      "It is an autonomous self-service production engine trained on your avatar. Once configured, you can independently create continuous video content on autopilot without manual editing. You simply enter prompts or scripts, and the agent directs your avatar, styles the scene, adds captions, and renders ready-to-publish reels.",
   },
   {
-    question: "What if I do not want to write scripts?",
+    question: "How does the $15/hour AI ads and UGC service work?",
     answer:
-      "We can train a custom GPT on your voice and content style to write scripts for you. You verify them. We generate the video.",
+      "For founders and brands wanting hands-off performance creative, I produce high-converting Meta, TikTok, and YouTube video ads at $15/hr. This includes dynamic hook variations, script engineering, UGC styling, and creative split-tests with rapid 24 to 48-hour turnarounds and zero bloated agency retainers.",
   },
   {
-    question: "What tools do I need to subscribe to?",
+    question: "Do I need to keep filming myself on camera?",
     answer:
-      "Two AI tools required for avatar training and voice generation. We tell you exactly which ones during the consultation call. Combined cost is typically under $100 per month.",
+      "Never again. That is the core advantage. Once your avatar is trained, it handles all visual presentation, gestures, and voice synthesis. You only write, approve, or prompt your scripts.",
   },
   {
-    question: "Can my avatar appear on my website too?",
+    question: "Where can I see reviews from past clients?",
     answer:
-      "Yes. Through Phase 3, we can deploy your avatar as an interactive agent on your website. It speaks to visitors through video, audio, or chat, answering questions from your knowledge base.",
+      "You can inspect my verified client ratings, completed contracts, and unedited reviews directly on my Upwork, Fiverr, and Contra profiles linked in the verified ratings section on this page.",
   },
   {
-    question: "What happens during the 15-minute consultation call?",
+    question: "What happens during the 15-minute strategy call?",
     answer:
-      "We learn about your brand, your goals, and your content needs. We tell you exactly which tools you will need, how long the build will take for your specific case, and answer every question you have. No pitch. No pressure.",
+      "We discuss your content goals, audience, and whether you need avatar training ($200), an autonomous self-serve video agent ($1,000), or performance ad production ($15/hr). You talk directly with me, Soumitro Halder Shan. No pitch, no agency middlemen, no pressure.",
   },
 ];
 
 export function NewFAQ() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-  const [isMobile, setIsMobile] = useState(false);
+  const [openIndices, setOpenIndices] = useState<number[]>([0]);
 
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
+  const toggleIndex = (index: number) => {
+    setOpenIndices((prev) =>
+      prev.includes(index) ? prev.filter((i) => i !== index) : [...prev, index]
+    );
+  };
+
+  const col1 = faqs.slice(0, 4);
+  const col2 = faqs.slice(4, 8);
+
+  const renderFAQCard = (faq: (typeof faqs)[0], index: number) => {
+    const isOpen = openIndices.includes(index);
+
+    return (
+      <div
+        key={index}
+        className={`rounded-xl transition-all duration-200 overflow-hidden border ${
+          isOpen
+            ? "bg-[#131315] border-[#c3f400]/30 shadow-[0_0_20px_rgba(195,244,0,0.06)]"
+            : "bg-white/[0.02] border-white/[0.06] hover:border-white/[0.12]"
+        }`}
+      >
+        <button
+          onClick={() => toggleIndex(index)}
+          className="w-full p-3.5 sm:p-4 text-left flex items-center justify-between gap-3 cursor-pointer"
+        >
+          <span className="font-anton text-xs sm:text-[14px] uppercase text-white tracking-[0.03em] leading-snug">
+            {faq.question}
+          </span>
+          <div
+            className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-colors ${
+              isOpen
+                ? "bg-[#c3f400] text-[#161e00]"
+                : "bg-white/[0.05] text-[#8e92a4]"
+            }`}
+          >
+            {isOpen ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
+          </div>
+        </button>
+
+        {isOpen && (
+          <div className="px-3.5 sm:px-4 pb-3.5 sm:pb-4 text-[11px] sm:text-xs font-space text-[#a1a1aa] font-normal leading-relaxed border-t border-white/[0.06] pt-2.5">
+            {faq.answer}
+          </div>
+        )}
+      </div>
+    );
+  };
 
   return (
-    <section id="faq" className="relative py-12 md:py-20 overflow-hidden">
-      <div className="absolute inset-0 bg-[#060d11]" />
-      <div className="absolute inset-0 grid-bg opacity-15" />
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-px bg-gradient-to-r from-transparent via-white/5 to-transparent" />
-      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-[#26f7b2]/[0.02] blur-[150px] rounded-full pointer-events-none -translate-y-1/2" />
-
-      <div className="relative z-10 max-w-4xl mx-auto px-4">
-        {isMobile ? (
-          <div className="text-center mb-8">
-            <h2 className="text-2xl font-black tracking-tight text-white mb-3">
-              Frequently Asked <span className="text-[#26f7b2]">Questions</span>
-            </h2>
+    <section id="faq" className="w-full py-12 md:py-16 bg-[#0e0e10] border-b border-[#262933]">
+      <div className="max-w-6xl mx-auto px-4 md:px-8">
+        {/* Middle-Aligned Section Header */}
+        <div className="text-center max-w-3xl mx-auto mb-8 md:mb-10 flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1c1b1d] border border-[#2a2a2c] mb-2.5">
+            <HelpCircle className="w-3 h-3 text-[#c3f400]" />
+            <span className="font-mono-tech text-[10px] uppercase tracking-widest text-[#c3f400] font-bold">
+              SYSTEM FAQ
+            </span>
           </div>
-        ) : (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="text-center mb-10"
-          >
-            <h2 className="text-3xl md:text-4xl font-black tracking-tight text-white mb-3">
-              Frequently Asked <span className="text-[#26f7b2]">Questions</span>
-            </h2>
-          </motion.div>
-        )}
+          <h2 className="font-anton text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase tracking-[0.035em] text-white mb-2 whitespace-nowrap">
+            FREQUENT QUESTIONS
+          </h2>
+          <p className="font-space text-xs text-[#8e92a4] max-w-lg mx-auto leading-relaxed">
+            Everything you need to know about avatar ownership, self-serve video agents, and ad sprints.
+          </p>
+        </div>
 
-        <div className="space-y-3">
-          {faqs.map((faq, index) => {
-            const isOpen = openIndex === index;
-
-            return (
-              <div
-                key={index}
-                className="glass rounded-2xl overflow-hidden border border-white/[0.04] bg-white/[0.02] transition-colors hover:bg-white/[0.04]"
-              >
-                <button
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
-                  className="w-full px-5 py-4 flex items-center justify-between text-left cursor-pointer"
-                >
-                  <span className="text-sm md:text-base font-bold text-white pr-4">
-                    {faq.question}
-                  </span>
-                  <div
-                    className={`w-7 h-7 rounded-full flex items-center justify-center flex-shrink-0 transition-colors ${
-                      isOpen
-                        ? "bg-[#26f7b2]/20 text-[#26f7b2]"
-                        : "bg-white/5 text-slate-400"
-                    }`}
-                  >
-                    {isOpen ? (
-                      <Minus className="w-3.5 h-3.5" />
-                    ) : (
-                      <Plus className="w-3.5 h-3.5" />
-                    )}
-                  </div>
-                </button>
-
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: "auto", opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      transition={{ duration: 0.3, ease: "easeInOut" }}
-                    >
-                      <div className="px-5 pb-5 pt-0 text-slate-400 text-[13px] md:text-sm leading-relaxed">
-                        {faq.answer}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
+        {/* 2-Column Split Layout to dramatically cut section height */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4 items-start">
+          <div className="flex flex-col gap-3 sm:gap-3.5">
+            {col1.map((faq, i) => renderFAQCard(faq, i))}
+          </div>
+          <div className="flex flex-col gap-3 sm:gap-3.5">
+            {col2.map((faq, i) => renderFAQCard(faq, i + 4))}
+          </div>
         </div>
       </div>
     </section>

@@ -16,7 +16,7 @@ export default function TermsPage() {
         <div className="space-y-8 text-slate-300 text-[14px] md:text-[15px] leading-relaxed">
           <section>
             <p className="text-slate-400">
-              These terms govern the working relationship between Glitch AI Studio and any client engaging our AI Avatar Content System or related services. By booking a consultation, signing an agreement, or making a payment, you accept these terms in full.
+              These terms govern the working relationship between Glitch AI Studio (founded and operated by independent solopreneur Soumitro Halder Shan) and any client engaging my AI Avatar Content System or related services. By booking a consultation, signing an agreement, or making a payment, you accept these terms in full.
             </p>
           </section>
 

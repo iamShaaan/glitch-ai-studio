@@ -14,7 +14,7 @@ export default function PrivacyPage() {
                     <section>
                         <h2 className="text-2xl font-bold text-white mb-4">1. Data Initialization</h2>
                         <p>
-                            Glitch AI Studio ("we," "our," or "us") respects your privacy. This protocol outlines how we collect, use, and protect your data when you interact with our ecosystem.
+                            Glitch AI Studio, operated by solopreneur Soumitro Halder Shan (&ldquo;I,&rdquo; &ldquo;my,&rdquo; or &ldquo;Glitch AI Studio&rdquo;), respects your privacy. This protocol outlines how I collect, use, and protect your data when you interact with my ecosystem.
                         </p>
                     </section>
 

@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
       { protocol: "https", hostname: "i.ibb.co.com" },
       { protocol: "https", hostname: "imgbb.com" },
       { protocol: "https", hostname: "i.imgbb.com" },
+      { protocol: "https", hostname: "pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev" },
     ],
   },
 };

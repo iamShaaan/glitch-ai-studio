@@ -1,15 +1,26 @@
 @import "tailwindcss";
 
+@theme {
+  --font-anton: var(--font-anton), sans-serif;
+  --font-space: var(--font-space-grotesk), sans-serif;
+  --font-mono: var(--font-jetbrains-mono), monospace;
+}
+
 :root {
-  --background: #060d11;
-  --foreground: #f8fafc;
-  --accent-emerald: #26f7b2;
-  --accent-cyan: #009d9a;
-  --accent-violet: #009d9a;
-  --glass-bg: rgba(255, 255, 255, 0.04);
-  --glass-border: rgba(255, 255, 255, 0.08);
-  --glow-emerald: rgba(38, 247, 178, 0.3);
-  --glow-cyan: rgba(0, 157, 154, 0.3);
+  --background: #0a0a0c;
+  --surface: #131315;
+  --surface-low: #1c1b1d;
+  --surface-container: #201f21;
+  --surface-high: #2a2a2c;
+  --surface-highest: #353437;
+  --border-hairline: #262933;
+
+  --color-lime: #c3f400;
+  --color-lime-glow: rgba(195, 244, 0, 0.35);
+  --color-lime-dark: #161e00;
+
+  --text-on-surface: #e5e1e4;
+  --text-muted: #8e92a4;
 }
 
 html {
@@ -18,201 +29,177 @@ html {
 
 body {
   background: var(--background);
-  color: var(--foreground);
-  line-height: 1.6;
+  color: #c4c7d4;
+  font-family: var(--font-space-grotesk), sans-serif;
+  font-weight: 350;
+  line-height: 1.65;
+  letter-spacing: 0.02em;
+  word-spacing: 0.05em;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
   overflow-x: hidden;
+}
+
+p {
+  font-weight: 350;
+  letter-spacing: 0.02em;
+  word-spacing: 0.05em;
+  line-height: 1.7;
 }
 
 /* === Selection === */
 ::selection {
-  background: rgba(38, 247, 178, 0.3);
-  color: #fff;
+  background: #c3f400;
+  color: #161e00;
 }
 
-/* === Scrollbar === */
+/* === Custom Dark Scrollbar === */
 ::-webkit-scrollbar {
   width: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #060d11;
+  background: #0a0a0c;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(38, 247, 178, 0.2);
+  background: #262933;
   border-radius: 999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(38, 247, 178, 0.4);
+  background: #353437;
 }
 
-/* === Utility Classes === */
+/* === Custom Typography & Layout Utilities === */
 @layer utilities {
+  .font-anton {
+    font-family: var(--font-anton), sans-serif;
+    letter-spacing: 0.035em;
+  }
+  .tracking-anton {
+    letter-spacing: 0.035em;
+  }
+  .font-space {
+    font-family: var(--font-space-grotesk), sans-serif;
+  }
+  .font-mono-tech {
+    font-family: var(--font-jetbrains-mono), monospace;
+    letter-spacing: 0.08em;
+    word-spacing: 0.08em;
+  }
+
   .text-balance {
     text-wrap: balance;
   }
 
-  .glass {
-    background: var(--glass-bg);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
-    border: 1px solid var(--glass-border);
+  .glow-lime {
+    box-shadow: 0 0 28px rgba(195, 244, 0, 0.28);
   }
 
-  .glass-strong {
-    background: rgba(10, 15, 25, 0.4);
-    /* Frosted glass effect */
-    -webkit-backdrop-filter: blur(40px);
-    backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  .glow-lime-strong {
+    box-shadow: 0 0 40px rgba(195, 244, 0, 0.42);
   }
 
-  .glow-emerald {
-    box-shadow: 0 0 30px var(--glow-emerald), 0 0 60px rgba(38, 247, 178, 0.1);
+  .border-hairline {
+    border-color: #262933;
   }
 
-  .glow-cyan {
-    box-shadow: 0 0 30px var(--glow-cyan), 0 0 60px rgba(0, 157, 154, 0.1);
+  .bg-surface-lowest {
+    background-color: #0e0e10;
   }
 
-  .text-gradient-emerald {
-    background: linear-gradient(135deg, #26f7b2, #009d9a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+  .bg-surface-low {
+    background-color: #1c1b1d;
   }
 
-  .text-gradient-vivid {
-    background: linear-gradient(135deg, #26f7b2, #009d9a, #009d9a);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    background-size: 200% 200%;
-    animation: gradient-shift 4s ease infinite;
+  .bg-surface-card {
+    background-color: #131315;
   }
+
+  .bg-surface-container {
+    background-color: #201f21;
+  }
+
+  .bg-surface-high {
+    background-color: #2a2a2c;
+  }
+
+  .bg-surface-highest {
+    background-color: #353437;
+  }
+
+  .bg-lime-accent {
+    background-color: #c3f400;
+  }
+
+  .text-lime-accent {
+    color: #c3f400;
+  }
+
+  .text-on-lime {
+    color: #161e00;
+  }
+
+  .text-muted {
+    color: #8e92a4;
+  }
+}
+
+/* === Ambient Grid === */
+.grid-wireframe {
+  background-image: radial-gradient(#201f21 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 /* === Animations === */
-@keyframes gradient-shift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
-@keyframes glow-pulse {
-  0%, 100% {
-    box-shadow: 0 0 20px rgba(38, 247, 178, 0.15), 0 0 40px rgba(38, 247, 178, 0.05);
-  }
-  50% {
-    box-shadow: 0 0 40px rgba(38, 247, 178, 0.3), 0 0 80px rgba(38, 247, 178, 0.1);
-  }
-}
-
-@keyframes border-glow {
-  0%, 100% {
-    border-color: rgba(38, 247, 178, 0.15);
-  }
-  50% {
-    border-color: rgba(38, 247, 178, 0.4);
-  }
-}
-
-@keyframes float-gentle {
-  0%, 100% {
-    transform: translateY(0px);
-  }
-  50% {
-    transform: translateY(-10px);
-  }
-}
-
-@keyframes shimmer {
+@keyframes marquee {
   0% {
-    background-position: -200% 0;
+    transform: translateX(0%);
   }
   100% {
-    background-position: 200% 0;
+    transform: translateX(-50%);
   }
 }
 
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
 }
 
-@keyframes spin-slow {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.animate-marquee:hover {
+  animation-play-state: paused;
 }
 
-@keyframes pulse-ring {
-  0% {
-    transform: scale(0.8);
-    opacity: 1;
+@keyframes equalizer-pulse {
+  0%, 100% {
+    height: 4px;
   }
-  100% {
-    transform: scale(2.4);
-    opacity: 0;
+  50% {
+    height: 16px;
   }
 }
 
-.animate-glow-pulse {
-  animation: glow-pulse 3s ease-in-out infinite;
+.animate-equalizer-1 {
+  animation: equalizer-pulse 1s ease-in-out infinite;
 }
 
-.animate-border-glow {
-  animation: border-glow 3s ease-in-out infinite;
+.animate-equalizer-2 {
+  animation: equalizer-pulse 1.3s ease-in-out infinite 0.15s;
 }
 
-.animate-float-gentle {
-  animation: float-gentle 4s ease-in-out infinite;
+.animate-equalizer-3 {
+  animation: equalizer-pulse 0.9s ease-in-out infinite 0.3s;
 }
 
-.animate-shimmer {
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
-  background-size: 200% 100%;
-  animation: shimmer 3s linear infinite;
+.animate-equalizer-4 {
+  animation: equalizer-pulse 1.4s ease-in-out infinite 0.2s;
 }
 
-.animate-spin-slow {
-  animation: spin-slow 20s linear infinite;
-}
-
-.animate-pulse-ring {
-  animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
-}
-
-/* === Noise Overlay === */
-.noise-overlay::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.03'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* === Grid Background === */
-.grid-bg {
-  background-image:
-    linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 60px 60px;
+.animate-equalizer-5 {
+  animation: equalizer-pulse 1.1s ease-in-out infinite 0.4s;
 }
 
 /* === Reduced Motion === */
@@ -228,13 +215,7 @@ body {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
-  .animate-glow-pulse,
-  .animate-border-glow,
-  .animate-float-gentle,
-  .animate-shimmer,
-  .animate-spin-slow,
-  .animate-pulse-ring,
-  .text-gradient-vivid {
+  .animate-marquee {
     animation: none !important;
   }
 }

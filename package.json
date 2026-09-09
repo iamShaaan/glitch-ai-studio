@@ -11,8 +11,6 @@
   "dependencies": {
     "@calcom/embed-react": "^1.5.3",
     "@headlessui/react": "^2.2.9",
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.5.0",
     "@types/dompurify": "^3.0.5",
     "clsx": "^2.1.1",
     "dompurify": "^3.3.1",
@@ -25,9 +23,7 @@
     "react-hook-form": "^7.71.1",
     "react-hot-toast": "^2.6.0",
     "react-quill-new": "^3.8.3",
-    "tailwind-merge": "^3.4.1",
-    "tailwindcss-filters": "^3.0.0",
-    "three": "^0.183.2"
+    "tailwind-merge": "^3.4.1"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

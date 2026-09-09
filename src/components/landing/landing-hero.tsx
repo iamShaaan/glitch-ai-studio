@@ -1,135 +1,93 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ArrowRight, Sparkles } from "lucide-react";
-import Image from "next/image";
+import { useState } from "react";
+import { VideoSlotPlayer } from "@/components/ui/video-slot";
+import { WorkWithMeModal } from "@/components/ui/work-with-me-modal";
+import { ArrowRight, User } from "lucide-react";
 
 export function LandingHero() {
-  const scrollToContact = () => {
-    const el = document.querySelector("#contact");
-    if (el) el.scrollIntoView({ behavior: "smooth" });
-  };
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Deep dark gradient background */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_30%,#0b2430_0%,#060d11_60%,#020608_100%)]" />
+    <section className="relative w-full pt-28 pb-16 md:pt-36 md:pb-24 border-b border-[#262933] overflow-hidden">
+      {/* Ambient Grid & Subtle Neon Aura */}
+      <div className="absolute inset-0 grid-wireframe opacity-30 pointer-events-none" />
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#c3f400]/[0.06] blur-[150px] pointer-events-none rounded-full" />
 
-      {/* Grid overlay */}
-      <div className="absolute inset-0 grid-bg opacity-40" />
-
-
-      {/* Spotlight glow effects */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-[#26f7b2]/[0.04] blur-[150px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-[#009d9a]/[0.03] blur-[120px] rounded-full pointer-events-none" />
-      <div className="absolute top-1/3 left-0 w-[300px] h-[300px] bg-[#009d9a]/[0.03] blur-[100px] rounded-full pointer-events-none" />
-
-      {/* Content */}
-      <div className="relative z-10 px-4 text-center max-w-6xl mx-auto">
-        {/* Logo */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.8 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="mb-8"
-        >
-          <div className="relative w-72 h-20 md:w-96 md:h-24 mx-auto">
-            <Image
-              src="/logo.png"
-              alt="Glitch AI Studio"
-              fill
-              className="object-contain"
-              priority
-            />
+      <div className="relative z-10 max-w-7xl mx-auto px-4 md:px-8">
+        {/* Responsive Grid Layout:
+            Desktop: Video on Left Half, Text on Right Half (Both matching in height and width)
+            Mobile: 1. Header Text -> 2. Video -> 3. Subtexts & Action Buttons
+        */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-y-6 lg:gap-y-4 gap-x-8 lg:gap-x-12 items-center">
+          {/* 1. Header Text: Mobile Top, Desktop Right-Top (No extra badges above) */}
+          <div className="order-1 lg:order-2 lg:col-span-6 lg:col-start-7 lg:row-start-1 flex flex-col gap-2 self-end">
+            <h1 className="font-anton uppercase tracking-[0.035em] text-white leading-[1.06] text-xl min-[360px]:text-[23px] sm:text-3xl md:text-4xl lg:text-[34px] xl:text-[40px]">
+              <span className="block whitespace-nowrap">YOU DON&apos;T HAVE TIME TO FILM.</span>
+              <span className="block whitespace-nowrap text-[#8e92a4]">
+                YOUR BRAND STILL <span className="text-white">NEEDS CONTENT.</span>
+              </span>
+            </h1>
           </div>
-        </motion.div>
 
-        {/* Badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#26f7b2]/20 mb-8"
-        >
-          <Sparkles className="w-3.5 h-3.5 text-[#26f7b2]" />
-          <span className="text-xs font-medium tracking-widest text-[#d3edea] uppercase">
-            AI Avatar & Automation Studio
-          </span>
-        </motion.div>
+          {/* 2. Video Block: Mobile Middle, Desktop Left Half (Spans rows 1 & 2) */}
+          <div className="order-2 lg:order-1 lg:col-span-6 lg:col-start-1 lg:row-start-1 lg:row-span-2 self-center relative w-full my-2 lg:my-0">
+            {/* Ambient Backlight Aura for Seamless Blending */}
+            <div className="absolute -inset-4 md:-inset-8 bg-[#c3f400]/[0.08] blur-[70px] rounded-full pointer-events-none" />
+            <div className="absolute -inset-10 md:-inset-16 bg-blue-500/[0.04] blur-[100px] rounded-full pointer-events-none" />
 
-        {/* Headline */}
-        <motion.h1
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.05] mb-6"
-        >
-          <span className="text-white">We Create </span>
-          <span className="text-gradient-emerald">AI Avatars</span>
-          <br className="hidden sm:block" />
-          <span className="text-white"> & </span>
-          <span className="text-gradient-vivid">Automate</span>
-          <span className="text-white"> Your Business</span>
-        </motion.h1>
+            {/* 16:9 Clean Borderless Blended Video Player - Pure Video, No Overlays, No Unmute Button */}
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl">
+              <VideoSlotPlayer
+                slotId={1}
+                aspectRatioClass="aspect-video"
+                autoPlay={true}
+                loop={true}
+                muted={true}
+                borderless={true}
+                blended={true}
+                clean={true}
+              />
+            </div>
+          </div>
 
-        {/* Subheading */}
-        <motion.p
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.7, duration: 0.8 }}
-          className="max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-slate-400 leading-relaxed font-light mb-10 text-balance"
-        >
-          We build hyper-realistic <strong className="text-white font-semibold">AI Influencers</strong> and
-          end-to-end <strong className="text-white font-semibold">Automation Systems</strong> for
-          businesses and brands ready to scale beyond limits.
-        </motion.p>
+          {/* 3. Subtexts & Action Buttons: Mobile Bottom, Desktop Right-Bottom */}
+          <div className="order-3 lg:order-3 lg:col-span-6 lg:col-start-7 lg:row-start-2 flex flex-col gap-3.5 self-start">
+            {/* Subheader Hook: Avatar, Autonomous Agent, High-Converting Ads */}
+            <p className="font-space text-[15px] sm:text-base text-[#e5e1e4] font-medium leading-relaxed tracking-wide">
+              Tell your story and scale your brand with AI. Train your digital twin, deploy an autonomous video agent for self-serve content, or order high-converting AI ads and viral UGC.
+            </p>
 
-        {/* CTA Buttons */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9, duration: 0.8 }}
-          className="flex flex-col sm:flex-row gap-4 justify-center items-center"
-        >
-          <button
-            onClick={scrollToContact}
-            className="group px-8 py-4 sm:px-10 sm:py-5 bg-[#26f7b2] text-[#09333f] text-lg font-bold rounded-full hover:bg-[#26f7b2]/90 transition-all glow-emerald flex items-center gap-3 transform hover:scale-105 active:scale-95 cursor-pointer"
-          >
-            Book a Consultation
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </button>
+            {/* Operational Value: Camera-Free Scaling */}
+            <p className="font-space text-xs sm:text-sm text-[#a1a1aa] font-normal leading-relaxed tracking-wide">
+              From $200 avatar setups to autonomous self-service video agents ($1,000) and $15/hr performance ad campaigns. Generated completely camera-free without studio sets, crews, or filming schedules.
+            </p>
 
-          <button
-            onClick={() => {
-              const el = document.querySelector("#services");
-              if (el) el.scrollIntoView({ behavior: "smooth" });
-            }}
-            className="px-8 py-4 sm:px-10 sm:py-5 glass text-white text-lg font-semibold rounded-full hover:bg-white/10 transition-all cursor-pointer"
-          >
-            Explore Services
-          </button>
-        </motion.div>
+            {/* CTA Buttons Cluster: Sideways (side-by-side) on mobile with optimized sizes */}
+            <div className="flex flex-row items-center gap-2 sm:gap-3.5 pt-1 w-full sm:w-auto">
+              <button
+                type="button"
+                onClick={() => setModalOpen(true)}
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2.5 px-3.5 py-2.5 sm:px-6 sm:py-3.5 rounded-full bg-[#c3f400] text-[#161e00] font-anton text-xs min-[380px]:text-sm sm:text-base md:text-lg uppercase tracking-[0.035em] transition-all duration-300 hover:scale-105 shadow-[0_0_24px_rgba(195,244,0,0.25)] cursor-pointer whitespace-nowrap"
+              >
+                <span>Work with me</span>
+                <ArrowRight className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+              </button>
 
-        {/* Scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
-        >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="w-6 h-10 rounded-full border-2 border-slate-700 flex items-start justify-center p-1.5"
-          >
-            <motion.div
-              animate={{ opacity: [0.3, 1, 0.3], height: [4, 8, 4] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="w-1 bg-[#26f7b2] rounded-full"
-            />
-          </motion.div>
-        </motion.div>
+              <a
+                href="#founder"
+                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 py-2.5 sm:px-5 sm:py-3.5 rounded-full bg-[#1c1b1d] border border-[#2a2a2c] text-[#e5e1e4] hover:text-[#c3f400] hover:border-[#c3f400]/40 font-mono-tech text-[10px] min-[360px]:text-[11px] sm:text-xs uppercase tracking-wider transition-all duration-200 whitespace-nowrap cursor-pointer"
+              >
+                <User className="w-3 h-3 sm:w-3.5 sm:h-3.5 shrink-0" />
+                <span>Who am I</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
+
+      {/* Floating Modal for Platform Selection */}
+      <WorkWithMeModal isOpen={modalOpen} onClose={() => setModalOpen(false)} />
     </section>
   );
 }

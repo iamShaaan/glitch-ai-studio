@@ -1,327 +1,274 @@
 "use client";
 
-import Link from "next/link";
-import { motion } from "framer-motion";
-import { useEffect, useState } from "react";
-import { Check, Sparkles, ArrowRight, Info, X } from "lucide-react";
+import { Check, Sparkles, ArrowUpRight, ShieldCheck } from "lucide-react";
+import { ContraLogo, UpworkLogo, FiverrLogo } from "@/components/ui/work-with-me-modal";
 
-const CAL_LINK = "https://cal.com/soumitro-halder-shan-ltvmbb/ai-consultation-with-shan";
-
-const phaseCards = [
+const pricingTiers = [
   {
-    phase: "PHASE 01",
-    title: "Avatar Training",
-    price: "$250",
-    priceSub: "One-time",
-    includes: [
-      "Trained AI avatar with multiple looks",
-      "Cloned voice in your tone",
-      "Different outfits, angles, presentation styles",
-      "Full ownership of your avatar",
+    phase: "AVATAR CREATION",
+    title: "AI Avatar Training",
+    price: "$200",
+    priceSub: "One-time setup",
+    badge: "Digital Twin",
+    badgeColor: "text-[#a1a1aa] bg-white/[0.04] border-white/[0.08]",
+    description: "Hyper-realistic digital clone tuned to your natural voice, cadence, and presence.",
+    features: [
+      "Custom facial capture & natural micro-expressions",
+      "Cloned voice matched to your pitch, tone & cadence",
+      "Multi-outfit, multi-angle styling for any aspect ratio",
+      "Zero camera filming, studio sets, or gear required",
+      "100% full commercial IP rights to your avatar model",
     ],
-    cta: "Book a Call to Start",
     highlighted: false,
   },
   {
-    phase: "PHASE 02",
-    title: "Full System Setup",
+    phase: "AUTONOMOUS AGENT",
+    title: "AI Video Agent Setup",
     price: "$1,000",
-    priceSub: "One-time",
-    includes: [
-      "Brand-trained AI editing system",
-      "Custom motion and visual design",
-      "Form-based video generation workflow",
-      "Direct delivery to email or Google Drive",
-      "Custom GPT for script writing (optional)",
+    priceSub: "One-time setup",
+    badge: "Recommended",
+    badgeColor: "text-[#161e00] bg-[#c3f400]",
+    description: "Self-service autonomous video engine trained to direct and produce videos on autopilot.",
+    features: [
+      "Custom video agent trained to direct your avatar",
+      "Self-service engine: generate ongoing videos by yourself",
+      "Script-to-video autonomous pipeline with scene direction",
+      "Automated motion graphics, branded captions & hooks",
+      "Continuous lifetime generation with zero manual editing",
     ],
-    cta: "Book a Call to Start",
     highlighted: true,
   },
-];
-
-const chips = [
-  { label: "Per Video", value: "$15" },
-  { label: "Automation Runtime", value: "$50/month" },
-  { label: "Social Media Automation", value: "$200/month" },
-];
-
-const compareRows = [
   {
-    title: "Manual Filming + Editing",
-    accent: "negative" as const,
-    items: [
-      { label: "Time", value: "2+ hours per day" },
-      { label: "Cost", value: "$2,500+/month in editor fees" },
-      { label: "Risk", value: "Human errors, inconsistency, sick days" },
+    phase: "PERFORMANCE CREATIVE",
+    title: "AI Ads & UGC Production",
+    price: "$15",
+    priceSub: "Per hour",
+    badge: "High ROAS",
+    badgeColor: "text-[#c3f400] bg-[#c3f400]/10 border-[#c3f400]/30",
+    description: "Done-for-you performance ad campaigns engineered for high conversion and scale.",
+    features: [
+      "High-converting video ads for Meta, TikTok & YouTube",
+      "Viral UGC frameworks, dynamic hooks & product angles",
+      "Rapid sprint turnaround (24–48h) for fast ad testing",
+      "Done-for-you production with zero agency retainers",
+      "Direct collaboration with Soumitro Halder Shan",
     ],
+    highlighted: false,
+  },
+];
+
+const platforms = [
+  {
+    id: "contra",
+    name: "Contra",
+    shortBadge: "0% Commission",
+    url: "https://contra.com/soumitrohaldershan",
+    renderLogo: () => <ContraLogo className="w-4 h-4 shrink-0" />,
+    dockStyle:
+      "bg-white/[0.03] hover:bg-[#FF5C35]/15 border border-white/[0.06] hover:border-[#FF5C35]/40 text-[#e5e1e4] hover:text-[#FF5C35]",
   },
   {
-    title: "Glitch AI System",
-    accent: "positive" as const,
-    items: [
-      { label: "Time", value: "Submit a script. That's it." },
-      { label: "Cost", value: "Under $1,500 setup. $15 per video." },
-      { label: "Risk", value: "Zero. The system never stops." },
-    ],
+    id: "fiverr",
+    name: "Fiverr",
+    shortBadge: "Level 2 • 5.0 ★",
+    url: "https://www.fiverr.com/s/bk9QK5Y",
+    renderLogo: () => <FiverrLogo className="w-4 h-4 shrink-0" />,
+    dockStyle:
+      "bg-white/[0.03] hover:bg-[#1DBF73]/15 border border-white/[0.06] hover:border-[#1DBF73]/40 text-[#e5e1e4] hover:text-[#1DBF73]",
+  },
+  {
+    id: "upwork",
+    name: "Upwork",
+    shortBadge: "Top Rated • 100%",
+    url: "https://www.upwork.com/freelancers/~0167ccf23b8c42a887?mp_source=share",
+    renderLogo: () => <UpworkLogo className="w-4 h-4 shrink-0" />,
+    dockStyle:
+      "bg-white/[0.03] hover:bg-[#14A800]/15 border border-white/[0.06] hover:border-[#14A800]/40 text-[#e5e1e4] hover:text-[#14A800]",
+  },
+];
+
+const specChips = [
+  { label: "Voice Tuning", value: "Custom Cloned" },
+  { label: "Ad Turnaround", value: "24–48 Hours" },
+  { label: "Commercial IP", value: "100% Client Owned" },
+];
+
+const comparisonSpecs = [
+  {
+    category: "Campaign Turnaround",
+    legacy: "3–4 weeks per filming cycle",
+    studio: "Instant self-serve or 24h rapid ad sprints",
+  },
+  {
+    category: "Cost Structure",
+    legacy: "$3,500 – $6,000+/mo in retainers & set fees",
+    studio: "$200 avatar • $1,000 AI agent • $15/hr ads",
+  },
+  {
+    category: "Production Friction",
+    legacy: "Actor casting, camera crew scheduling & reshoots",
+    studio: "Zero filming burnout with infinite iterations on demand",
   },
 ];
 
 export function Pricing() {
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener("resize", check);
-    return () => window.removeEventListener("resize", check);
-  }, []);
-
-  const openCal = () => {
-    window.open(CAL_LINK, "_blank", "noopener,noreferrer");
-  };
-
   return (
-    <section id="pricing" className="relative py-12 md:py-20 overflow-hidden">
-      <div className="absolute inset-0 bg-[#060d11]" />
-      <div className="absolute inset-0 grid-bg opacity-15" />
-      <div className="absolute top-1/3 left-0 w-[500px] h-[500px] bg-[#26f7b2]/[0.03] blur-[180px] rounded-full pointer-events-none" />
-      <div className="absolute bottom-1/3 right-0 w-[400px] h-[400px] bg-[#009d9a]/[0.02] blur-[150px] rounded-full pointer-events-none" />
-
-      <div className="relative z-10 max-w-6xl mx-auto px-4">
-        <div className="text-center mb-8 md:mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass border border-[#26f7b2]/15 mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-[#26f7b2]" />
-            <span className="text-xs font-medium tracking-widest text-[#d3edea] uppercase">
-              Pricing
+    <section id="pricing" className="w-full py-16 md:py-24 bg-[#0a0a0c] border-b border-[#262933] relative">
+      <div className="max-w-7xl mx-auto px-4 md:px-8">
+        {/* Apple-Style Section Header */}
+        <div className="text-center mb-12 md:mb-16 flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-3">
+            <Sparkles className="w-3 h-3 text-[#c3f400]" />
+            <span className="font-mono-tech text-[10px] uppercase tracking-widest text-[#c3f400] font-bold">
+              TRANSPARENT INVESTMENT
             </span>
           </div>
-          <h2 className="text-2xl md:text-4xl lg:text-5xl font-black tracking-tight text-white mb-4">
-            Transparent Pricing
+          <h2 className="font-anton text-xl sm:text-3xl md:text-4xl lg:text-5xl uppercase tracking-[0.035em] text-white mb-3 whitespace-nowrap">
+            TRANSPARENT PRICING
           </h2>
-          <p className="text-slate-400 max-w-2xl mx-auto text-sm md:text-base leading-relaxed px-4">
-            No hidden fees. No retainers. No surprises. This is exactly what it costs.
+          <p className="font-space text-xs md:text-sm text-[#8e92a4] max-w-xl mx-auto leading-relaxed">
+            Direct pricing with zero bloated retainers. Choose self-service autonomous video creation or done-for-you ad sprints.
           </p>
         </div>
 
-        {/* Phase pricing cards */}
-        <div className="grid md:grid-cols-2 gap-6 md:gap-8 mb-8 md:mb-10">
-          {phaseCards.map((card, index) => {
-            const cardClasses = card.highlighted
-              ? "group relative rounded-3xl border border-[#26f7b2]/40 bg-gradient-to-br from-[#26f7b2]/[0.06] to-transparent p-6 md:p-8 overflow-hidden shadow-[0_0_60px_rgba(38,247,178,0.12)] transition-all duration-300 ease-out hover:border-[#26f7b2]/70 hover:-translate-y-1 hover:shadow-[0_20px_80px_-15px_rgba(38,247,178,0.55)]"
-              : "group relative rounded-3xl border border-white/[0.08] bg-white/[0.02] p-6 md:p-8 overflow-hidden transition-all duration-300 ease-out hover:border-[#26f7b2]/45 hover:bg-[#26f7b2]/[0.04] hover:-translate-y-1 hover:shadow-[0_15px_60px_-15px_rgba(38,247,178,0.4)]";
+        {/* Thin, Unified Apple-Style 3-Tier Grid */}
+        <div className="rounded-3xl bg-white/[0.02] border border-white/[0.08] backdrop-blur-xl overflow-hidden mb-12 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-white/[0.06]">
+            {pricingTiers.map((tier, index) => {
+              const isRec = tier.highlighted;
 
-            const content = (
-              <>
-                {card.highlighted && (
-                  <>
-                    <div className="absolute top-0 left-1/4 right-1/4 h-px bg-gradient-to-r from-transparent via-[#26f7b2]/60 to-transparent" />
-                    <div className="absolute top-5 right-5">
-                      <span className="inline-flex items-center px-3 py-1 rounded-full border border-[#26f7b2]/40 bg-[#26f7b2]/15 text-[10px] font-bold tracking-widest text-[#26f7b2] uppercase">
-                        Recommended
+              return (
+                <div
+                  key={index}
+                  className={`p-6 sm:p-8 lg:p-10 flex flex-col justify-between transition-colors relative ${
+                    isRec ? "bg-white/[0.02]" : "hover:bg-white/[0.01]"
+                  }`}
+                >
+                  {/* Recommended Accent Glow Line */}
+                  {isRec && (
+                    <div className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[#c3f400] to-transparent" />
+                  )}
+
+                  <div>
+                    {/* Header Row */}
+                    <div className="flex items-center justify-between gap-2 mb-4">
+                      <span className="font-mono-tech text-[10px] font-bold text-[#c3f400] tracking-widest uppercase">
+                        {tier.phase}
+                      </span>
+                      <span
+                        className={`px-2.5 py-0.5 rounded-full font-mono-tech text-[9px] uppercase font-bold tracking-wider border ${tier.badgeColor}`}
+                      >
+                        {tier.badge}
                       </span>
                     </div>
-                  </>
-                )}
-                <span className="text-[11px] font-bold tracking-[0.2em] text-[#26f7b2]/80 mb-3 inline-block">
-                  {card.phase}
-                </span>
-                <h3 className="text-xl md:text-2xl font-bold text-white mb-3 tracking-tight">
-                  {card.title}
-                </h3>
-                <div className="flex items-baseline gap-2 mb-5 md:mb-6">
-                  <span className="text-4xl md:text-5xl font-black text-white tracking-tighter">
-                    {card.price}
-                  </span>
-                  <span className="text-xs md:text-sm font-medium text-slate-400">
-                    {card.priceSub}
-                  </span>
-                </div>
 
-                <ul className="space-y-2.5 mb-6">
-                  {card.includes.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2.5">
-                      <div className="w-4 h-4 rounded-full bg-[#26f7b2]/15 border border-[#26f7b2]/30 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-2.5 h-2.5 text-[#26f7b2]" />
-                      </div>
-                      <span className="text-slate-300 text-[13px] md:text-sm leading-relaxed">
-                        {item}
+                    {/* Title */}
+                    <h3 className="font-anton text-xl sm:text-2xl uppercase text-white tracking-[0.035em] mb-2">
+                      {tier.title}
+                    </h3>
+
+                    {/* Description */}
+                    <p className="font-space text-xs text-[#8e92a4] mb-6 leading-relaxed">
+                      {tier.description}
+                    </p>
+
+                    {/* Price Display */}
+                    <div className="pb-6 mb-6 border-b border-white/[0.06] flex items-baseline gap-2.5">
+                      <span className="font-anton text-4xl sm:text-5xl text-white tracking-[0.035em]">
+                        {tier.price}
                       </span>
-                    </li>
-                  ))}
-                </ul>
+                      <span className="font-mono-tech text-[11px] text-[#71717a] uppercase tracking-wider">
+                        {tier.priceSub}
+                      </span>
+                    </div>
 
-                <button
-                  onClick={openCal}
-                  className={
-                    card.highlighted
-                      ? "inline-flex items-center justify-center gap-2 w-full px-5 py-3 bg-[#26f7b2] text-[#09333f] text-sm font-bold rounded-full hover:bg-[#26f7b2]/90 transition-all glow-emerald cursor-pointer"
-                      : "inline-flex items-center justify-center gap-2 w-full px-5 py-3 border border-white/15 bg-white/[0.04] text-white text-sm font-semibold rounded-full hover:bg-white/[0.07] hover:border-white/25 transition-all cursor-pointer"
-                  }
-                >
-                  {card.cta}
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </>
-            );
-
-            return isMobile ? (
-              <div key={index} className={cardClasses}>
-                {content}
-              </div>
-            ) : (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ delay: index * 0.12, duration: 0.6, ease: "easeOut" }}
-                className={cardClasses}
-              >
-                {content}
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Bundle banner */}
-        <div className="text-center mb-3 md:mb-4">
-          <div className="inline-flex items-center gap-2.5 px-4 py-2.5 md:px-5 md:py-3 rounded-full border border-[#26f7b2]/30 bg-[#26f7b2]/[0.06] glow-emerald">
-            <Sparkles className="w-3.5 h-3.5 text-[#26f7b2]" />
-            <span className="text-xs md:text-sm font-bold text-white tracking-tight">
-              Both Phases Together: <span className="text-[#26f7b2]">Under $1,500 Total</span>
-            </span>
+                    {/* Features List with Hairline Spacing */}
+                    <ul className="space-y-3">
+                      {tier.features.map((item, i) => (
+                        <li key={i} className="flex items-start gap-2.5">
+                          <Check className="w-3.5 h-3.5 text-[#c3f400] shrink-0 mt-0.5" />
+                          <span className="font-space text-xs sm:text-[13px] text-[#d4d4d8] font-normal leading-relaxed tracking-wide">
+                            {item}
+                          </span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
 
-        {/* All-in including tools line */}
-        <div className="text-center mb-7 md:mb-9">
-          <p className="text-xs md:text-sm text-slate-400">
-            Tool subscriptions included, your full launch still lands around <span className="text-white font-semibold">$1,500 total</span>.
+        {/* Apple-Style Minimalist Platform Selection Dock */}
+        <div className="flex flex-col items-center gap-4 text-center mb-12">
+          <div className="inline-flex items-center gap-1.5 font-mono-tech text-[10px] uppercase text-[#8e92a4] tracking-widest font-semibold">
+            <ShieldCheck className="w-3.5 h-3.5 text-[#c3f400]" />
+            <span>SELECT PLATFORM TO HIRE OR ORDER DIRECTLY</span>
+          </div>
+
+          {/* Floating Glass Pill Dock */}
+          <div className="inline-flex flex-wrap items-center justify-center p-1.5 sm:p-2 rounded-2xl sm:rounded-full bg-white/[0.03] border border-white/[0.08] backdrop-blur-xl gap-2 shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
+            {platforms.map((p) => (
+              <a
+                key={p.id}
+                href={p.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={`inline-flex items-center gap-2 px-4 sm:px-5 py-2 sm:py-2.5 rounded-xl sm:rounded-full text-xs font-mono-tech font-bold uppercase tracking-wider transition-all duration-200 cursor-pointer group ${p.dockStyle}`}
+              >
+                {p.renderLogo()}
+                <span>{p.name}</span>
+                <span className="text-[10px] font-normal opacity-60 hidden min-[480px]:inline">
+                  {p.shortBadge}
+                </span>
+                <ArrowUpRight className="w-3.5 h-3.5 opacity-60 group-hover:opacity-100 transition-opacity" />
+              </a>
+            ))}
+          </div>
+
+          {/* Apple-Style Refined Differentiation Footnote */}
+          <p className="font-space text-[11px] sm:text-xs text-[#71717a] max-w-2xl mx-auto leading-relaxed px-4">
+            * Rate &amp; scope differentiation: Service rates and contract packages on Contra, Fiverr, and Upwork reflect platform service fees, milestone escrow security, and custom project terms. Not all specialized services and custom tiers are listed on this landing page. Choose your platform above to review available offers or initiate a custom contract.
           </p>
         </div>
 
-        {/* Per-video chips */}
-        <div className="flex flex-wrap justify-center gap-3 md:gap-4 mb-10 md:mb-14">
-          {chips.map((chip, i) => (
-            <div
-              key={i}
-              className="glass rounded-full px-4 py-2.5 border border-white/[0.08] flex items-center gap-2"
-            >
-              <span className="text-[11px] md:text-xs font-medium text-slate-400 uppercase tracking-wider">
-                {chip.label}:
-              </span>
-              <span className="text-sm font-bold text-white">{chip.value}</span>
+        {/* Sleek Spec Chips Strip */}
+        <div className="flex flex-wrap items-center justify-center gap-y-2 gap-x-6 sm:gap-x-10 py-3.5 px-6 rounded-2xl bg-white/[0.02] border border-white/[0.06] mb-14 text-center max-w-4xl mx-auto">
+          {specChips.map((chip, i) => (
+            <div key={i} className="inline-flex items-center gap-2 text-xs">
+              <span className="font-space text-[#71717a]">{chip.label}:</span>
+              <span className="font-mono-tech font-bold text-white tracking-wide">{chip.value}</span>
             </div>
           ))}
         </div>
 
-        {/* Tool subscription disclosure */}
-        <div className="glass rounded-2xl p-5 md:p-6 border border-white/[0.06] mb-10 md:mb-14">
-          <div className="flex flex-col md:flex-row gap-3 md:gap-4">
-            <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/[0.08] flex items-center justify-center flex-shrink-0">
-              <Info className="w-4 h-4 text-slate-400" />
-            </div>
-            <div>
-              <h4 className="text-sm md:text-base font-bold text-white mb-1.5 tracking-tight">
-                Note On Tool Costs
-              </h4>
-              <p className="text-slate-400 text-[13px] md:text-sm leading-relaxed">
-                Our pricing covers our work. The two AI tools we use must be subscribed under your account, since the avatar is trained on your credentials for full ownership and copyright protection. Tool costs vary but are typically under $100/month combined.
-              </p>
-            </div>
+        {/* Apple-Style Comparative Spec Table (Clean Hairlines, Zero Box-in-Box) */}
+        <div className="w-full max-w-4xl mx-auto">
+          <h4 className="font-anton text-base sm:text-lg uppercase text-white mb-6 text-center tracking-[0.035em] whitespace-nowrap">
+            TRADITIONAL AGENCIES VS. GLITCH AI STUDIO
+          </h4>
+
+          <div className="w-full border-t border-white/[0.08] divide-y divide-white/[0.06]">
+            {comparisonSpecs.map((spec, i) => (
+              <div
+                key={i}
+                className="py-4 sm:py-5 grid grid-cols-1 sm:grid-cols-12 gap-2 sm:gap-6 items-baseline"
+              >
+                <div className="sm:col-span-3 font-mono-tech text-[10px] sm:text-[11px] uppercase tracking-wider text-[#8e92a4]">
+                  {spec.category}
+                </div>
+                <div className="sm:col-span-4 font-space text-xs sm:text-[13px] text-[#71717a] line-through decoration-rose-500/40">
+                  {spec.legacy}
+                </div>
+                <div className="sm:col-span-5 font-space text-xs sm:text-[13px] text-white font-medium flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#c3f400] shrink-0" />
+                  <span>{spec.studio}</span>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
-
-        {/* Comparison block */}
-        <div className="text-center mb-6 md:mb-8">
-          <h3 className="text-xl md:text-3xl font-black tracking-tight text-white mb-2.5">
-            Compare The Alternative
-          </h3>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-5 md:gap-6 mb-6">
-          {compareRows.map((row, index) => {
-            const isPositive = row.accent === "positive";
-            const cardClasses = isPositive
-              ? "group relative rounded-2xl border border-[#26f7b2]/30 bg-gradient-to-br from-[#26f7b2]/[0.05] to-transparent p-5 md:p-6 overflow-hidden transition-all duration-300 ease-out hover:border-[#26f7b2]/65 hover:-translate-y-1 hover:shadow-[0_15px_60px_-15px_rgba(38,247,178,0.55)]"
-              : "group relative rounded-2xl border border-white/[0.08] bg-white/[0.02] p-5 md:p-6 overflow-hidden transition-all duration-300 ease-out hover:border-white/30 hover:-translate-y-1 hover:shadow-[0_15px_50px_-15px_rgba(255,255,255,0.18)]";
-
-            const content = (
-              <>
-                <div className="flex items-center gap-2.5 mb-4">
-                  <div
-                    className={`w-8 h-8 rounded-lg flex items-center justify-center ${
-                      isPositive
-                        ? "bg-[#26f7b2]/15 border border-[#26f7b2]/30"
-                        : "bg-white/[0.04] border border-white/[0.08]"
-                    }`}
-                  >
-                    {isPositive ? (
-                      <Check className="w-4 h-4 text-[#26f7b2]" />
-                    ) : (
-                      <X className="w-4 h-4 text-slate-400" />
-                    )}
-                  </div>
-                  <h4 className="text-base md:text-lg font-bold text-white tracking-tight">
-                    {row.title}
-                  </h4>
-                </div>
-                <div className="space-y-2.5">
-                  {row.items.map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-3 pb-2.5 border-b border-white/[0.04] last:border-0 last:pb-0"
-                    >
-                      <span
-                        className={`text-[10px] font-bold tracking-[0.15em] uppercase shrink-0 sm:w-16 ${
-                          isPositive ? "text-[#26f7b2]/80" : "text-slate-500"
-                        }`}
-                      >
-                        {item.label}
-                      </span>
-                      <span className="text-[13px] md:text-sm text-slate-200 leading-relaxed">
-                        {item.value}
-                      </span>
-                    </div>
-                  ))}
-                </div>
-              </>
-            );
-
-            return isMobile ? (
-              <div key={index} className={cardClasses}>
-                {content}
-              </div>
-            ) : (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.1 }}
-                transition={{ delay: index * 0.12, duration: 0.6, ease: "easeOut" }}
-                className={cardClasses}
-              >
-                {content}
-              </motion.div>
-            );
-          })}
-        </div>
-
-        <p className="text-center text-slate-300 text-sm md:text-base leading-relaxed max-w-3xl mx-auto">
-          Over 3 to 4 months of manual work, you would spend more than double our entire setup.
-        </p>
-
-        {/* Legal footnote */}
-        <p className="mt-10 md:mt-14 text-center text-[11px] md:text-xs text-slate-500 leading-relaxed max-w-2xl mx-auto">
-          All engagements are subject to our{" "}
-          <Link
-            href="/terms"
-            className="text-[#26f7b2] underline hover:text-[#26f7b2]/80 transition-colors"
-          >
-            Terms and Conditions
-          </Link>
-          . Final invoice may vary depending on payment platform fees.
-        </p>
       </div>
     </section>
   );
