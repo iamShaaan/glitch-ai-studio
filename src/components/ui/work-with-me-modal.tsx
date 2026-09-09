@@ -127,26 +127,26 @@ export function WorkWithMeModal({ isOpen, onClose }: WorkWithMeModalProps) {
 
       {/* Floating Modal Window */}
       <div
-        className="relative z-10 w-full max-w-xl rounded-3xl bg-[#131315] border border-[#262933] shadow-2xl p-6 sm:p-8 flex flex-col gap-6 overflow-hidden"
+        className="relative z-10 w-full max-w-xl rounded-3xl bg-white dark:bg-[#131315] border border-zinc-200 dark:border-[#262933] shadow-2xl p-6 sm:p-8 flex flex-col gap-6 overflow-hidden transition-colors"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Subtle Ambient Accent Glow */}
-        <div className="absolute top-0 right-1/4 w-72 h-40 bg-[#c3f400]/[0.08] blur-[80px] pointer-events-none rounded-full" />
+        <div className="absolute top-0 right-1/4 w-72 h-40 bg-emerald-500/[0.08] dark:bg-[#c3f400]/[0.08] blur-[80px] pointer-events-none rounded-full" />
         <div className="absolute bottom-0 left-1/4 w-72 h-40 bg-blue-500/[0.04] blur-[80px] pointer-events-none rounded-full" />
 
         {/* Modal Header */}
-        <div className="relative z-10 flex items-start justify-between gap-4 pb-4 border-b border-[#201f21]">
+        <div className="relative z-10 flex items-start justify-between gap-4 pb-4 border-b border-zinc-200 dark:border-[#201f21]">
           <div className="flex flex-col gap-1.5">
             <div className="inline-flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-[#c3f400] animate-pulse" />
-              <span className="font-mono-tech text-xs uppercase tracking-widest text-[#c3f400] font-bold">
+              <span className="w-2 h-2 rounded-full bg-emerald-600 dark:bg-[#c3f400] animate-pulse" />
+              <span className="font-mono-tech text-xs uppercase tracking-widest text-emerald-700 dark:text-[#c3f400] font-bold">
                 DIRECT SOLOPRENEUR COLLABORATION
               </span>
             </div>
-            <h2 className="font-anton text-2xl sm:text-3xl uppercase tracking-[0.035em] text-white leading-none">
+            <h2 className="font-anton text-2xl sm:text-3xl uppercase tracking-[0.035em] text-zinc-900 dark:text-white leading-none">
               WORK DIRECTLY WITH SHAN
             </h2>
-            <p className="font-space text-xs sm:text-sm text-[#a1a1aa] font-normal leading-relaxed">
+            <p className="font-space text-xs sm:text-sm text-zinc-600 dark:text-[#a1a1aa] font-normal leading-relaxed">
               Work 100% directly with Soumitro Halder Shan — solopreneur. Select your preferred platform for escrow protection or direct hire:
             </p>
           </div>
@@ -154,7 +154,7 @@ export function WorkWithMeModal({ isOpen, onClose }: WorkWithMeModalProps) {
           <button
             onClick={onClose}
             aria-label="Close modal"
-            className="w-9 h-9 rounded-full bg-[#1c1b1d] border border-[#2a2a2c] flex items-center justify-center text-[#a1a1aa] hover:text-white hover:border-[#c3f400]/50 transition-colors shrink-0"
+            className="w-9 h-9 rounded-full bg-zinc-100 dark:bg-[#1c1b1d] border border-zinc-200 dark:border-[#2a2a2c] flex items-center justify-center text-zinc-500 dark:text-[#a1a1aa] hover:text-zinc-900 dark:hover:text-white hover:border-emerald-500/50 dark:hover:border-[#c3f400]/50 transition-colors shrink-0 cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -168,14 +168,14 @@ export function WorkWithMeModal({ isOpen, onClose }: WorkWithMeModalProps) {
               href={platform.url}
               target="_blank"
               rel="noopener noreferrer"
-              className={`group relative flex items-center justify-between p-4 sm:p-4.5 rounded-2xl bg-[#1c1b1d] border border-[#262933] ${platform.accentBorder} ${platform.accentBg} ${platform.hoverGlow} transition-all duration-300 cursor-pointer`}
+              className={`group relative flex items-center justify-between p-4 sm:p-4.5 rounded-2xl bg-zinc-50 dark:bg-[#1c1b1d] border border-zinc-200 dark:border-[#262933] ${platform.accentBorder} ${platform.accentBg} ${platform.hoverGlow} transition-all duration-300 cursor-pointer shadow-xs`}
             >
               <div className="flex items-center gap-4">
                 {platform.renderLogo()}
 
                 <div className="flex flex-col gap-1 text-left">
                   <div className="flex items-center gap-2.5">
-                    <span className="font-anton text-lg sm:text-xl uppercase text-white tracking-[0.035em] group-hover:text-[#c3f400] transition-colors">
+                    <span className="font-anton text-lg sm:text-xl uppercase text-zinc-900 dark:text-white tracking-[0.035em] group-hover:text-emerald-700 dark:group-hover:text-[#c3f400] transition-colors">
                       {platform.name}
                     </span>
                     <span
@@ -185,13 +185,13 @@ export function WorkWithMeModal({ isOpen, onClose }: WorkWithMeModalProps) {
                     </span>
                   </div>
 
-                  <p className="font-space text-xs text-[#a1a1aa] font-light leading-snug line-clamp-2 max-w-sm">
+                  <p className="font-space text-xs text-zinc-600 dark:text-[#a1a1aa] font-light leading-snug line-clamp-2 max-w-sm">
                     {platform.description}
                   </p>
                 </div>
               </div>
 
-              <div className="w-9 h-9 rounded-full bg-[#131315] border border-[#262933] flex items-center justify-center text-[#a1a1aa] group-hover:text-[#161e00] group-hover:bg-[#c3f400] group-hover:border-[#c3f400] transition-all shrink-0 ml-2 shadow-sm">
+              <div className="w-9 h-9 rounded-full bg-white dark:bg-[#131315] border border-zinc-200 dark:border-[#262933] flex items-center justify-center text-zinc-500 dark:text-[#a1a1aa] group-hover:text-white dark:group-hover:text-[#161e00] group-hover:bg-emerald-600 dark:group-hover:bg-[#c3f400] group-hover:border-emerald-600 dark:group-hover:border-[#c3f400] transition-all shrink-0 ml-2 shadow-xs">
                 <ExternalLink className="w-4 h-4" />
               </div>
             </a>
@@ -199,12 +199,12 @@ export function WorkWithMeModal({ isOpen, onClose }: WorkWithMeModalProps) {
         </div>
 
         {/* Modal Footer Assurance */}
-        <div className="relative z-10 pt-3 border-t border-[#201f21] flex items-center justify-between text-[11px] font-mono-tech text-[#a1a1aa]">
+        <div className="relative z-10 pt-3 border-t border-zinc-200 dark:border-[#201f21] flex items-center justify-between text-[11px] font-mono-tech text-zinc-600 dark:text-[#a1a1aa]">
           <div className="flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5 text-[#c3f400]" />
+            <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-[#c3f400]" />
             <span>Fast response on all platforms</span>
           </div>
-          <span className="text-[#8e92a4]">100% Secure Checkout</span>
+          <span className="text-zinc-500 dark:text-[#8e92a4]">100% Secure Checkout</span>
         </div>
       </div>
     </div>

@@ -15,7 +15,7 @@ import { LandingFooter } from "@/components/landing/landing-footer";
 
 export default function Home() {
   return (
-    <div className="flex flex-col w-full min-h-screen bg-[#0a0a0c] text-[#e5e1e4]">
+    <div className="flex flex-col w-full min-h-screen bg-white dark:bg-[#0a0a0c] text-zinc-900 dark:text-[#e5e1e4] transition-colors duration-200">
       <LandingNav />
       <LandingHero />
       <MarqueeRunner />

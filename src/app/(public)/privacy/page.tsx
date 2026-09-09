@@ -4,22 +4,22 @@ import { GlitchText } from "@/components/ui/glitch-text";
 
 export default function PrivacyPage() {
     return (
-        <div className="min-h-screen bg-[#060d11] pt-24 pb-12">
+        <div className="min-h-screen bg-white dark:bg-[#060d11] text-zinc-800 dark:text-slate-300 pt-24 pb-12 transition-colors">
             <div className="container mx-auto px-4 max-w-4xl">
-                <h1 className="text-4xl md:text-5xl font-bold text-white mb-8">
+                <h1 className="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white mb-8">
                     <GlitchText text="PRIVACY_PROTOCOL" />
                 </h1>
 
-                <div className="prose prose-invert prose-teal max-w-none space-y-8 text-slate-300">
+                <div className="prose dark:prose-invert prose-emerald max-w-none space-y-8 text-zinc-700 dark:text-slate-300">
                     <section>
-                        <h2 className="text-2xl font-bold text-white mb-4">1. Data Initialization</h2>
+                        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">1. Data Initialization</h2>
                         <p>
                             Glitch AI Studio, operated by solopreneur Soumitro Halder Shan (&ldquo;I,&rdquo; &ldquo;my,&rdquo; or &ldquo;Glitch AI Studio&rdquo;), respects your privacy. This protocol outlines how I collect, use, and protect your data when you interact with my ecosystem.
                         </p>
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-white mb-4">2. Information Collection</h2>
+                        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">2. Information Collection</h2>
                         <p>We collect information you provide directly to us, including:</p>
                         <ul className="list-disc pl-6 space-y-2">
                             <li>Identity data (Name, Email, Company)</li>
@@ -29,7 +29,7 @@ export default function PrivacyPage() {
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-white mb-4">3. Data Usage</h2>
+                        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">3. Data Usage</h2>
                         <p>Your data is processed to:</p>
                         <ul className="list-disc pl-6 space-y-2">
                             <li>Execute services and deliver deliverables.</li>
@@ -39,14 +39,14 @@ export default function PrivacyPage() {
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-white mb-4">4. Security Protocols</h2>
+                        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">4. Security Protocols</h2>
                         <p>
                             We implement industry-standard encryption and security measures to protect your data. However, no transmission over the network is 100% secure.
                         </p>
                     </section>
 
                     <section>
-                        <h2 className="text-2xl font-bold text-white mb-4">5. Contact</h2>
+                        <h2 className="text-2xl font-bold text-zinc-900 dark:text-white mb-4">5. Contact</h2>
                         <p>
                             For privacy-related inquiries, initiate a connection via our Contact page.
                         </p>

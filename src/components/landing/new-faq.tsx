@@ -66,22 +66,22 @@ export function NewFAQ() {
         key={index}
         className={`rounded-xl transition-all duration-200 overflow-hidden border ${
           isOpen
-            ? "bg-[#131315] border-[#c3f400]/30 shadow-[0_0_20px_rgba(195,244,0,0.06)]"
-            : "bg-white/[0.02] border-white/[0.06] hover:border-white/[0.12]"
+            ? "bg-white dark:bg-[#131315] border-emerald-300 dark:border-[#c3f400]/30 shadow-sm dark:shadow-[0_0_20px_rgba(195,244,0,0.06)]"
+            : "bg-white/60 dark:bg-white/[0.02] border-zinc-200 dark:border-white/[0.06] hover:border-zinc-300 dark:hover:border-white/[0.12]"
         }`}
       >
         <button
           onClick={() => toggleIndex(index)}
           className="w-full p-3.5 sm:p-4 text-left flex items-center justify-between gap-3 cursor-pointer"
         >
-          <span className="font-anton text-xs sm:text-[14px] uppercase text-white tracking-[0.03em] leading-snug">
+          <span className="font-anton text-xs sm:text-[14px] uppercase text-zinc-900 dark:text-white tracking-[0.03em] leading-snug">
             {faq.question}
           </span>
           <div
             className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 transition-colors ${
               isOpen
-                ? "bg-[#c3f400] text-[#161e00]"
-                : "bg-white/[0.05] text-[#8e92a4]"
+                ? "bg-emerald-600 text-white dark:bg-[#c3f400] dark:text-[#161e00]"
+                : "bg-zinc-100 text-zinc-500 dark:bg-white/[0.05] dark:text-[#8e92a4]"
             }`}
           >
             {isOpen ? <Minus className="w-3 h-3" /> : <Plus className="w-3 h-3" />}
@@ -89,7 +89,7 @@ export function NewFAQ() {
         </button>
 
         {isOpen && (
-          <div className="px-3.5 sm:px-4 pb-3.5 sm:pb-4 text-[11px] sm:text-xs font-space text-[#a1a1aa] font-normal leading-relaxed border-t border-white/[0.06] pt-2.5">
+          <div className="px-3.5 sm:px-4 pb-3.5 sm:pb-4 text-[11px] sm:text-xs font-space text-zinc-600 dark:text-[#a1a1aa] font-normal leading-relaxed border-t border-zinc-100 dark:border-white/[0.06] pt-2.5">
             {faq.answer}
           </div>
         )}
@@ -98,20 +98,20 @@ export function NewFAQ() {
   };
 
   return (
-    <section id="faq" className="w-full py-12 md:py-16 bg-[#0e0e10] border-b border-[#262933]">
+    <section id="faq" className="w-full py-12 md:py-16 bg-zinc-50 dark:bg-[#0e0e10] border-b border-zinc-200 dark:border-[#262933] transition-colors">
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         {/* Middle-Aligned Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-8 md:mb-10 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#1c1b1d] border border-[#2a2a2c] mb-2.5">
-            <HelpCircle className="w-3 h-3 text-[#c3f400]" />
-            <span className="font-mono-tech text-[10px] uppercase tracking-widest text-[#c3f400] font-bold">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 dark:bg-[#1c1b1d] dark:border-[#2a2a2c] mb-2.5">
+            <HelpCircle className="w-3 h-3 text-emerald-600 dark:text-[#c3f400]" />
+            <span className="font-mono-tech text-[10px] uppercase tracking-widest text-emerald-700 dark:text-[#c3f400] font-bold">
               SYSTEM FAQ
             </span>
           </div>
-          <h2 className="font-anton text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase tracking-[0.035em] text-white mb-2 whitespace-nowrap">
+          <h2 className="font-anton text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase tracking-[0.035em] text-zinc-900 dark:text-white mb-2 whitespace-nowrap">
             FREQUENT QUESTIONS
           </h2>
-          <p className="font-space text-xs text-[#8e92a4] max-w-lg mx-auto leading-relaxed">
+          <p className="font-space text-xs text-zinc-600 dark:text-[#8e92a4] max-w-lg mx-auto leading-relaxed">
             Everything you need to know about avatar ownership, self-serve video agents, and ad sprints.
           </p>
         </div>

@@ -234,46 +234,46 @@ function FloatingCollageCard({
           : `rotate(${item.restingRotate}deg)`,
         zIndex: isHovered ? 40 : 10,
       }}
-      className={`break-inside-avoid relative w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-[#121215] border p-1.5 sm:p-2 transition-all duration-500 ease-out cursor-pointer select-none ${
+      className={`break-inside-avoid relative w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-[#121215] border p-1.5 sm:p-2 transition-all duration-500 ease-out cursor-pointer select-none ${
         isHovered
-          ? "border-[#c3f400]/80 shadow-[0_24px_60px_rgba(0,0,0,0.9),0_0_35px_rgba(195,244,0,0.25)] ring-1 ring-[#c3f400]/30"
-          : "border-[#22242c] hover:border-[#383a45] shadow-[0_12px_36px_rgba(0,0,0,0.65)]"
+          ? "border-emerald-600/80 dark:border-[#c3f400]/80 shadow-[0_16px_40px_rgba(22,163,74,0.2)] dark:shadow-[0_24px_60px_rgba(0,0,0,0.9),0_0_35px_rgba(195,244,0,0.25)] ring-1 ring-emerald-600/30 dark:ring-[#c3f400]/30"
+          : "border-zinc-200 hover:border-zinc-300 dark:border-[#22242c] dark:hover:border-[#383a45] shadow-md dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)]"
       } ${item.offsetClass}`}
     >
       {/* Fixed Stable Frame Container (Zero Layout Shift) */}
       <div
-        className={`relative w-full ${aspectClass} overflow-hidden rounded-xl sm:rounded-2xl bg-[#141418]`}
+        className={`relative w-full ${aspectClass} overflow-hidden rounded-xl sm:rounded-2xl bg-zinc-200 dark:bg-[#141418]`}
       >
         {/* Instant Cyber Skeleton Placeholder (Never renders a blank black box) */}
         <div
-          className={`absolute inset-0 z-10 flex flex-col justify-between p-3.5 transition-opacity duration-700 pointer-events-none bg-gradient-to-br from-[#1a1a1f] via-[#131316] to-[#0c0c0e] ${
+          className={`absolute inset-0 z-10 flex flex-col justify-between p-3.5 transition-opacity duration-700 pointer-events-none bg-gradient-to-br from-zinc-100 via-zinc-200 to-zinc-300 dark:from-[#1a1a1f] dark:via-[#131316] dark:to-[#0c0c0e] ${
             isVideoLoaded ? "opacity-0 pointer-events-none" : "opacity-100"
           }`}
         >
           {/* Subtle pulsating shimmer band */}
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.03] to-transparent animate-pulse" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/[0.2] dark:via-white/[0.03] to-transparent animate-pulse" />
 
           {/* Top meta pill */}
           <div className="relative z-10 flex items-center justify-between">
-            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-black/50 border border-white/10 font-mono-tech text-[9px] text-[#c3f400] tracking-wider">
-              <span className="w-1 h-1 rounded-full bg-[#c3f400] animate-pulse" />
+            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-white/80 dark:bg-black/50 border border-zinc-300 dark:border-white/10 font-mono-tech text-[9px] text-emerald-800 dark:text-[#c3f400] tracking-wider">
+              <span className="w-1 h-1 rounded-full bg-emerald-600 dark:bg-[#c3f400] animate-pulse" />
               SPECIMEN 0{item.id}
             </span>
-            <span className="px-1.5 py-0.5 rounded bg-black/40 text-[9px] font-mono-tech text-white/50 border border-white/5">
+            <span className="px-1.5 py-0.5 rounded bg-white/70 dark:bg-black/40 text-[9px] font-mono-tech text-zinc-600 dark:text-white/50 border border-zinc-200 dark:border-white/5">
               {item.aspectRatio}
             </span>
           </div>
 
           {/* Center ambient play glyph */}
           <div className="relative z-10 my-auto self-center flex items-center justify-center">
-            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-white/15 bg-black/40 backdrop-blur-sm flex items-center justify-center text-white/60 group-hover:text-[#c3f400] group-hover:border-[#c3f400]/50 transition-all duration-300 shadow-xl">
+            <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full border border-zinc-300 dark:border-white/15 bg-white/80 dark:bg-black/40 backdrop-blur-sm flex items-center justify-center text-zinc-700 dark:text-white/60 group-hover:text-emerald-700 dark:group-hover:text-[#c3f400] group-hover:border-emerald-600/50 dark:group-hover:border-[#c3f400]/50 transition-all duration-300 shadow-lg">
               <Play className="w-4 h-4 sm:w-5 sm:h-5 fill-current ml-0.5" />
             </div>
           </div>
 
           {/* Bottom Title Snippet */}
-          <div className="relative z-10 px-2 py-1 rounded-lg bg-black/55 backdrop-blur-md border border-white/5">
-            <span className="font-mono-tech text-[10px] text-white/80 uppercase tracking-wider truncate block">
+          <div className="relative z-10 px-2 py-1 rounded-lg bg-white/85 dark:bg-black/55 backdrop-blur-md border border-zinc-200 dark:border-white/5">
+            <span className="font-mono-tech text-[10px] text-zinc-800 dark:text-white/80 uppercase tracking-wider truncate block font-medium">
               {item.title}
             </span>
           </div>
@@ -310,11 +310,11 @@ function FloatingCollageCard({
         )}
 
         {/* Subtle inner dark vignette */}
-        <div className="pointer-events-none absolute inset-0 rounded-xl sm:rounded-2xl shadow-[inset_0_0_25px_rgba(10,10,12,0.6)] z-20" />
+        <div className="pointer-events-none absolute inset-0 rounded-xl sm:rounded-2xl shadow-[inset_0_0_25px_rgba(0,0,0,0.15)] dark:shadow-[inset_0_0_25px_rgba(10,10,12,0.6)] z-20" />
 
-        {/* Ambient lime hover sheen */}
+        {/* Ambient green hover sheen */}
         {isHovered && (
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#c3f400]/10 via-transparent to-transparent opacity-70 transition-opacity duration-300 z-20" />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-emerald-600/10 dark:from-[#c3f400]/10 via-transparent to-transparent opacity-70 transition-opacity duration-300 z-20" />
         )}
       </div>
     </div>
@@ -327,18 +327,18 @@ export function SelectedWorks() {
   return (
     <section
       id="portfolio"
-      className="w-full py-16 sm:py-20 md:py-24 bg-[#0a0a0c] border-b border-[#262933] relative overflow-hidden"
+      className="w-full py-16 sm:py-20 md:py-24 bg-white dark:bg-[#0a0a0c] border-b border-zinc-200 dark:border-[#262933] relative overflow-hidden transition-colors duration-200"
     >
       {/* Anchor alias for #works link navigation */}
       <span id="works" className="absolute -top-24 pointer-events-none" />
 
       {/* Subtle background ambient radial accents */}
-      <div className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-[#c3f400]/[0.025] blur-[140px] rounded-full" />
+      <div className="pointer-events-none absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[350px] bg-emerald-500/[0.04] dark:bg-[#c3f400]/[0.025] blur-[140px] rounded-full" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10 flex flex-col gap-10 sm:gap-12 md:gap-14">
         {/* Middle-Aligned Section Header (Fitting Inside a Single Line) */}
         <div className="text-center max-w-4xl mx-auto flex flex-col items-center gap-2">
-          <h2 className="font-anton text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase text-white tracking-[0.035em] whitespace-nowrap">
+          <h2 className="font-anton text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase text-zinc-900 dark:text-white tracking-[0.035em] whitespace-nowrap">
             DIVERSE PORTFOLIO WORKS
           </h2>
         </div>

@@ -11,7 +11,7 @@ const socialLinks = [
 
 export function LandingFooter() {
   return (
-    <footer className="w-full bg-[#0a0a0c] text-[#e5e1e4] border-t border-[#262933]">
+    <footer className="w-full bg-zinc-100 dark:bg-[#0a0a0c] text-zinc-900 dark:text-[#e5e1e4] border-t border-zinc-200 dark:border-[#262933] transition-colors">
       <div className="max-w-7xl mx-auto px-4 md:px-8 py-16 flex flex-col gap-12">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-12">
           {/* Logo & Operational Node Tag */}
@@ -22,18 +22,18 @@ export function LandingFooter() {
                 alt="Glitch AI Studio"
                 fill
                 unoptimized
-                className="object-contain object-left"
+                className="object-contain object-left logo-brand-filter"
               />
             </div>
 
             <div className="flex items-center gap-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#c3f400] animate-pulse shadow-[0_0_12px_rgba(195,244,0,0.8)]" />
-              <span className="font-mono-tech text-[10px] uppercase text-[#8e92a4]">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-[#c3f400] animate-pulse shadow-[0_0_12px_rgba(16,185,129,0.5)] dark:shadow-[0_0_12px_rgba(195,244,0,0.8)]" />
+              <span className="font-mono-tech text-[10px] uppercase text-zinc-600 dark:text-[#8e92a4]">
                 Founded &amp; Operated by Soumitro Halder Shan • Solopreneur
               </span>
             </div>
 
-            <p className="font-space text-[11px] text-[#8e92a4] leading-relaxed">
+            <p className="font-space text-[11px] text-zinc-600 dark:text-[#8e92a4] leading-relaxed">
               Built by Soumitro Halder Shan — an independent solopreneur engineering generative AI pipelines, synthetic cinematography, and digital twins for brands worldwide. No teams or agency bloat: 100% direct collaboration.
             </p>
           </div>
@@ -42,26 +42,26 @@ export function LandingFooter() {
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-10 font-mono-tech text-[11px]">
             {/* Index */}
             <div className="flex flex-col gap-2.5">
-              <span className="font-anton text-xs uppercase text-white tracking-[0.035em]">
+              <span className="font-anton text-xs uppercase text-zinc-900 dark:text-white tracking-[0.035em]">
                 Index
               </span>
-              <a href="#services" className="text-[#8e92a4] hover:text-[#c3f400] transition-colors">
+              <a href="#services" className="text-zinc-600 dark:text-[#8e92a4] hover:text-emerald-700 dark:hover:text-[#c3f400] transition-colors">
                 Services
               </a>
-              <a href="#showcase" className="text-[#8e92a4] hover:text-[#c3f400] transition-colors">
+              <a href="#showcase" className="text-zinc-600 dark:text-[#8e92a4] hover:text-emerald-700 dark:hover:text-[#c3f400] transition-colors">
                 Showcase
               </a>
-              <a href="#pipeline" className="text-[#8e92a4] hover:text-[#c3f400] transition-colors">
+              <a href="#pipeline" className="text-zinc-600 dark:text-[#8e92a4] hover:text-emerald-700 dark:hover:text-[#c3f400] transition-colors">
                 Pipeline
               </a>
-              <a href="#pricing" className="text-[#8e92a4] hover:text-[#c3f400] transition-colors">
+              <a href="#pricing" className="text-zinc-600 dark:text-[#8e92a4] hover:text-emerald-700 dark:hover:text-[#c3f400] transition-colors">
                 Pricing
               </a>
             </div>
 
             {/* Network */}
             <div className="flex flex-col gap-2.5">
-              <span className="font-anton text-xs uppercase text-white tracking-[0.035em]">
+              <span className="font-anton text-xs uppercase text-zinc-900 dark:text-white tracking-[0.035em]">
                 Network
               </span>
               {socialLinks.map((link) => (
@@ -70,7 +70,7 @@ export function LandingFooter() {
                   href={link.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#8e92a4] hover:text-[#c3f400] transition-colors"
+                  className="text-zinc-600 dark:text-[#8e92a4] hover:text-emerald-700 dark:hover:text-[#c3f400] transition-colors"
                 >
                   {link.name}
                 </a>
@@ -79,13 +79,13 @@ export function LandingFooter() {
 
             {/* Legal */}
             <div className="flex flex-col gap-2.5">
-              <span className="font-anton text-xs uppercase text-white tracking-[0.035em]">
+              <span className="font-anton text-xs uppercase text-zinc-900 dark:text-white tracking-[0.035em]">
                 Legal
               </span>
-              <Link href="/privacy" className="text-[#8e92a4] hover:text-[#c3f400] transition-colors">
+              <Link href="/privacy" className="text-zinc-600 dark:text-[#8e92a4] hover:text-emerald-700 dark:hover:text-[#c3f400] transition-colors">
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="text-[#8e92a4] hover:text-[#c3f400] transition-colors">
+              <Link href="/terms" className="text-zinc-600 dark:text-[#8e92a4] hover:text-emerald-700 dark:hover:text-[#c3f400] transition-colors">
                 Terms of Service
               </Link>
             </div>
@@ -93,12 +93,12 @@ export function LandingFooter() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-[#201f21] font-mono-tech text-[11px] text-[#8e92a4]">
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-zinc-200 dark:border-[#201f21] font-mono-tech text-[11px] text-zinc-500 dark:text-[#8e92a4]">
           <span>
             © {new Date().getFullYear()} Glitch AI Studio. Engineered for autonomous creative synthesis.
           </span>
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#c3f400]" />
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-[#c3f400]" />
             <span>Latency 22ms</span>
             <span>•</span>
             <span>System 99.98%</span>

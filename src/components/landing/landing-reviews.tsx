@@ -165,20 +165,20 @@ export function LandingReviews() {
     trackRef.current?.scrollTo({ left: scrollForIndex(i), behavior: "smooth" });
 
   return (
-    <section className="w-full py-14 md:py-20 bg-[#0a0a0c] border-b border-[#262933] relative overflow-hidden">
+    <section className="w-full py-14 md:py-20 bg-zinc-50 dark:bg-[#0a0a0c] border-b border-zinc-200 dark:border-[#262933] relative overflow-hidden transition-colors">
       <div className="max-w-7xl mx-auto px-4 md:px-8 mb-8 md:mb-10">
         {/* Middle-Aligned Section Header */}
         <div className="text-center max-w-4xl mx-auto flex flex-col items-center gap-2.5 mb-8">
           <div className="flex items-center gap-2">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#c3f400] animate-pulse" />
-            <span className="font-mono-tech text-[10px] uppercase text-[#c3f400] tracking-widest font-bold">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-[#c3f400] animate-pulse" />
+            <span className="font-mono-tech text-[10px] uppercase text-emerald-700 dark:text-[#c3f400] tracking-widest font-bold">
               VERIFIED CLIENT FEEDBACK
             </span>
           </div>
-          <h2 className="font-anton text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase text-white tracking-[0.035em] whitespace-nowrap">
+          <h2 className="font-anton text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase text-zinc-900 dark:text-white tracking-[0.035em] whitespace-nowrap">
             WHAT CLIENTS SAY ABOUT US
           </h2>
-          <p className="font-space text-xs md:text-sm text-[#8e92a4] max-w-xl mx-auto leading-relaxed">
+          <p className="font-space text-xs md:text-sm text-zinc-600 dark:text-[#8e92a4] max-w-xl mx-auto leading-relaxed">
             Real screenshots from client reviews — 100% transparent and unedited. The quality and performance speak for themselves.
           </p>
         </div>
@@ -192,27 +192,27 @@ export function LandingReviews() {
                 key={i}
                 className={`p-4 rounded-xl flex items-center justify-between border transition-all ${
                   m.highlight
-                    ? "bg-[#131315] border-[#c3f400]/40 shadow-[0_0_20px_rgba(195,244,0,0.12)]"
-                    : "bg-[#131315] border-[#262933]"
+                    ? "bg-emerald-50/80 border-emerald-300 dark:bg-[#131315] dark:border-[#c3f400]/40 shadow-sm dark:shadow-[0_0_20px_rgba(195,244,0,0.12)]"
+                    : "bg-white border-zinc-200 dark:bg-[#131315] dark:border-[#262933] shadow-sm"
                 }`}
               >
                 <div className="flex flex-col">
                   <span
                     className={`font-anton text-2xl sm:text-3xl tracking-[0.035em] leading-none ${
-                      m.highlight ? "text-[#c3f400]" : "text-white"
+                      m.highlight ? "text-emerald-700 dark:text-[#c3f400]" : "text-zinc-900 dark:text-white"
                     }`}
                   >
                     {m.value}
                   </span>
-                  <span className="font-mono-tech text-[9px] uppercase tracking-widest text-[#a1a1aa] pt-1.5">
+                  <span className="font-mono-tech text-[9px] uppercase tracking-widest text-zinc-500 dark:text-[#a1a1aa] pt-1.5">
                     {m.label}
                   </span>
                 </div>
                 <div
                   className={`w-9 h-9 rounded-full flex items-center justify-center shrink-0 ${
                     m.highlight
-                      ? "bg-[#c3f400]/15 text-[#c3f400]"
-                      : "bg-[#1c1b1d] border border-[#2a2a2c] text-[#c3f400]"
+                      ? "bg-emerald-100 text-emerald-700 dark:bg-[#c3f400]/15 dark:text-[#c3f400]"
+                      : "bg-zinc-100 border border-zinc-200 text-emerald-700 dark:bg-[#1c1b1d] dark:border-[#2a2a2c] dark:text-[#c3f400]"
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -225,9 +225,9 @@ export function LandingReviews() {
 
       {/* Horizontal Screenshot Reviews Slider */}
       <div className="relative w-full">
-        {/* Left & Right Edge Fades blending into #0a0a0c */}
-        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 sm:w-24 md:w-48 z-10 bg-gradient-to-r from-[#0a0a0c] via-[#0a0a0c]/80 to-transparent" />
-        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 sm:w-24 md:w-48 z-10 bg-gradient-to-l from-[#0a0a0c] via-[#0a0a0c]/80 to-transparent" />
+        {/* Left & Right Edge Fades blending into background */}
+        <div className="pointer-events-none absolute left-0 top-0 bottom-0 w-12 sm:w-24 md:w-48 z-10 bg-gradient-to-r from-zinc-50 via-zinc-50/80 to-transparent dark:from-[#0a0a0c] dark:via-[#0a0a0c]/80 dark:to-transparent" />
+        <div className="pointer-events-none absolute right-0 top-0 bottom-0 w-12 sm:w-24 md:w-48 z-10 bg-gradient-to-l from-zinc-50 via-zinc-50/80 to-transparent dark:from-[#0a0a0c] dark:via-[#0a0a0c]/80 dark:to-transparent" />
 
         <div
           ref={trackRef}
@@ -271,32 +271,28 @@ export function LandingReviews() {
                   filter: isC
                     ? "none"
                     : isN
-                    ? "blur(1px) brightness(0.65)"
-                    : "blur(2.5px) brightness(0.4)",
+                    ? "blur(1px) brightness(0.75)"
+                    : "blur(2.5px) brightness(0.55)",
                   opacity: isC ? 1 : isN ? 0.75 : 0.45,
                   cursor: isC ? "default" : "pointer",
                 }}
               >
                 {isC && (
                   <div
-                    className="absolute -inset-2 rounded-2xl pointer-events-none"
+                    className="absolute -inset-2 rounded-2xl pointer-events-none opacity-40 dark:opacity-100"
                     style={{
                       background:
-                        "radial-gradient(ellipse, rgba(195,244,0,0.18) 0%, transparent 70%)",
+                        "radial-gradient(ellipse, rgba(16,185,129,0.2) 0%, transparent 70%)",
                       filter: "blur(14px)",
                     }}
                   />
                 )}
                 <div
-                  className="relative z-10 rounded-xl overflow-hidden bg-[#131315] transition-all"
-                  style={{
-                    border: isC
-                      ? "1.5px solid rgba(195,244,0,0.5)"
-                      : "1px solid rgba(255,255,255,0.08)",
-                    boxShadow: isC
-                      ? "0 20px 50px rgba(0,0,0,0.8), 0 0 30px rgba(195,244,0,0.12)"
-                      : "0 6px 20px rgba(0,0,0,0.5)",
-                  }}
+                  className={`relative z-10 rounded-xl overflow-hidden bg-white dark:bg-[#131315] transition-all ${
+                    isC
+                      ? "border-2 border-emerald-500 dark:border-[#c3f400]/60 shadow-xl dark:shadow-[0_20px_50px_rgba(0,0,0,0.8),0_0_30px_rgba(195,244,0,0.12)]"
+                      : "border border-zinc-200 dark:border-white/10 shadow-sm dark:shadow-[0_6px_20px_rgba(0,0,0,0.5)]"
+                  }`}
                 >
                   <Image
                     src={rev.src}

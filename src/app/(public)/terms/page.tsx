@@ -4,25 +4,25 @@ import { GlitchText } from "@/components/ui/glitch-text";
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-[#060d11] pt-24 pb-16">
+    <div className="min-h-screen bg-white dark:bg-[#060d11] text-zinc-700 dark:text-slate-300 pt-24 pb-16 transition-colors">
       <div className="container mx-auto px-4 max-w-4xl">
-        <h1 className="text-3xl md:text-5xl font-black tracking-tight text-white mb-3">
+        <h1 className="text-3xl md:text-5xl font-black tracking-tight text-zinc-900 dark:text-white mb-3">
           <GlitchText text="TERMS_AND_CONDITIONS" />
         </h1>
-        <p className="text-xs md:text-sm text-slate-500 mb-10">
+        <p className="text-xs md:text-sm text-zinc-500 dark:text-slate-500 mb-10">
           Last updated: May 2026
         </p>
 
-        <div className="space-y-8 text-slate-300 text-[14px] md:text-[15px] leading-relaxed">
+        <div className="space-y-8 text-zinc-700 dark:text-slate-300 text-[14px] md:text-[15px] leading-relaxed">
           <section>
-            <p className="text-slate-400">
+            <p className="text-zinc-600 dark:text-slate-400">
               These terms govern the working relationship between Glitch AI Studio (founded and operated by independent solopreneur Soumitro Halder Shan) and any client engaging my AI Avatar Content System or related services. By booking a consultation, signing an agreement, or making a payment, you accept these terms in full.
             </p>
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">1.</span> Scope of Service
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">1.</span> Scope of Service
             </h2>
             <p>
               Glitch AI Studio builds AI avatars, voice clones, and automated content production systems for businesses and individual brands. Our service is delivered in three phases as described on our website. Phase 3 add-ons are optional and only available after Phases 1 and 2 are complete.
@@ -30,8 +30,8 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">2.</span> Tool Subscriptions and Ownership
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">2.</span> Tool Subscriptions and Ownership
             </h2>
             <p className="mb-3">
               The two AI tools required to train your avatar must be subscribed under your own account. You provide the login credentials during setup. This ensures full ownership and copyright control of your avatar and voice clone stays with you. Glitch AI Studio does not retain ownership of, or rights to, any avatar, voice, or trained model created for a client.
@@ -42,8 +42,8 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">3.</span> What You Receive at the End of the Project
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">3.</span> What You Receive at the End of the Project
             </h2>
             <p className="mb-3">
               At the end of Phase 1, you receive your trained AI avatar and your cloned voice within your tool accounts.
@@ -60,8 +60,8 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">4.</span> Portfolio Rights
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">4.</span> Portfolio Rights
             </h2>
             <p className="mb-3">
               As partial consideration for our work and pricing, the client agrees to allow Glitch AI Studio to showcase at least one piece of work produced through our system as part of our public portfolio. This may include video samples, screenshots, written case studies, or social media references. Sensitive identifying information will not be shared without written consent.
@@ -72,8 +72,8 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">5.</span> Payment Methods and Platform Fees
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">5.</span> Payment Methods and Platform Fees
             </h2>
             <p className="mb-3">
               Our primary payment method is Payoneer. We accept direct payments via Payoneer with no additional fees added to the project price.
@@ -81,7 +81,7 @@ export default function TermsPage() {
             <p className="mb-3">
               We can also work through trusted freelance platforms if you prefer additional payment protection or have not worked with us before. The platforms we currently support are:
             </p>
-            <ul className="list-disc pl-6 space-y-1.5 mb-3 marker:text-[#26f7b2]">
+            <ul className="list-disc pl-6 space-y-1.5 mb-3 marker:text-emerald-600 dark:marker:text-[#26f7b2]">
               <li>Fiverr</li>
               <li>Upwork</li>
               <li>Contra</li>
@@ -95,8 +95,8 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">6.</span> Pricing and Hourly Engagements
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">6.</span> Pricing and Hourly Engagements
             </h2>
             <p className="mb-3">
               Our standard package pricing is published on our website and includes Phase 1 ($250), Phase 2 ($1,000), per-video generation ($15), and Phase 3 add-ons as listed.
@@ -108,8 +108,8 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">7.</span> Project Timeline and Delivery
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">7.</span> Project Timeline and Delivery
             </h2>
             <p className="mb-3">
               Phase 1 typically takes 7 days from the date all client materials (video, voice samples, photos) are received. Phase 2 setup takes an additional 7 to 14 days depending on the brand complexity. Per-video generation runs take approximately 10 minutes per video.
@@ -120,8 +120,8 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">8.</span> Refund Policy
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">8.</span> Refund Policy
             </h2>
             <p className="mb-3">
               Phase 1 and Phase 2 setup fees are partially refundable only before training has begun. Once we begin training your avatar or building your editing system, fees become non-refundable due to the custom labor and tool resources committed to the project.
@@ -135,8 +135,8 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">9.</span> Confidentiality
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">9.</span> Confidentiality
             </h2>
             <p>
               Both parties agree to keep confidential any private business information, scripts, brand assets, or strategy materials shared during the engagement. We do not share client materials with third parties without written consent, except where required by law or where reasonably necessary to deliver the service (such as cloud storage providers or AI tool APIs).
@@ -144,13 +144,13 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">10.</span> Acceptable Use
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">10.</span> Acceptable Use
             </h2>
             <p className="mb-3">
               You agree not to use your AI avatar, voice clone, or our content systems for:
             </p>
-            <ul className="list-disc pl-6 space-y-1.5 mb-3 marker:text-[#26f7b2]">
+            <ul className="list-disc pl-6 space-y-1.5 mb-3 marker:text-emerald-600 dark:marker:text-[#26f7b2]">
               <li>Illegal activity in any jurisdiction</li>
               <li>Defamation, harassment, or impersonation of real individuals other than yourself</li>
               <li>Generating misleading political content, deepfakes of public figures, or election interference material</li>
@@ -163,8 +163,8 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">11.</span> Limitation of Liability
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">11.</span> Limitation of Liability
             </h2>
             <p className="mb-3">
               Glitch AI Studio is not liable for indirect, incidental, or consequential damages arising from the use of your AI avatar or content system, including but not limited to lost revenue, brand damage, third-party tool outages, or social media platform policy changes that affect your content distribution.
@@ -175,8 +175,8 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">12.</span> Changes to These Terms
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">12.</span> Changes to These Terms
             </h2>
             <p>
               We may update these terms occasionally to reflect changes in our service or legal requirements. The updated terms will be posted on this page with a new &ldquo;Last updated&rdquo; date. Continued use of our service after changes are posted means you accept the updated terms.
@@ -184,13 +184,13 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-lg md:text-xl font-bold text-white mb-3 tracking-tight">
-              <span className="text-[#26f7b2]">13.</span> Contact
+            <h2 className="text-lg md:text-xl font-bold text-zinc-900 dark:text-white mb-3 tracking-tight">
+              <span className="text-emerald-600 dark:text-[#26f7b2]">13.</span> Contact
             </h2>
             <p className="mb-3">For questions about these terms, contact:</p>
             <a
               href="mailto:soumitrohaldershan@gmail.com"
-              className="text-[#26f7b2] hover:underline font-medium"
+              className="text-emerald-600 dark:text-[#26f7b2] hover:underline font-medium"
             >
               soumitrohaldershan@gmail.com
             </a>

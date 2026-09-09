@@ -247,7 +247,7 @@ export function NicheReelsModal({ isOpen, onClose }: NicheReelsModalProps) {
           <button
             onClick={onClose}
             aria-label="Close modal"
-            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#18181b]/80 hover:bg-[#222226] border border-[#2a2a30] hover:border-[#c3f400]/60 flex items-center justify-center text-[#a1a1aa] hover:text-white transition-colors cursor-pointer shadow-lg"
+            className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#18181b]/80 hover:bg-[#222226] border border-[#2a2a30] hover:border-emerald-500 dark:hover:border-[#c3f400]/60 flex items-center justify-center text-[#a1a1aa] hover:text-white transition-colors cursor-pointer shadow-lg"
           >
             <X className="w-4 h-4 sm:w-5 sm:h-5" />
           </button>
@@ -268,7 +268,7 @@ export function NicheReelsModal({ isOpen, onClose }: NicheReelsModalProps) {
           <button
             onClick={goPrev}
             aria-label="Previous video"
-            className="hidden md:flex absolute left-4 z-40 w-12 h-12 rounded-full bg-[#131315]/85 hover:bg-[#1c1b20] border border-[#2a2a2e] hover:border-[#c3f400] text-white hover:text-[#c3f400] transition-all items-center justify-center cursor-pointer shadow-2xl hover:scale-105 active:scale-95"
+            className="hidden md:flex absolute left-4 z-40 w-12 h-12 rounded-full bg-[#131315]/85 hover:bg-[#1c1b20] border border-[#2a2a2e] hover:border-emerald-500 dark:hover:border-[#c3f400] text-white hover:text-emerald-400 dark:hover:text-[#c3f400] transition-all items-center justify-center cursor-pointer shadow-2xl hover:scale-105 active:scale-95"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
@@ -348,7 +348,7 @@ export function NicheReelsModal({ isOpen, onClose }: NicheReelsModalProps) {
                   }}
                   className={`absolute h-[56vh] sm:h-[62vh] md:h-[68vh] max-h-[580px] aspect-[9/16] rounded-2xl sm:rounded-3xl overflow-hidden bg-black border transition-colors duration-300 shadow-2xl flex flex-col justify-between ${
                     isMiddle
-                      ? "border-[#c3f400] shadow-[0_0_30px_rgba(195,244,0,0.22)] cursor-pointer"
+                      ? "border-emerald-500 dark:border-[#c3f400] shadow-[0_0_30px_rgba(16,185,129,0.3)] dark:shadow-[0_0_30px_rgba(195,244,0,0.22)] cursor-pointer"
                       : "border-[#202025] hover:border-[#383842] cursor-pointer"
                   }`}
                 >
@@ -379,12 +379,12 @@ export function NicheReelsModal({ isOpen, onClose }: NicheReelsModalProps) {
                       <button
                         onClick={toggleMute}
                         aria-label={isMuted ? "Unmute video" : "Mute video"}
-                        className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/45 backdrop-blur-md hover:bg-black/80 border border-white/20 hover:border-[#c3f400] text-white hover:text-[#c3f400] flex items-center justify-center transition-all cursor-pointer shadow-md"
+                        className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/45 backdrop-blur-md hover:bg-black/80 border border-white/20 hover:border-emerald-500 dark:hover:border-[#c3f400] text-white hover:text-emerald-400 dark:hover:text-[#c3f400] flex items-center justify-center transition-all cursor-pointer shadow-md"
                       >
                         {isMuted ? (
                           <VolumeX className="w-4 h-4 opacity-80" />
                         ) : (
-                          <Volume2 className="w-4 h-4 text-[#c3f400]" />
+                          <Volume2 className="w-4 h-4 text-emerald-400 dark:text-[#c3f400]" />
                         )}
                       </button>
                     </div>
@@ -393,7 +393,7 @@ export function NicheReelsModal({ isOpen, onClose }: NicheReelsModalProps) {
                   {/* Play/Pause Indicator on tap */}
                   {isMiddle && isPaused && (
                     <div className="absolute inset-0 flex items-center justify-center bg-black/30 backdrop-blur-[1px] pointer-events-none z-10">
-                      <div className="w-12 h-12 rounded-full bg-[#c3f400] text-[#121900] flex items-center justify-center shadow-lg">
+                      <div className="w-12 h-12 rounded-full bg-emerald-600 dark:bg-[#c3f400] text-white dark:text-[#121900] flex items-center justify-center shadow-lg">
                         <Play className="w-5 h-5 ml-0.5" />
                       </div>
                     </div>
@@ -409,7 +409,7 @@ export function NicheReelsModal({ isOpen, onClose }: NicheReelsModalProps) {
           <button
             onClick={goNext}
             aria-label="Next video"
-            className="hidden md:flex absolute right-4 z-40 w-12 h-12 rounded-full bg-[#131315]/85 hover:bg-[#1c1b20] border border-[#2a2a2e] hover:border-[#c3f400] text-white hover:text-[#c3f400] transition-all items-center justify-center cursor-pointer shadow-2xl hover:scale-105 active:scale-95"
+            className="hidden md:flex absolute right-4 z-40 w-12 h-12 rounded-full bg-[#131315]/85 hover:bg-[#1c1b20] border border-[#2a2a2e] hover:border-emerald-500 dark:hover:border-[#c3f400] text-white hover:text-emerald-400 dark:hover:text-[#c3f400] transition-all items-center justify-center cursor-pointer shadow-2xl hover:scale-105 active:scale-95"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
@@ -426,7 +426,7 @@ export function NicheReelsModal({ isOpen, onClose }: NicheReelsModalProps) {
               }}
               className={`h-1.5 rounded-full transition-all duration-300 cursor-pointer ${
                 idx === currentIndex
-                  ? "w-6 bg-[#c3f400] shadow-[0_0_8px_rgba(195,244,0,0.6)]"
+                  ? "w-6 bg-emerald-500 dark:bg-[#c3f400] shadow-[0_0_8px_rgba(16,185,129,0.6)] dark:shadow-[0_0_8px_rgba(195,244,0,0.6)]"
                   : "w-1.5 bg-[#25252a] hover:bg-[#404048]"
               }`}
               aria-label={`Go to reel ${idx + 1}`}

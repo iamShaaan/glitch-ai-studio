@@ -41,28 +41,53 @@ export const viewport: Viewport = {
   viewportFit: "cover",
 };
 
+import { ThemeProvider } from "@/context/theme-context";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
-      <body
-        className={`${anton.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} bg-[#0a0a0c] text-[#e5e1e4] font-sans antialiased selection:bg-[#c3f400] selection:text-[#161e00]`}
-        suppressHydrationWarning
-      >
-        <ScrollToTop />
-        <Suspense>{children}</Suspense>
-        <Toaster position="bottom-right"
-          toastOptions={{
-            style: {
-              background: '#1c1b1d',
-              color: '#fff',
-              border: '1px solid #2a2a2c',
-            },
+    <html lang="en" className="dark" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                const stored = localStorage.getItem('glitch_theme');
+                if (stored === 'light') {
+                  document.documentElement.classList.remove('dark');
+                  document.documentElement.classList.add('light');
+                  document.documentElement.setAttribute('data-theme', 'light');
+                } else {
+                  document.documentElement.classList.remove('light');
+                  document.documentElement.classList.add('dark');
+                  document.documentElement.setAttribute('data-theme', 'dark');
+                }
+              } catch (e) {}
+            `,
           }}
         />
+      </head>
+      <body
+        className={`${anton.variable} ${spaceGrotesk.variable} ${jetbrainsMono.variable} bg-white dark:bg-[#0a0a0c] text-zinc-900 dark:text-[#e5e1e4] font-sans antialiased transition-colors duration-200`}
+        suppressHydrationWarning
+      >
+        <ThemeProvider>
+          <ScrollToTop />
+          <Suspense>{children}</Suspense>
+          <Toaster
+            position="bottom-right"
+            toastOptions={{
+              style: {
+                background: '#1c1b1d',
+                color: '#fff',
+                border: '1px solid #2a2a2c',
+              },
+            }}
+          />
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -119,33 +119,33 @@ export function FounderSection() {
   return (
     <section
       id="founder"
-      className="w-full py-16 md:py-24 bg-[#0a0a0c] border-b border-[#262933] relative overflow-hidden scroll-mt-20 md:scroll-mt-24"
+      className="w-full py-16 md:py-24 bg-white dark:bg-[#0a0a0c] border-b border-zinc-200 dark:border-[#262933] relative overflow-hidden scroll-mt-20 md:scroll-mt-24 transition-colors"
     >
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         {/* Middle-Aligned Section Header */}
         <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] mb-3">
-            <Sparkles className="w-3 h-3 text-[#c3f400]" />
-            <span className="font-mono-tech text-[10px] uppercase tracking-widest text-[#c3f400] font-bold">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-100 border border-zinc-200 dark:bg-white/[0.03] dark:border-white/[0.08] mb-3">
+            <Sparkles className="w-3 h-3 text-emerald-600 dark:text-[#c3f400]" />
+            <span className="font-mono-tech text-[10px] uppercase tracking-widest text-emerald-700 dark:text-[#c3f400] font-bold">
               SOLOPRENEUR &amp; LEAD ARCHITECT
             </span>
           </div>
-          <h2 className="font-anton text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase tracking-[0.035em] text-white mb-3 whitespace-nowrap">
+          <h2 className="font-anton text-xl sm:text-2xl md:text-3xl lg:text-4xl uppercase tracking-[0.035em] text-zinc-900 dark:text-white mb-3 whitespace-nowrap">
             MAN BEHIND GLITCH AI STUDIO
           </h2>
-          <p className="font-space text-xs md:text-sm text-[#8e92a4] max-w-xl mx-auto leading-relaxed">
+          <p className="font-space text-xs md:text-sm text-zinc-600 dark:text-[#8e92a4] max-w-xl mx-auto leading-relaxed">
             One creative engineer. Zero agency middlemen. Direct executive collaboration from concept to final cut.
           </p>
         </div>
 
         {/* Apple-Style Minimalist Founder Profile Card */}
-        <div className="rounded-3xl bg-white/[0.02] border border-white/[0.08] backdrop-blur-xl p-6 sm:p-8 md:p-12 shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
+        <div className="rounded-3xl bg-zinc-50 dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.08] backdrop-blur-xl p-6 sm:p-8 md:p-12 shadow-sm dark:shadow-[0_20px_60px_rgba(0,0,0,0.5)]">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 md:gap-12 items-center">
             {/* Left Column: Round Profile Picture & Quick Actions */}
             <div className="lg:col-span-4 flex flex-col items-center text-center gap-5">
               {/* Round Profile Frame */}
-              <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full p-1.5 border-2 border-[#c3f400]/40 shadow-[0_0_40px_rgba(195,244,0,0.18)] group">
-                <div className="relative w-full h-full rounded-full overflow-hidden bg-[#18181b]">
+              <div className="relative w-40 h-40 sm:w-48 sm:h-48 md:w-56 md:h-56 rounded-full p-1.5 border-2 border-emerald-500/40 dark:border-[#c3f400]/40 shadow-[0_0_40px_rgba(16,185,129,0.15)] dark:shadow-[0_0_40px_rgba(195,244,0,0.18)] group">
+                <div className="relative w-full h-full rounded-full overflow-hidden bg-zinc-200 dark:bg-[#18181b]">
                   <Image
                     src={FOUNDER_PHOTO}
                     alt="Soumitro Halder Shan"
@@ -156,9 +156,9 @@ export function FounderSection() {
                   />
                 </div>
                 {/* Active Indicator Pill */}
-                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-[#131315] border border-[#c3f400]/50 shadow-md flex items-center gap-1.5 whitespace-nowrap">
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#c3f400] animate-pulse" />
-                  <span className="font-mono-tech text-[9px] uppercase tracking-wider text-white font-bold">
+                <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 px-3 py-1 rounded-full bg-white dark:bg-[#131315] border border-emerald-500/50 dark:border-[#c3f400]/50 shadow-md flex items-center gap-1.5 whitespace-nowrap">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-[#c3f400] animate-pulse" />
+                  <span className="font-mono-tech text-[9px] uppercase tracking-wider text-zinc-900 dark:text-white font-bold">
                     Available for Sprints
                   </span>
                 </div>
@@ -166,10 +166,10 @@ export function FounderSection() {
 
               {/* Name & Role */}
               <div className="flex flex-col gap-1 pt-2">
-                <h3 className="font-anton text-2xl sm:text-3xl uppercase text-white tracking-[0.035em]">
+                <h3 className="font-anton text-2xl sm:text-3xl uppercase text-zinc-900 dark:text-white tracking-[0.035em]">
                   Soumitro Halder Shan
                 </h3>
-                <span className="font-mono-tech text-[11px] text-[#c3f400] uppercase tracking-wider font-semibold">
+                <span className="font-mono-tech text-[11px] text-emerald-700 dark:text-[#c3f400] uppercase tracking-wider font-semibold">
                   Founder &amp; AI Video Architect
                 </span>
               </div>
@@ -182,7 +182,7 @@ export function FounderSection() {
                     href={p.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/[0.03] border border-white/[0.08] font-mono-tech text-[10px] font-bold uppercase tracking-wider text-[#e5e1e4] transition-all cursor-pointer ${p.style}`}
+                    className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white dark:bg-white/[0.03] border border-zinc-200 dark:border-white/[0.08] font-mono-tech text-[10px] font-bold uppercase tracking-wider text-zinc-800 dark:text-[#e5e1e4] hover:bg-zinc-100 dark:hover:bg-white/[0.08] transition-all cursor-pointer shadow-xs ${p.style}`}
                   >
                     {p.logo()}
                     <span>{p.name}</span>
@@ -200,7 +200,7 @@ export function FounderSection() {
                     target="_blank"
                     rel="noopener noreferrer"
                     title={s.name}
-                    className="w-8 h-8 rounded-full bg-white/[0.03] border border-white/[0.08] flex items-center justify-center text-[#a1a1aa] hover:text-[#c3f400] hover:border-[#c3f400]/40 transition-all cursor-pointer"
+                    className="w-8 h-8 rounded-full bg-white dark:bg-white/[0.03] border border-zinc-200 dark:border-white/[0.08] flex items-center justify-center text-zinc-600 dark:text-[#a1a1aa] hover:text-emerald-700 dark:hover:text-[#c3f400] hover:border-emerald-500/40 dark:hover:border-[#c3f400]/40 transition-all cursor-pointer shadow-xs"
                   >
                     {s.icon}
                   </a>
@@ -210,12 +210,12 @@ export function FounderSection() {
 
             {/* Right Column: Founder Narrative & Experience */}
             <div className="lg:col-span-8 flex flex-col gap-6 text-left">
-              <div className="space-y-4 font-space text-xs sm:text-[13px] text-[#a1a1aa] leading-relaxed font-normal">
+              <div className="space-y-4 font-space text-xs sm:text-[13px] text-zinc-600 dark:text-[#a1a1aa] leading-relaxed font-normal">
                 <p>
-                  I am <strong className="text-white font-medium">Soumitro Halder Shan</strong>, the solopreneur and technical creator behind Glitch AI Studio. I specialize in the intersection of autonomous generative AI pipelines and performance video production — engineering hyper-realistic digital avatars, training self-service script-to-video engines, and directing high-ROAS video advertising.
+                  I am <strong className="text-zinc-900 dark:text-white font-medium">Soumitro Halder Shan</strong>, the solopreneur and technical creator behind Glitch AI Studio. I specialize in the intersection of autonomous generative AI pipelines and performance video production — engineering hyper-realistic digital avatars, training self-service script-to-video engines, and directing high-ROAS video advertising.
                 </p>
                 <p>
-                  Over the past few years, I have architected custom content infrastructure for creators, high-growth startups, and established commercial leaders worldwide. My collaborations span top keynote speaker <strong className="text-white font-normal">Walter Bond</strong>, the <strong className="text-white font-normal">Shark Mindset</strong> coaching program, mental health app <strong className="text-white font-normal">Emra AI</strong>, Malta law firm <strong className="text-white font-normal">Belgravia Advisory</strong>, sales e-learning platform <strong className="text-white font-normal">Peak Performance Huddle</strong>, premier podcast studio <strong className="text-white font-normal">The Move Miami</strong>, skincare brand <strong className="text-white font-normal">Skintervention</strong>, luxury lifestyle label <strong className="text-white font-normal">Omluxe</strong>, automotive outfitter <strong className="text-white font-normal">Roofpax</strong>, digital agency <strong className="text-white font-normal">2H Web Solutions</strong>, and commercial contractor <strong className="text-white font-normal">OKC Roofers</strong>.
+                  Over the past few years, I have architected custom content infrastructure for creators, high-growth startups, and established commercial leaders worldwide. My collaborations span top keynote speaker <strong className="text-zinc-900 dark:text-white font-medium">Walter Bond</strong>, the <strong className="text-zinc-900 dark:text-white font-medium">Shark Mindset</strong> coaching program, mental health app <strong className="text-zinc-900 dark:text-white font-medium">Emra AI</strong>, Malta law firm <strong className="text-zinc-900 dark:text-white font-medium">Belgravia Advisory</strong>, sales e-learning platform <strong className="text-zinc-900 dark:text-white font-medium">Peak Performance Huddle</strong>, premier podcast studio <strong className="text-zinc-900 dark:text-white font-medium">The Move Miami</strong>, skincare brand <strong className="text-zinc-900 dark:text-white font-medium">Skintervention</strong>, luxury lifestyle label <strong className="text-zinc-900 dark:text-white font-medium">Omluxe</strong>, automotive outfitter <strong className="text-zinc-900 dark:text-white font-medium">Roofpax</strong>, digital agency <strong className="text-zinc-900 dark:text-white font-medium">2H Web Solutions</strong>, and commercial contractor <strong className="text-zinc-900 dark:text-white font-medium">OKC Roofers</strong>.
                 </p>
                 <p>
                   I operate as a true solopreneur. When you hire Glitch AI Studio, there are no handoffs to junior contractors, account managers, or bloated agency overhead. Every model is personally tuned, every prompt engineered, and every cut approved by me to guarantee uncompromised quality.
@@ -223,10 +223,10 @@ export function FounderSection() {
               </div>
 
               {/* Work Experience & Client Collaborations Strip */}
-              <div className="pt-4 border-t border-white/[0.06] flex flex-col gap-3">
+              <div className="pt-4 border-t border-zinc-200 dark:border-white/[0.06] flex flex-col gap-3">
                 <div className="flex items-center gap-2">
-                  <ShieldCheck className="w-3.5 h-3.5 text-[#c3f400]" />
-                  <span className="font-mono-tech text-[10px] uppercase text-[#c3f400] tracking-widest font-bold">
+                  <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-[#c3f400]" />
+                  <span className="font-mono-tech text-[10px] uppercase text-emerald-700 dark:text-[#c3f400] tracking-widest font-bold">
                     PROVEN WORK EXPERIENCE &amp; CLIENT DELIVERABLES
                   </span>
                 </div>
@@ -238,17 +238,17 @@ export function FounderSection() {
                       href={collab.url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="p-2.5 rounded-xl bg-white/[0.02] border border-white/[0.06] flex items-center justify-between gap-2 hover:border-[#c3f400]/40 hover:bg-white/[0.04] hover:shadow-[0_0_15px_rgba(195,244,0,0.1)] transition-all group cursor-pointer"
+                      className="p-2.5 rounded-xl bg-white dark:bg-white/[0.02] border border-zinc-200 dark:border-white/[0.06] flex items-center justify-between gap-2 hover:border-emerald-500/40 dark:hover:border-[#c3f400]/40 hover:bg-emerald-50/50 dark:hover:bg-white/[0.04] hover:shadow-[0_0_15px_rgba(16,185,129,0.1)] dark:hover:shadow-[0_0_15px_rgba(195,244,0,0.1)] transition-all group cursor-pointer shadow-xs"
                     >
                       <div className="flex flex-col gap-0.5 overflow-hidden">
-                        <span className="font-anton text-xs uppercase text-white tracking-[0.03em] truncate group-hover:text-[#c3f400] transition-colors">
+                        <span className="font-anton text-xs uppercase text-zinc-900 dark:text-white tracking-[0.03em] truncate group-hover:text-emerald-700 dark:group-hover:text-[#c3f400] transition-colors">
                           {collab.name}
                         </span>
-                        <span className="font-mono-tech text-[9px] uppercase tracking-wider text-[#8e92a4] truncate">
+                        <span className="font-mono-tech text-[9px] uppercase tracking-wider text-zinc-500 dark:text-[#8e92a4] truncate">
                           {collab.role}
                         </span>
                       </div>
-                      <ArrowUpRight className="w-3 h-3 text-[#71717a] group-hover:text-[#c3f400] transition-colors shrink-0" />
+                      <ArrowUpRight className="w-3 h-3 text-zinc-400 dark:text-[#71717a] group-hover:text-emerald-700 dark:group-hover:text-[#c3f400] transition-colors shrink-0" />
                     </a>
                   ))}
                 </div>

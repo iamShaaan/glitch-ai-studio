@@ -29,12 +29,12 @@ const platforms = [
 
 export function VerifiedPlatforms() {
   return (
-    <section className="w-full py-4 sm:py-5 bg-[#0a0a0c] border-b border-[#262933] relative">
+    <section className="w-full py-4 sm:py-5 bg-white dark:bg-[#0a0a0c] border-b border-zinc-200 dark:border-[#262933] relative transition-colors">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="flex flex-wrap items-center justify-center gap-2.5 sm:gap-4 text-center">
           <div className="inline-flex items-center gap-2">
-            <ShieldCheck className="w-3.5 h-3.5 text-[#c3f400] shrink-0" />
-            <span className="font-space text-xs sm:text-[13px] text-[#8e92a4] font-normal">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-[#c3f400] shrink-0" />
+            <span className="font-space text-xs sm:text-[13px] text-zinc-600 dark:text-[#8e92a4] font-normal">
               Inspect unedited client reviews directly on:
             </span>
           </div>
@@ -46,11 +46,11 @@ export function VerifiedPlatforms() {
                 href={p.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-[#131315] border border-[#262933] font-mono-tech text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-[#e5e1e4] transition-all duration-200 cursor-pointer group ${p.hoverColor}`}
+                className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-zinc-50 dark:bg-[#131315] border border-zinc-200 dark:border-[#262933] font-mono-tech text-[10px] sm:text-[11px] font-bold uppercase tracking-wider text-zinc-800 dark:text-[#e5e1e4] hover:bg-zinc-100 dark:hover:bg-[#18181b] transition-all duration-200 cursor-pointer group shadow-xs ${p.hoverColor}`}
               >
                 {p.logo()}
                 <span className={`transition-colors ${p.activeText}`}>{p.name}</span>
-                <ArrowUpRight className="w-3 h-3 text-[#71717a] group-hover:text-current transition-colors" />
+                <ArrowUpRight className="w-3 h-3 text-zinc-400 dark:text-[#71717a] group-hover:text-current transition-colors" />
               </a>
             ))}
           </div>

@@ -1,12 +1,14 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-anton: var(--font-anton), sans-serif;
   --font-space: var(--font-space-grotesk), sans-serif;
   --font-mono: var(--font-jetbrains-mono), monospace;
 }
 
-:root {
+:root, .dark {
   --background: #0a0a0c;
   --surface: #131315;
   --surface-low: #1c1b1d;
@@ -21,6 +23,25 @@
 
   --text-on-surface: #e5e1e4;
   --text-muted: #8e92a4;
+  --grid-dot: #201f21;
+}
+
+.light {
+  --background: #ffffff;
+  --surface: #ffffff;
+  --surface-low: #f8f9fa;
+  --surface-container: #f1f3f5;
+  --surface-high: #e9ecef;
+  --surface-highest: #dee2e6;
+  --border-hairline: #e4e6eb;
+
+  --color-lime: #16a34a;
+  --color-lime-glow: rgba(22, 163, 74, 0.2);
+  --color-lime-dark: #ffffff;
+
+  --text-on-surface: #1e293b;
+  --text-muted: #64748b;
+  --grid-dot: #e2e8f0;
 }
 
 html {
@@ -29,7 +50,7 @@ html {
 
 body {
   background: var(--background);
-  color: #c4c7d4;
+  color: var(--text-on-surface);
   font-family: var(--font-space-grotesk), sans-serif;
   font-weight: 350;
   line-height: 1.65;
@@ -39,6 +60,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
   overflow-x: hidden;
+  transition: background-color 0.25s ease, color 0.25s ease;
 }
 
 p {
@@ -50,11 +72,11 @@ p {
 
 /* === Selection === */
 ::selection {
-  background: #c3f400;
-  color: #161e00;
+  background: var(--color-lime);
+  color: var(--color-lime-dark);
 }
 
-/* === Custom Dark Scrollbar === */
+/* === Custom Scrollbar === */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -63,13 +85,25 @@ p {
   background: #0a0a0c;
 }
 
+.light ::-webkit-scrollbar-track {
+  background: #f8f9fa;
+}
+
 ::-webkit-scrollbar-thumb {
   background: #262933;
   border-radius: 999px;
 }
 
+.light ::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+}
+
 ::-webkit-scrollbar-thumb:hover {
   background: #353437;
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
 }
 
 /* === Custom Typography & Layout Utilities === */
@@ -149,8 +183,13 @@ p {
 
 /* === Ambient Grid === */
 .grid-wireframe {
-  background-image: radial-gradient(#201f21 1px, transparent 1px);
+  background-image: radial-gradient(var(--grid-dot) 1px, transparent 1px);
   background-size: 24px 24px;
+}
+
+/* === Light Theme Logo Filter === */
+html.light .logo-brand-filter {
+  filter: invert(1) hue-rotate(180deg) brightness(0.8);
 }
 
 /* === Animations === */

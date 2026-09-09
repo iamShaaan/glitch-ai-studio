@@ -224,7 +224,7 @@ export function PortfolioVideoModal({
         <button
           onClick={onClose}
           aria-label="Close video modal"
-          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/60 hover:bg-black/90 border border-white/10 hover:border-[#c3f400] flex items-center justify-center text-white/70 hover:text-white transition-all cursor-pointer shadow-lg active:scale-95 backdrop-blur-md"
+          className="absolute top-3 right-3 sm:top-4 sm:right-4 z-30 w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-black/60 hover:bg-black/90 border border-white/10 hover:border-emerald-500 dark:hover:border-[#c3f400] flex items-center justify-center text-white/70 hover:text-white transition-all cursor-pointer shadow-lg active:scale-95 backdrop-blur-md"
         >
           <X className="w-4 h-4" />
         </button>
@@ -250,7 +250,7 @@ export function PortfolioVideoModal({
           {/* Buffering Loading Spinner */}
           {isBuffering && (
             <div className="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-[2px] pointer-events-none z-10">
-              <div className="w-10 h-10 rounded-full border-2 border-[#c3f400]/20 border-t-[#c3f400] animate-spin" />
+              <div className="w-10 h-10 rounded-full border-2 border-emerald-500/20 dark:border-[#c3f400]/20 border-t-emerald-500 dark:border-t-[#c3f400] animate-spin" />
             </div>
           )}
 
@@ -260,7 +260,7 @@ export function PortfolioVideoModal({
               isPlaying ? "opacity-0 group-hover:opacity-100" : "opacity-100"
             }`}
           >
-            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-[#c3f400] text-[#121900] flex items-center justify-center shadow-[0_0_30px_rgba(195,244,0,0.5)] transition-transform group-hover:scale-110">
+            <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-emerald-600 dark:bg-[#c3f400] text-white dark:text-[#121900] flex items-center justify-center shadow-[0_0_30px_rgba(16,185,129,0.5)] dark:shadow-[0_0_30px_rgba(195,244,0,0.5)] transition-transform group-hover:scale-110">
               {isPlaying ? (
                 <Pause className="w-6 h-6 sm:w-7 sm:h-7 fill-current" />
               ) : (
@@ -283,14 +283,14 @@ export function PortfolioVideoModal({
               {/* Progress bar */}
               <div
                 style={{ width: `${progressPercent}%` }}
-                className="h-full bg-[#c3f400] shadow-[0_0_10px_#c3f400] transition-[width] duration-75"
+                className="h-full bg-emerald-500 dark:bg-[#c3f400] shadow-[0_0_10px_rgba(16,185,129,0.8)] dark:shadow-[0_0_10px_#c3f400] transition-[width] duration-75"
               />
             </div>
 
             {/* Scrubber Thumb */}
             <div
               style={{ left: `${progressPercent}%` }}
-              className="absolute -translate-x-1/2 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-[#c3f400] border border-black shadow-[0_0_12px_rgba(195,244,0,0.8)] opacity-0 group-hover/track:opacity-100 transition-opacity pointer-events-none"
+              className="absolute -translate-x-1/2 w-3 h-3 sm:w-3.5 sm:h-3.5 rounded-full bg-emerald-500 dark:bg-[#c3f400] border border-black shadow-[0_0_12px_rgba(16,185,129,0.8)] dark:shadow-[0_0_12px_rgba(195,244,0,0.8)] opacity-0 group-hover/track:opacity-100 transition-opacity pointer-events-none"
             />
           </div>
 
@@ -302,7 +302,7 @@ export function PortfolioVideoModal({
               <button
                 onClick={togglePlay}
                 aria-label={isPlaying ? "Pause video" : "Play video"}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#c3f400] hover:bg-[#d6ff26] text-[#121900] flex items-center justify-center transition-all cursor-pointer shadow-[0_0_14px_rgba(195,244,0,0.35)] active:scale-95"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-emerald-600 dark:bg-[#c3f400] hover:bg-emerald-500 dark:hover:bg-[#d6ff26] text-white dark:text-[#121900] flex items-center justify-center transition-all cursor-pointer shadow-[0_0_14px_rgba(16,185,129,0.35)] dark:shadow-[0_0_14px_rgba(195,244,0,0.35)] active:scale-95"
               >
                 {isPlaying ? (
                   <Pause className="w-4 h-4 fill-current" />
@@ -315,7 +315,7 @@ export function PortfolioVideoModal({
               <button
                 onClick={() => seekBy(-5)}
                 aria-label="Rewind 5 seconds"
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#1c1b1f] hover:bg-[#27262c] border border-[#2e2d33] hover:border-[#c3f400]/60 text-[#a1a1aa] hover:text-[#c3f400] flex items-center justify-center transition-all cursor-pointer active:scale-95"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#1c1b1f] hover:bg-[#27262c] border border-[#2e2d33] hover:border-emerald-500/60 dark:hover:border-[#c3f400]/60 text-[#a1a1aa] hover:text-emerald-500 dark:hover:text-[#c3f400] flex items-center justify-center transition-all cursor-pointer active:scale-95"
               >
                 <RotateCcw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
@@ -324,7 +324,7 @@ export function PortfolioVideoModal({
               <button
                 onClick={() => seekBy(5)}
                 aria-label="Forward 5 seconds"
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#1c1b1f] hover:bg-[#27262c] border border-[#2e2d33] hover:border-[#c3f400]/60 text-[#a1a1aa] hover:text-[#c3f400] flex items-center justify-center transition-all cursor-pointer active:scale-95"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#1c1b1f] hover:bg-[#27262c] border border-[#2e2d33] hover:border-emerald-500/60 dark:hover:border-[#c3f400]/60 text-[#a1a1aa] hover:text-emerald-500 dark:hover:text-[#c3f400] flex items-center justify-center transition-all cursor-pointer active:scale-95"
               >
                 <RotateCw className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </button>
@@ -335,19 +335,19 @@ export function PortfolioVideoModal({
               <button
                 onClick={toggleMute}
                 aria-label={isMuted ? "Unmute video" : "Mute video"}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#1c1b1f] hover:bg-[#27262c] border border-[#2e2d33] hover:border-[#c3f400]/60 text-[#a1a1aa] hover:text-white flex items-center justify-center transition-all cursor-pointer active:scale-95"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#1c1b1f] hover:bg-[#27262c] border border-[#2e2d33] hover:border-emerald-500/60 dark:hover:border-[#c3f400]/60 text-[#a1a1aa] hover:text-white flex items-center justify-center transition-all cursor-pointer active:scale-95"
               >
                 {isMuted ? (
                   <VolumeX className="w-4 h-4 text-amber-400" />
                 ) : (
-                  <Volume2 className="w-4 h-4 text-[#c3f400]" />
+                  <Volume2 className="w-4 h-4 text-emerald-500 dark:text-[#c3f400]" />
                 )}
               </button>
 
               <button
                 onClick={toggleFullscreen}
                 aria-label={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
-                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#1c1b1f] hover:bg-[#27262c] border border-[#2e2d33] hover:border-[#c3f400]/60 text-[#a1a1aa] hover:text-white flex items-center justify-center transition-all cursor-pointer active:scale-95"
+                className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-[#1c1b1f] hover:bg-[#27262c] border border-[#2e2d33] hover:border-emerald-500/60 dark:hover:border-[#c3f400]/60 text-[#a1a1aa] hover:text-white flex items-center justify-center transition-all cursor-pointer active:scale-95"
               >
                 {isFullscreen ? (
                   <Minimize className="w-4 h-4" />

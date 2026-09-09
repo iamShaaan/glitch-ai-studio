@@ -230,14 +230,14 @@ export function CinemaRack() {
   return (
     <section
       id="showcase"
-      className="w-full pt-8 sm:pt-10 md:pt-12 pb-12 sm:pb-16 border-b border-[#262933] bg-[#0e0e10] relative overflow-hidden"
+      className="w-full pt-8 sm:pt-10 md:pt-12 pb-12 sm:pb-16 border-b border-zinc-200 dark:border-[#262933] bg-zinc-50 dark:bg-[#0e0e10] relative overflow-hidden transition-colors duration-200"
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
         <div className="text-center max-w-4xl mx-auto mb-5 sm:mb-7 flex flex-col items-center">
-          <h2 className="font-anton text-2xl sm:text-3xl md:text-4xl lg:text-5xl uppercase tracking-[0.035em] text-white whitespace-nowrap">
+          <h2 className="font-anton text-2xl sm:text-3xl md:text-4xl lg:text-5xl uppercase tracking-[0.035em] text-zinc-900 dark:text-white whitespace-nowrap">
             CHOOSE YOUR USE CASE
           </h2>
-          <p className="font-space text-xs sm:text-sm md:text-base text-[#a1a1aa] mt-2 font-normal leading-relaxed">
+          <p className="font-space text-xs sm:text-sm md:text-base text-zinc-500 dark:text-[#a1a1aa] mt-2 font-normal leading-relaxed">
             Select the autonomous AI video architecture engineered for your business.
           </p>
         </div>
@@ -246,7 +246,7 @@ export function CinemaRack() {
           <button
             onClick={goPrev}
             aria-label="Previous use case"
-            className="hidden md:flex w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-[#131315] hover:bg-[#1c1b1d] border border-[#2a2a2c] hover:border-[#c3f400] text-white hover:text-[#c3f400] transition-all items-center justify-center cursor-pointer shadow-xl hover:scale-105 active:scale-95 flex-shrink-0 z-20"
+            className="hidden md:flex w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#131315] dark:hover:bg-[#1c1b1d] border border-zinc-200 hover:border-emerald-600/50 dark:border-[#2a2a2c] dark:hover:border-[#c3f400] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all items-center justify-center cursor-pointer shadow-lg hover:scale-105 active:scale-95 flex-shrink-0 z-20"
           >
             <ChevronLeft className="w-6 h-6" />
           </button>
@@ -265,19 +265,19 @@ export function CinemaRack() {
               transform: `translateX(${dragOffset}px)`,
               transition: isDragging ? "none" : "transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1)",
             }}
-            className="flex-1 min-w-0 max-w-5xl xl:max-w-6xl w-full rounded-2xl sm:rounded-3xl bg-[#131315] border border-[#262933] p-4 sm:p-6 md:p-7 lg:p-8 shadow-2xl relative overflow-hidden cursor-grab active:cursor-grabbing"
+            className="flex-1 min-w-0 max-w-5xl xl:max-w-6xl w-full rounded-2xl sm:rounded-3xl bg-white dark:bg-[#131315] border border-zinc-200 dark:border-[#262933] p-4 sm:p-6 md:p-7 lg:p-8 shadow-xl dark:shadow-2xl relative overflow-hidden cursor-grab active:cursor-grabbing transition-colors duration-200"
           >
             <div className="flex flex-col lg:grid lg:grid-cols-12 gap-4 sm:gap-6 lg:gap-8 lg:items-center">
               <div className="block lg:hidden flex flex-col gap-1.5">
-                <span className="inline-block px-3 py-1 rounded-full bg-[#1c1b1d] border border-[#2a2a2c] text-xs font-semibold text-[#c3f400] w-fit">
+                <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 dark:bg-[#1c1b1d] border border-emerald-200 dark:border-[#2a2a2c] text-xs font-semibold text-emerald-800 dark:text-[#c3f400] w-fit">
                   {currentCard.badge}
                 </span>
-                <h3 className="font-anton text-xl sm:text-2xl uppercase text-white tracking-[0.035em] leading-tight whitespace-pre-line">
+                <h3 className="font-anton text-xl sm:text-2xl uppercase text-zinc-900 dark:text-white tracking-[0.035em] leading-tight whitespace-pre-line">
                   {currentCard.title}
                 </h3>
               </div>
 
-              <div className="w-full lg:col-span-7 xl:col-span-8 relative aspect-video rounded-xl sm:rounded-2xl overflow-hidden bg-black/60 border border-[#201f21] shadow-2xl flex-shrink-0 pointer-events-auto">
+              <div className="w-full lg:col-span-7 xl:col-span-8 relative aspect-video rounded-xl sm:rounded-2xl overflow-hidden bg-black/60 border border-zinc-200 dark:border-[#201f21] shadow-2xl flex-shrink-0 pointer-events-auto">
                 <VideoSlotPlayer
                   key={currentCard.slotId}
                   slotId={currentCard.slotId}
@@ -289,16 +289,16 @@ export function CinemaRack() {
               </div>
 
               <div className="block lg:hidden flex flex-col gap-2 pt-1">
-                <p className="font-space text-sm text-[#e5e1e4] leading-relaxed">
+                <p className="font-space text-sm text-zinc-700 dark:text-[#e5e1e4] leading-relaxed">
                   {currentCard.description}
                 </p>
                 {currentCard.secondaryDesc && (
-                  <p className="font-space text-xs text-[#a1a1aa] leading-relaxed">
+                  <p className="font-space text-xs text-zinc-500 dark:text-[#a1a1aa] leading-relaxed">
                     {currentCard.secondaryDesc}
                   </p>
                 )}
                 {currentCard.ctaButton ? (
-                  <div className="pt-2 border-t border-[#201f21] flex items-center">
+                  <div className="pt-2 border-t border-zinc-200 dark:border-[#201f21] flex items-center">
                     <button
                       type="button"
                       onClick={() => {
@@ -315,54 +315,54 @@ export function CinemaRack() {
                           setTravelModalOpen(true);
                         }
                       }}
-                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#c3f400] hover:bg-[#d6ff26] text-[#121900] text-[11px] font-mono-tech uppercase font-bold tracking-wider transition-all duration-200 shadow-[0_0_14px_rgba(195,244,0,0.25)] hover:shadow-[0_0_20px_rgba(195,244,0,0.4)] active:scale-[0.98] cursor-pointer group/btn"
+                      className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white dark:bg-[#c3f400] dark:hover:bg-[#d6ff26] dark:text-[#121900] text-[11px] font-mono-tech uppercase font-bold tracking-wider transition-all duration-200 shadow-[0_0_14px_rgba(22,163,74,0.25)] hover:shadow-[0_0_20px_rgba(22,163,74,0.35)] dark:shadow-[0_0_14px_rgba(195,244,0,0.25)] dark:hover:shadow-[0_0_20px_rgba(195,244,0,0.4)] active:scale-[0.98] cursor-pointer group/btn"
                     >
                       {currentCard.ctaButton.action === "open-niche-modal" ? (
-                        <Target className="w-3.5 h-3.5 shrink-0 text-[#121900] group-hover/btn:rotate-12 transition-transform duration-300" />
+                        <Target className="w-3.5 h-3.5 shrink-0 text-white dark:text-[#121900] group-hover/btn:rotate-12 transition-transform duration-300" />
                       ) : currentCard.ctaButton.action === "open-clone-modal" ? (
-                        <Sparkles className="w-3.5 h-3.5 shrink-0 text-[#121900] group-hover/btn:scale-110 transition-transform duration-300" />
+                        <Sparkles className="w-3.5 h-3.5 shrink-0 text-white dark:text-[#121900] group-hover/btn:scale-110 transition-transform duration-300" />
                       ) : currentCard.ctaButton.action === "scroll-to-portfolio" ? (
-                        <Layers className="w-3.5 h-3.5 shrink-0 text-[#121900] group-hover/btn:scale-110 transition-transform duration-300" />
+                        <Layers className="w-3.5 h-3.5 shrink-0 text-white dark:text-[#121900] group-hover/btn:scale-110 transition-transform duration-300" />
                       ) : (
-                        <Compass className="w-3.5 h-3.5 shrink-0 text-[#121900] group-hover/btn:rotate-45 transition-transform duration-300" />
+                        <Compass className="w-3.5 h-3.5 shrink-0 text-white dark:text-[#121900] group-hover/btn:rotate-45 transition-transform duration-300" />
                       )}
                       <span>{currentCard.ctaButton.label}</span>
                       {currentCard.ctaButton.action === "scroll-to-portfolio" ? (
-                        <ArrowDownRight className="w-3.5 h-3.5 shrink-0 text-[#121900] group-hover/btn:translate-x-0.5 group-hover/btn:translate-y-0.5 transition-transform" />
+                        <ArrowDownRight className="w-3.5 h-3.5 shrink-0 text-white dark:text-[#121900] group-hover/btn:translate-x-0.5 group-hover/btn:translate-y-0.5 transition-transform" />
                       ) : (
-                        <ArrowUpRight className="w-3.5 h-3.5 shrink-0 text-[#121900] group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                        <ArrowUpRight className="w-3.5 h-3.5 shrink-0 text-white dark:text-[#121900] group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                       )}
                     </button>
                   </div>
                 ) : (
-                  <div className="pt-2 border-t border-[#201f21] flex items-center gap-2 text-xs text-[#8e92a4]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#c3f400]" />
+                  <div className="pt-2 border-t border-zinc-200 dark:border-[#201f21] flex items-center gap-2 text-xs text-zinc-500 dark:text-[#8e92a4]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-[#c3f400]" />
                     <span>{currentCard.takeaway}</span>
                   </div>
                 )}
               </div>
 
               <div className="hidden lg:flex lg:col-span-5 xl:col-span-4 flex-col justify-center gap-4 h-full py-1">
-                <span className="inline-block px-3 py-1 rounded-full bg-[#1c1b1d] border border-[#2a2a2c] text-xs font-semibold text-[#c3f400] w-fit">
+                <span className="inline-block px-3 py-1 rounded-full bg-emerald-50 dark:bg-[#1c1b1d] border border-emerald-200 dark:border-[#2a2a2c] text-xs font-semibold text-emerald-800 dark:text-[#c3f400] w-fit">
                   {currentCard.badge}
                 </span>
 
-                <h3 className="font-anton text-2xl xl:text-3xl uppercase text-white tracking-[0.035em] leading-tight whitespace-pre-line">
+                <h3 className="font-anton text-2xl xl:text-3xl uppercase text-zinc-900 dark:text-white tracking-[0.035em] leading-tight whitespace-pre-line">
                   {currentCard.title}
                 </h3>
 
-                <p className="font-space text-sm xl:text-[15px] text-[#e5e1e4] font-medium leading-relaxed">
+                <p className="font-space text-sm xl:text-[15px] text-zinc-700 dark:text-[#e5e1e4] font-medium leading-relaxed">
                   {currentCard.description}
                 </p>
 
                 {currentCard.secondaryDesc && (
-                  <p className="font-space text-xs xl:text-sm text-[#a1a1aa] font-normal leading-relaxed">
+                  <p className="font-space text-xs xl:text-sm text-zinc-500 dark:text-[#a1a1aa] font-normal leading-relaxed">
                     {currentCard.secondaryDesc}
                   </p>
                 )}
 
                 {currentCard.ctaButton ? (
-                  <div className="pt-3 border-t border-[#201f21] flex items-center">
+                  <div className="pt-3 border-t border-zinc-200 dark:border-[#201f21] flex items-center">
                     <button
                       type="button"
                       onClick={() => {
@@ -379,28 +379,28 @@ export function CinemaRack() {
                           setTravelModalOpen(true);
                         }
                       }}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#c3f400] hover:bg-[#d6ff26] text-[#121900] text-xs font-mono-tech uppercase font-bold tracking-wider transition-all duration-200 shadow-[0_0_16px_rgba(195,244,0,0.25)] hover:shadow-[0_0_24px_rgba(195,244,0,0.45)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer group/btn"
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-600 hover:bg-emerald-700 text-white dark:bg-[#c3f400] dark:hover:bg-[#d6ff26] dark:text-[#121900] text-xs font-mono-tech uppercase font-bold tracking-wider transition-all duration-200 shadow-[0_0_16px_rgba(22,163,74,0.25)] hover:shadow-[0_0_24px_rgba(22,163,74,0.4)] dark:shadow-[0_0_16px_rgba(195,244,0,0.25)] dark:hover:shadow-[0_0_24px_rgba(195,244,0,0.45)] hover:scale-[1.02] active:scale-[0.98] cursor-pointer group/btn"
                     >
                       {currentCard.ctaButton.action === "open-niche-modal" ? (
-                        <Target className="w-3.5 h-3.5 shrink-0 text-[#121900] group-hover/btn:rotate-12 transition-transform duration-300" />
+                        <Target className="w-3.5 h-3.5 shrink-0 text-white dark:text-[#121900] group-hover/btn:rotate-12 transition-transform duration-300" />
                       ) : currentCard.ctaButton.action === "open-clone-modal" ? (
-                        <Sparkles className="w-3.5 h-3.5 shrink-0 text-[#121900] group-hover/btn:scale-110 transition-transform duration-300" />
+                        <Sparkles className="w-3.5 h-3.5 shrink-0 text-white dark:text-[#121900] group-hover/btn:scale-110 transition-transform duration-300" />
                       ) : currentCard.ctaButton.action === "scroll-to-portfolio" ? (
-                        <Layers className="w-3.5 h-3.5 shrink-0 text-[#121900] group-hover/btn:scale-110 transition-transform duration-300" />
+                        <Layers className="w-3.5 h-3.5 shrink-0 text-white dark:text-[#121900] group-hover/btn:scale-110 transition-transform duration-300" />
                       ) : (
-                        <Compass className="w-3.5 h-3.5 shrink-0 text-[#121900] group-hover/btn:rotate-45 transition-transform duration-300" />
+                        <Compass className="w-3.5 h-3.5 shrink-0 text-white dark:text-[#121900] group-hover/btn:rotate-45 transition-transform duration-300" />
                       )}
                       <span>{currentCard.ctaButton.label}</span>
                       {currentCard.ctaButton.action === "scroll-to-portfolio" ? (
-                        <ArrowDownRight className="w-3.5 h-3.5 shrink-0 text-[#121900] group-hover/btn:translate-x-0.5 group-hover/btn:translate-y-0.5 transition-transform" />
+                        <ArrowDownRight className="w-3.5 h-3.5 shrink-0 text-white dark:text-[#121900] group-hover/btn:translate-x-0.5 group-hover/btn:translate-y-0.5 transition-transform" />
                       ) : (
-                        <ArrowUpRight className="w-3.5 h-3.5 shrink-0 text-[#121900] group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
+                        <ArrowUpRight className="w-3.5 h-3.5 shrink-0 text-white dark:text-[#121900] group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
                       )}
                     </button>
                   </div>
                 ) : (
-                  <div className="pt-3 border-t border-[#201f21] flex items-center gap-2 text-xs text-[#8e92a4]">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#c3f400]" />
+                  <div className="pt-3 border-t border-zinc-200 dark:border-[#201f21] flex items-center gap-2 text-xs text-zinc-500 dark:text-[#8e92a4]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 dark:bg-[#c3f400]" />
                     <span>{currentCard.takeaway}</span>
                   </div>
                 )}
@@ -411,7 +411,7 @@ export function CinemaRack() {
           <button
             onClick={goNext}
             aria-label="Next use case"
-            className="hidden md:flex w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-[#131315] hover:bg-[#1c1b1d] border border-[#2a2a2c] hover:border-[#c3f400] text-white hover:text-[#c3f400] transition-all items-center justify-center cursor-pointer shadow-xl hover:scale-105 active:scale-95 flex-shrink-0 z-20"
+            className="hidden md:flex w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#131315] dark:hover:bg-[#1c1b1d] border border-zinc-200 hover:border-emerald-600/50 dark:border-[#2a2a2c] dark:hover:border-[#c3f400] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all items-center justify-center cursor-pointer shadow-lg hover:scale-105 active:scale-95 flex-shrink-0 z-20"
           >
             <ChevronRight className="w-6 h-6" />
           </button>
@@ -422,7 +422,7 @@ export function CinemaRack() {
           <button
             onClick={goPrev}
             aria-label="Previous use case"
-            className="w-10 h-10 rounded-full bg-[#1c1b1d] hover:bg-[#252427] border border-[#2a2a2c] hover:border-[#c3f400] text-white hover:text-[#c3f400] transition-all flex items-center justify-center cursor-pointer active:scale-95"
+            className="w-10 h-10 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#1c1b1d] dark:hover:bg-[#252427] border border-zinc-200 dark:border-[#2a2a2c] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all flex items-center justify-center cursor-pointer active:scale-95 shadow-sm"
           >
             <ChevronLeft className="w-5 h-5" />
           </button>
@@ -434,8 +434,8 @@ export function CinemaRack() {
                 onClick={() => setCurrentIndex(idx)}
                 className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                   idx === currentIndex
-                    ? "w-7 bg-[#c3f400] shadow-[0_0_10px_rgba(195,244,0,0.6)]"
-                    : "w-2 bg-[#2a2a2c]"
+                    ? "w-7 bg-emerald-600 dark:bg-[#c3f400] shadow-[0_0_10px_rgba(22,163,74,0.5)] dark:shadow-[0_0_10px_rgba(195,244,0,0.6)]"
+                    : "w-2 bg-zinc-300 dark:bg-[#2a2a2c]"
                 }`}
                 aria-label={`Go to use case ${idx + 1}`}
               />
@@ -445,7 +445,7 @@ export function CinemaRack() {
           <button
             onClick={goNext}
             aria-label="Next use case"
-            className="w-10 h-10 rounded-full bg-[#1c1b1d] hover:bg-[#252427] border border-[#2a2a2c] hover:border-[#c3f400] text-white hover:text-[#c3f400] transition-all flex items-center justify-center cursor-pointer active:scale-95"
+            className="w-10 h-10 rounded-full bg-white hover:bg-zinc-100 dark:bg-[#1c1b1d] dark:hover:bg-[#252427] border border-zinc-200 dark:border-[#2a2a2c] text-zinc-700 dark:text-white hover:text-emerald-700 dark:hover:text-[#c3f400] transition-all flex items-center justify-center cursor-pointer active:scale-95 shadow-sm"
           >
             <ChevronRight className="w-5 h-5" />
           </button>
@@ -459,8 +459,8 @@ export function CinemaRack() {
               onClick={() => setCurrentIndex(idx)}
               className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                 idx === currentIndex
-                  ? "w-8 bg-[#c3f400] shadow-[0_0_12px_rgba(195,244,0,0.6)]"
-                  : "w-2 bg-[#2a2a2c] hover:bg-[#424246]"
+                  ? "w-8 bg-emerald-600 dark:bg-[#c3f400] shadow-[0_0_12px_rgba(22,163,74,0.5)] dark:shadow-[0_0_12px_rgba(195,244,0,0.6)]"
+                  : "w-2 bg-zinc-300 hover:bg-zinc-400 dark:bg-[#2a2a2c] dark:hover:bg-[#424246]"
               }`}
               aria-label={`Go to use case ${idx + 1}`}
             />
