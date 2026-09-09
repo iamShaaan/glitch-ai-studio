@@ -63,6 +63,7 @@ function FloatingCollageCard({
   const [isHovered, setIsHovered] = useState(false);
   const [isNearViewport, setIsNearViewport] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
+  const [isMuted, setIsMuted] = useState(true);
 
   // Track touch start position to distinguish tap vs. scroll
   const touchStartPos = useRef<{ x: number; y: number } | null>(null);
@@ -77,6 +78,7 @@ function FloatingCollageCard({
           videoRef.current.muted = true;
         }
         setIsHovered(false);
+        setIsMuted(true);
       }
     });
     return unsubscribe;
@@ -97,6 +99,7 @@ function FloatingCollageCard({
             // Unmount video when scrolled far off-screen to free hardware decoders on mobile
             setIsNearViewport(false);
             setIsVideoLoaded(false);
+            setIsMuted(true);
             if (videoRef.current) {
               videoRef.current.pause();
               videoRef.current.muted = true;
@@ -117,6 +120,7 @@ function FloatingCollageCard({
               videoRef.current.muted = true;
             }
             setIsHovered(false);
+            setIsMuted(true);
           }
         });
       },
@@ -134,22 +138,29 @@ function FloatingCollageCard({
 
   const handleMouseEnter = () => {
     setIsHovered(true);
+    setIsMuted(false);
     if (!videoRef.current) return;
     const video = videoRef.current;
     video.muted = false;
     video.volume = 1.0;
     claimAudioFocus(5000 + item.id, video);
 
-    video.play().catch(() => {
-      if (video) {
-        video.muted = true;
-        video.play().catch(() => {});
-      }
-    });
+    const playPromise = video.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(() => {
+        // Fallback to muted if browser blocks sound prior to user interaction
+        if (video) {
+          video.muted = true;
+          setIsMuted(true);
+          video.play().catch(() => {});
+        }
+      });
+    }
   };
 
   const handleMouseLeave = () => {
     setIsHovered(false);
+    setIsMuted(true);
     if (videoRef.current) {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
@@ -165,6 +176,7 @@ function FloatingCollageCard({
       videoRef.current.muted = true;
     }
     setIsHovered(false);
+    setIsMuted(true);
     onSelect(item.videoUrl);
   };
 
@@ -195,17 +207,20 @@ function FloatingCollageCard({
     if (!videoRef.current) return;
     const video = videoRef.current;
     if (video.paused) {
+      setIsMuted(false);
       video.muted = false;
       video.volume = 1.0;
       claimAudioFocus(5000 + item.id, video);
       video.play().catch(() => {
         video.muted = true;
+        setIsMuted(true);
         video.play().catch(() => {});
       });
       setIsHovered(true);
     } else {
       video.pause();
       video.muted = true;
+      setIsMuted(true);
       setIsHovered(false);
     }
   };
@@ -267,7 +282,7 @@ function FloatingCollageCard({
           <video
             ref={videoRef}
             src={item.videoUrl}
-            muted
+            muted={isMuted}
             loop
             playsInline
             preload={isHovered ? "auto" : "metadata"}
