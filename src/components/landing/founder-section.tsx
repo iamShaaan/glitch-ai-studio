@@ -117,7 +117,10 @@ const socialHandles = [
 
 export function FounderSection() {
   return (
-    <section id="founder" className="w-full py-16 md:py-24 bg-[#0a0a0c] border-b border-[#262933] relative overflow-hidden">
+    <section
+      id="founder"
+      className="w-full py-16 md:py-24 bg-[#0a0a0c] border-b border-[#262933] relative overflow-hidden scroll-mt-20 md:scroll-mt-24"
+    >
       <div className="max-w-6xl mx-auto px-4 md:px-8">
         {/* Middle-Aligned Section Header */}
         <div className="text-center max-w-4xl mx-auto mb-12 md:mb-16 flex flex-col items-center">
