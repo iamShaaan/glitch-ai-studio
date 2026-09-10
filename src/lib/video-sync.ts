@@ -10,9 +10,22 @@ export interface AudioClaimDetail {
 }
 
 /**
+ * Check if a video element is the hero reel, which is permanently exempt from pause rules.
+ */
+function isExemptHeroVideo(v: HTMLVideoElement): boolean {
+  return (
+    v.hasAttribute("data-hero-video") ||
+    v.dataset.heroVideo === "true" ||
+    v.getAttribute("data-slot-id") === "1" ||
+    v.classList.contains("hero-reel-video")
+  );
+}
+
+/**
  * Call when a video element becomes unmuted or starts playing with audio.
  * Mutes all other <video> elements on the page and dispatches an event
  * for React state synchronization.
+ * NOTE: The Hero Video is perpetual and completely exempt from pause/mute.
  */
 export function claimAudioFocus(slotId?: number, videoElement?: HTMLVideoElement | null) {
   if (typeof window === "undefined") return;
@@ -28,6 +41,9 @@ export function claimAudioFocus(slotId?: number, videoElement?: HTMLVideoElement
   try {
     const allVideos = document.querySelectorAll<HTMLVideoElement>("video");
     allVideos.forEach((v) => {
+      // INVARIANT: Hero video runs perpetually in a loop and is NEVER paused
+      if (isExemptHeroVideo(v)) return;
+
       if (v !== videoElement) {
         // Guarantee silence
         v.muted = true;
@@ -75,6 +91,7 @@ if (typeof window !== "undefined") {
       if (target && target.tagName === "VIDEO" && !target.muted && target.volume > 0) {
         const allVideos = document.querySelectorAll<HTMLVideoElement>("video");
         allVideos.forEach((v) => {
+          if (isExemptHeroVideo(v)) return;
           if (v !== target) {
             v.muted = true;
           }
@@ -91,6 +108,7 @@ if (typeof window !== "undefined") {
       if (target && target.tagName === "VIDEO" && !target.muted && target.volume > 0) {
         const allVideos = document.querySelectorAll<HTMLVideoElement>("video");
         allVideos.forEach((v) => {
+          if (isExemptHeroVideo(v)) return;
           if (v !== target) {
             v.muted = true;
             if (!v.paused) {

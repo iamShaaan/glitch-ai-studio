@@ -18,6 +18,7 @@ interface VideoSlotPlayerProps {
   showMuteOnly?: boolean; // When true: Clean video with ONLY the top-corner mute/unmute button and play/pause
   onSelect?: () => void;
   showOverlayInfo?: boolean;
+  isHero?: boolean;
 }
 
 export function VideoSlotPlayer({
@@ -33,12 +34,14 @@ export function VideoSlotPlayer({
   showMuteOnly = false,
   onSelect,
   showOverlayInfo = false,
+  isHero = false,
 }: VideoSlotPlayerProps) {
+  const isHeroVideo = isHero || slotId === 1;
   const slot = VIDEO_SLOTS[slotId];
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [isPlaying, setIsPlaying] = useState(autoPlay);
-  const [isMuted, setIsMuted] = useState(muted);
+  const [isMuted, setIsMuted] = useState(isHeroVideo ? true : muted);
   const [progress, setProgress] = useState(0);
   const [hasError, setHasError] = useState(false);
   const [isVideoLoaded, setIsVideoLoaded] = useState(false);
@@ -52,8 +55,11 @@ export function VideoSlotPlayer({
   }, [slot?.videoUrl, autoPlay]);
 
   // Global Audio Synchronization Listener
-  // Invariant: If any other video on the website unmutes, this video will mute immediately
+  // Invariant: If any other video on the website unmutes, this video will mute immediately.
+  // CRITICAL RULE: The Hero video is perpetually muted and immune to all audio claims and external pauses.
   useEffect(() => {
+    if (isHeroVideo) return; // Hero video is completely immune to other video events
+
     const unsubscribe = subscribeToAudioClaims((detail) => {
       if (detail.activeElement !== videoRef.current) {
         setIsMuted(true);
@@ -63,7 +69,7 @@ export function VideoSlotPlayer({
       }
     });
     return unsubscribe;
-  }, []);
+  }, [isHeroVideo]);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -82,7 +88,21 @@ export function VideoSlotPlayer({
         claimAudioFocus(slotId, video);
       }
     };
-    const handlePause = () => setIsPlaying(false);
+    const handlePause = () => {
+      if (isHeroVideo) {
+        // If hero video was paused while in viewport, immediately resume
+        const v = videoRef.current;
+        if (v) {
+          const rect = v.getBoundingClientRect();
+          if (rect.bottom > 0 && rect.top < window.innerHeight) {
+            v.muted = true;
+            v.play().catch(() => {});
+            return;
+          }
+        }
+      }
+      setIsPlaying(false);
+    };
     const handleError = () => {
       setHasError(true);
       setIsPlaying(false);
@@ -111,7 +131,7 @@ export function VideoSlotPlayer({
       video.removeEventListener("loadeddata", handleLoadedData);
       video.removeEventListener("canplay", handleCanPlay);
     };
-  }, [slot?.videoUrl, slotId]);
+  }, [slot?.videoUrl, slotId, isHeroVideo]);
 
   // Imperative Autoplay & Continuous Looping Engine
   useEffect(() => {
@@ -182,6 +202,96 @@ export function VideoSlotPlayer({
     };
   }, [autoPlay, loop, slot?.videoUrl]);
 
+  // Dedicated Hero Video: Scroll-Wheel & Viewport Continuous Playback Engine
+  useEffect(() => {
+    if (!isHeroVideo) return;
+    const video = videoRef.current;
+    if (!video) return;
+
+    // Strict non-negotiable invariants for Hero Video
+    video.muted = true;
+    video.defaultMuted = true;
+    video.volume = 0;
+    video.loop = true;
+    video.setAttribute("muted", "");
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "true");
+    video.setAttribute("data-hero-video", "true");
+    video.setAttribute("data-slot-id", "1");
+
+    const ensureHeroIsPlaying = () => {
+      if (!video) return;
+      const rect = video.getBoundingClientRect();
+      const isVisible = rect.bottom > 0 && rect.top < window.innerHeight;
+      if (isVisible && video.paused) {
+        video.muted = true;
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise
+            .then(() => {
+              setIsPlaying(true);
+              setHasStartedPlaying(true);
+              setIsVideoLoaded(true);
+            })
+            .catch(() => {
+              video.muted = true;
+              video.play().catch(() => {});
+            });
+        }
+      }
+    };
+
+    // Immediate check
+    ensureHeroIsPlaying();
+
+    // Scroll-wheel listener: when scrolling with wheel/trackpad, check and resume if in display
+    const handleWheelScroll = () => {
+      ensureHeroIsPlaying();
+    };
+
+    // Window scroll, touchmove, pointerdown listeners
+    const handleGeneralScroll = () => {
+      ensureHeroIsPlaying();
+    };
+
+    // IntersectionObserver to detect when user scrolls back to the top
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            ensureHeroIsPlaying();
+          }
+        });
+      },
+      { threshold: [0, 0.05, 0.1, 0.25, 0.5, 0.75, 1.0] }
+    );
+
+    const target = containerRef.current || video;
+    if (target) {
+      observer.observe(target);
+    }
+
+    // Keep-alive watchdog timer (every 400ms while in viewport)
+    const watchdog = setInterval(ensureHeroIsPlaying, 400);
+
+    window.addEventListener("wheel", handleWheelScroll, { passive: true });
+    window.addEventListener("scroll", handleGeneralScroll, { passive: true });
+    window.addEventListener("touchmove", handleGeneralScroll, { passive: true });
+    window.addEventListener("pointerdown", handleGeneralScroll, { passive: true });
+
+    return () => {
+      window.removeEventListener("wheel", handleWheelScroll);
+      window.removeEventListener("scroll", handleGeneralScroll);
+      window.removeEventListener("touchmove", handleGeneralScroll);
+      window.removeEventListener("pointerdown", handleGeneralScroll);
+      clearInterval(watchdog);
+      if (target) {
+        observer.unobserve(target);
+      }
+      observer.disconnect();
+    };
+  }, [isHeroVideo, slot?.videoUrl]);
+
   if (!slot) {
     return (
       <div className="p-4 rounded-xl border border-red-500/30 bg-red-950/20 text-red-400 font-mono text-xs">
@@ -202,6 +312,14 @@ export function VideoSlotPlayer({
   const finalAspect = aspectRatioClass || defaultAspectClass;
 
   const togglePlay = () => {
+    if (isHeroVideo) {
+      // Hero video is perpetual background reel, never pause on tap/click
+      if (videoRef.current && videoRef.current.paused) {
+        videoRef.current.play().catch(() => {});
+        setIsPlaying(true);
+      }
+      return;
+    }
     if (onSelect) {
       onSelect();
       return;
@@ -254,19 +372,25 @@ export function VideoSlotPlayer({
     return (
       <div
         ref={containerRef}
-        className={`relative w-full ${finalAspect} rounded-2xl overflow-hidden group cursor-pointer select-none ${borderStyle} ${className}`}
+        className={`relative w-full ${finalAspect} rounded-2xl overflow-hidden group ${
+          isHeroVideo ? "cursor-default select-none" : "cursor-pointer select-none"
+        } ${borderStyle} ${className}`}
         onClick={togglePlay}
       >
         <video
           ref={videoRef}
+          data-hero-video={isHeroVideo ? "true" : undefined}
+          data-slot-id={slotId}
           src={slot.videoUrl}
           poster={slot.posterUrl}
           autoPlay={autoPlay}
           loop={loop}
-          muted={autoPlay ? true : isMuted}
+          muted={isHeroVideo ? true : (autoPlay ? true : isMuted)}
           playsInline
-          preload={autoPlay ? "auto" : "metadata"}
+          preload="auto"
           className={`w-full h-full object-cover group-hover:scale-[1.01] transition-all duration-700 ${
+            isHeroVideo ? "hero-reel-video pointer-events-none" : ""
+          } ${
             (autoPlay ? (isVideoLoaded || isPlaying || hasStartedPlaying) : (hasStartedPlaying && isVideoLoaded)) ? "opacity-100" : "opacity-0"
           }`}
         />

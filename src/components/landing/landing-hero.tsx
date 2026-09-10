@@ -47,6 +47,7 @@ export function LandingHero() {
                 borderless={true}
                 blended={true}
                 clean={true}
+                isHero={true}
               />
             </div>
           </div>
