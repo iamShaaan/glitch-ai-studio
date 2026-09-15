@@ -22,31 +22,17 @@ interface UseCaseCard {
 
 const USE_CASE_CARDS: UseCaseCard[] = [
   {
-    slotId: 2,
-    badge: "AI Travel Influencer",
-    title: "Promote Tourism-Related Business\nWith AI Influencer",
+    slotId: 5,
+    badge: "Avatar For Local Business",
+    title: "Represent Your Business With\nAn AI Persona",
     description:
-      "You can create a travel AI influencer to promote your business related to travel, tourism, hotels, and anything related to travel and tourism.",
+      "You can create an AI character from scratch just to represent your company or your business. It's not always necessary to clone yourself.",
     secondaryDesc:
-      "Promote destinations, hotel experiences, photography gadgets, accessories, and travel gear with an authentic on-camera persona touring global spots on demand.",
-    takeaway: "Destinations & Hotels • Travel Gear & Gadgets • Zero Travel Overhead",
+      "If you are a company and you don't want to be bound to any person, you can create a separate AI influencer that will be a representative of your brand or business. It can be applicable for local businesses as well as big enterprises.",
+    takeaway: "100% Brand Owned • Zero Person Dependency • Any Sector",
     ctaButton: {
-      label: "See her in more locations",
-      action: "open-travel-modal",
-    },
-  },
-  {
-    slotId: 4,
-    badge: "Niche AI Persona",
-    title: "Dominate Your Niche With A\nUnique AI Persona",
-    description:
-      "Build an AI persona that your target audience connects with well and ultimately promotes your product in a well-targeted niche market.",
-    secondaryDesc:
-      "Position your AI character as a trusted specialist to review offerings, showcase unique product features, and drive consistent conversions without camera crews or studio delays.",
-    takeaway: "Targeted Niche Reach • Deep Audience Connection • Scalable Product Promotion",
-    ctaButton: {
-      label: "See more niche personas",
-      action: "open-niche-modal",
+      label: "Explore more portfolio works",
+      action: "scroll-to-portfolio",
     },
   },
   {
@@ -64,17 +50,31 @@ const USE_CASE_CARDS: UseCaseCard[] = [
     },
   },
   {
-    slotId: 5,
-    badge: "Avatar For Local Business",
-    title: "Represent Your Business With\nAn AI Persona",
+    slotId: 4,
+    badge: "Niche AI Persona",
+    title: "Dominate Your Niche With A\nUnique AI Persona",
     description:
-      "You can create an AI character from scratch just to represent your company or your business. It's not always necessary to clone yourself.",
+      "Build an AI persona that your target audience connects with well and ultimately promotes your product in a well-targeted niche market.",
     secondaryDesc:
-      "If you are a company and you don't want to be bound to any person, you can create a separate AI influencer that will be a representative of your brand or business. It can be applicable for local businesses as well as big enterprises.",
-    takeaway: "100% Brand Owned • Zero Person Dependency • Any Sector",
+      "Position your AI character as a trusted specialist to review offerings, showcase unique product features, and drive consistent conversions without camera crews or studio delays.",
+    takeaway: "Targeted Niche Reach • Deep Audience Connection • Scalable Product Promotion",
     ctaButton: {
-      label: "Explore more portfolio works",
-      action: "scroll-to-portfolio",
+      label: "See more niche personas",
+      action: "open-niche-modal",
+    },
+  },
+  {
+    slotId: 2,
+    badge: "AI Travel Influencer",
+    title: "Promote Tourism-Related Business\nWith AI Influencer",
+    description:
+      "You can create a travel AI influencer to promote your business related to travel, tourism, hotels, and anything related to travel and tourism.",
+    secondaryDesc:
+      "Promote destinations, hotel experiences, photography gadgets, accessories, and travel gear with an authentic on-camera persona touring global spots on demand.",
+    takeaway: "Destinations & Hotels • Travel Gear & Gadgets • Zero Travel Overhead",
+    ctaButton: {
+      label: "See her in more locations",
+      action: "open-travel-modal",
     },
   },
 ];

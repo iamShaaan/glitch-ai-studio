@@ -13,6 +13,7 @@ interface CollageItemConfig {
   aspectRatio: "9/16" | "16/9" | "4/5" | "4/3";
   title?: string;
   posterUrl?: string;
+  breakAfterColumn?: boolean;
 }
 
 const ROTATION_PATTERNS = [
@@ -46,6 +47,7 @@ const COLLAGE_ITEMS: CollageItemConfig[] = PORTFOLIO_WORKS.map((work, idx) => ({
   aspectRatio: work.aspectRatio || (idx % 3 === 0 ? "16/9" : "9/16"),
   title: work.title || `PORTFOLIO SPECIMEN 0${work.id}`,
   posterUrl: work.posterUrl,
+  breakAfterColumn: idx === 3 || idx === 6 || idx === 9,
 }));
 
 // TAP_THRESHOLD: max pixels of finger movement to still count as a "tap" (not a scroll)
@@ -251,7 +253,9 @@ function FloatingCollageCard({
           : `rotate(${item.restingRotate}deg)`,
         zIndex: isHovered ? 40 : 10,
       }}
-      className={`break-inside-avoid relative w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-[#121215] border p-1.5 sm:p-2 transition-all duration-500 ease-out cursor-pointer select-none ${
+      className={`break-inside-avoid ${
+        item.breakAfterColumn ? "xl:[break-after:column]" : ""
+      } relative w-full rounded-2xl sm:rounded-3xl overflow-hidden bg-zinc-100 dark:bg-[#121215] border p-1.5 sm:p-2 transition-all duration-500 ease-out cursor-pointer select-none ${
         isHovered
           ? "border-emerald-600/80 dark:border-[#c3f400]/80 shadow-[0_16px_40px_rgba(22,163,74,0.2)] dark:shadow-[0_24px_60px_rgba(0,0,0,0.9),0_0_35px_rgba(195,244,0,0.25)] ring-1 ring-emerald-600/30 dark:ring-[#c3f400]/30"
           : "border-zinc-200 hover:border-zinc-300 dark:border-[#22242c] dark:hover:border-[#383a45] shadow-md dark:shadow-[0_12px_36px_rgba(0,0,0,0.65)]"
@@ -328,7 +332,7 @@ export function SelectedWorks() {
         </div>
 
         {/* Artistic Casual CSS Collage Layout - Zero interstitial text */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6 sm:gap-8 lg:gap-10 [column-fill:_balance]">
+        <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 xl:[column-fill:_auto] gap-6 sm:gap-8 lg:gap-10 [column-fill:_balance]">
           {COLLAGE_ITEMS.map((item) => (
             <FloatingCollageCard
               key={item.id}

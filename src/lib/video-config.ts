@@ -30,10 +30,10 @@ export const VIDEO_SLOTS: Record<number, VideoSlot> = {
     details: "Voice Match: 99.8% • 100% Cloned Lip-Sync • 16:9 Widescreen",
   },
 
-  // ── Video #2: Cinema Rack Showcase Slot 1: AI Travel Influencer ────────────
+  // ── Video #2: Cinema Rack Showcase Slot 4: AI Travel Influencer ────────────
   2: {
     id: 2,
-    label: "SPECIMEN 01",
+    label: "SPECIMEN 04",
     badge: "AI TRAVEL INFLUENCER",
     title: "Promote Tourism-Related Business\nWith AI Influencer",
     subtitle: "16:9 • Global Travel Persona • Tourism, Hotels & Travel Gear",
@@ -75,14 +75,14 @@ export const VIDEO_SLOTS: Record<number, VideoSlot> = {
       { label: "Client Outreach", value: "SCALE ON DEMAND", sub: "Zero Filming Burnout" },
     ],
     videoUrl:
-      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Fiverr%20GIG%20Update%20Video.mp4",
-    posterUrl: "/use-cases/use-case-3.jpg",
+      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/hf_20260518_113720_2588f020-2ac2-4bfb-90d8-4fa0c8031adc.mp4",
+    posterUrl: "/portfolio/work-6.jpg",
     aspectRatio: "16/9",
     category: "Real Human Clone",
-    details: "SPECIMEN: PROMOTING SERVICES • REAL HUMAN CLONE • 16:9",
+    details: "SPECIMEN: PODCAST & DIGITAL TWIN SETUP • REAL HUMAN CLONE • 16:9",
   },
 
-  // ── Video #4: Cinema Rack Showcase Slot 3: Promote Your Product With AI Influencer ─
+  // ── Video #4: Cinema Rack Showcase Slot 3: Niche AI Persona ─
   4: {
     id: 4,
     label: "SPECIMEN 03",
@@ -108,10 +108,10 @@ export const VIDEO_SLOTS: Record<number, VideoSlot> = {
     details: "SPECIMEN: PROMOTE YOUR PRODUCT WITH AI INFLUENCER • 16:9",
   },
 
-  // ── Video #5: Autonomous Cinema Rack (Showcase Slot 4: Avatar For Local Business) ─
+  // ── Video #5: Autonomous Cinema Rack (Showcase Slot 1: Avatar For Local Business) ─
   5: {
     id: 5,
-    label: "SPECIMEN 04",
+    label: "SPECIMEN 01",
     badge: "AVATAR FOR LOCAL BUSINESS",
     title: "Avatar for Local Business",
     subtitle: "16:9 • Custom AI Persona • Built From Scratch",
@@ -417,6 +417,7 @@ export interface PortfolioWork {
 }
 
 export const PORTFOLIO_WORKS: PortfolioWork[] = [
+  // ── Column 1 ─────────────────────────────────────────────────────────────
   {
     id: 1,
     title: "Vox-Style AI Breakdown",
@@ -427,19 +428,19 @@ export const PORTFOLIO_WORKS: PortfolioWork[] = [
   },
   {
     id: 2,
+    title: "Sacred Six Brand Story",
+    aspectRatio: "9/16",
+    videoUrl:
+      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Sacred%20six%203.mp4",
+    posterUrl: "/portfolio/work-5.jpg",
+  },
+  {
+    id: 3,
     title: "Cinematic Narrative",
     aspectRatio: "4/3",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Once%20Upon%20a%20Time%20in%20China.mp4",
     posterUrl: "/portfolio/work-2.jpg",
-  },
-  {
-    id: 3,
-    title: "Papercraft Diorama Animation",
-    aspectRatio: "16/9",
-    videoUrl:
-      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/a56501e1-3dc2-4768-8f68-3850c2eb09e6.mp4",
-    posterUrl: "/portfolio/work-3.jpg",
   },
   {
     id: 4,
@@ -449,32 +450,18 @@ export const PORTFOLIO_WORKS: PortfolioWork[] = [
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Seedance%202.5.mp4",
     posterUrl: "/portfolio/work-4.jpg",
   },
+
+  // ── Column 2 ─────────────────────────────────────────────────────────────
   {
     id: 5,
-    title: "Sacred Six Brand Story",
-    aspectRatio: "9/16",
+    title: "Papercraft Diorama Animation",
+    aspectRatio: "16/9",
     videoUrl:
-      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Sacred%20six%203.mp4",
-    posterUrl: "/portfolio/work-5.jpg",
+      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/a56501e1-3dc2-4768-8f68-3850c2eb09e6.mp4",
+    posterUrl: "/portfolio/work-3.jpg",
   },
   {
     id: 6,
-    title: "Podcast & Digital Twin Setup",
-    aspectRatio: "16/9",
-    videoUrl:
-      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/hf_20260518_113720_2588f020-2ac2-4bfb-90d8-4fa0c8031adc.mp4",
-    posterUrl: "/portfolio/work-6.jpg",
-  },
-  {
-    id: 7,
-    title: "Bali Travel Vlog",
-    aspectRatio: "16/9",
-    videoUrl:
-      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/male_vlogger_bali_vlogmp_.mp4",
-    posterUrl: "/portfolio/work-7.jpg",
-  },
-  {
-    id: 8,
     title: "Van Gogh Reimagined",
     aspectRatio: "9/16",
     videoUrl:
@@ -482,21 +469,41 @@ export const PORTFOLIO_WORKS: PortfolioWork[] = [
     posterUrl: "/portfolio/work-8.jpg",
   },
   {
-    id: 9,
-    title: "Quench IV Commercial",
-    aspectRatio: "16/9",
-    videoUrl:
-      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Quench%20IV%205.mp4",
-    posterUrl: "/portfolio/work-9.jpg",
-  },
-  {
-    id: 10,
+    id: 7,
     title: "Meshy AI 3D Animation",
     aspectRatio: "9/16",
     videoUrl:
       "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Promotion%20-%20Meshy%20AI.mp4",
     posterUrl: "/portfolio/work-10.jpg",
   },
+
+  // ── Column 3 ─────────────────────────────────────────────────────────────
+  {
+    id: 8,
+    title: "Bali Travel Vlog",
+    aspectRatio: "16/9",
+    videoUrl:
+      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/male_vlogger_bali_vlogmp_.mp4",
+    posterUrl: "/portfolio/work-7.jpg",
+  },
+  {
+    id: 9,
+    title: "Fitness AI Creator",
+    aspectRatio: "9/16",
+    videoUrl:
+      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Fitness%20influencer%20.mp4",
+    posterUrl: "/portfolio/work-12.jpg",
+  },
+  {
+    id: 10,
+    title: "Shark Mindset Ad Reel",
+    aspectRatio: "9/16",
+    videoUrl:
+      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Unique%20AI%20ads.mp4",
+    posterUrl: "/portfolio/work-13.jpg",
+  },
+
+  // ── Column 4 ─────────────────────────────────────────────────────────────
   {
     id: 11,
     title: "Travel Food Vlog",
@@ -507,22 +514,14 @@ export const PORTFOLIO_WORKS: PortfolioWork[] = [
   },
   {
     id: 12,
-    title: "Fitness AI Creator",
+    title: "Big Ben London Vlog",
     aspectRatio: "9/16",
     videoUrl:
-      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Fitness%20influencer%20.mp4",
-    posterUrl: "/portfolio/work-12.jpg",
+      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/mp_%20(1).mp4",
+    posterUrl: "/portfolio/work-15.jpg",
   },
   {
     id: 13,
-    title: "Shark Mindset Ad Reel",
-    aspectRatio: "9/16",
-    videoUrl:
-      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/Unique%20AI%20ads.mp4",
-    posterUrl: "/portfolio/work-13.jpg",
-  },
-  {
-    id: 14,
     title: "Flux Generative Engine",
     aspectRatio: "16/9",
     videoUrl:
@@ -530,12 +529,12 @@ export const PORTFOLIO_WORKS: PortfolioWork[] = [
     posterUrl: "/portfolio/work-14.jpg",
   },
   {
-    id: 15,
-    title: "Big Ben London Vlog",
-    aspectRatio: "9/16",
+    id: 14,
+    title: "Quench IV Commercial",
+    aspectRatio: "16/9",
     videoUrl:
-      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/mp_%20(1).mp4",
-    posterUrl: "/portfolio/work-15.jpg",
+      "https://pub-546f0ac14cda4f2d914b03b717cc56b1.r2.dev/new/Quench%20IV%205.mp4",
+    posterUrl: "/portfolio/work-9.jpg",
   },
 ];
 
